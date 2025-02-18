@@ -3,6 +3,23 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# Bỏ qua thư mục bin, obj và các file build
+bin/
+obj/
+*.dll
+*.exe
+
+# Bỏ qua thư mục của Visual Studio
+.vscode/
+*.suo
+*.user
+*.cache
+*.log
+
+# Bỏ qua thư mục chứa user secrets và config nhạy cảm
+appsettings.json
+appsettings.Development.json
+secrets.json
 # User-specific files
 *.rsuser
 *.suo

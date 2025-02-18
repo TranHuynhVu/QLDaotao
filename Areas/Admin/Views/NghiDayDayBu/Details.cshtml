@@ -1,0 +1,79 @@
+﻿@model QLDaoTao.Areas.Admin.Models.PhieuDangKyNghiDayDayBuVM
+
+<div class="col-12 grid-margin">
+    <div class="card">
+        <div class="card-header bg-primary">
+            <h4 class="box-title text-white mb-0">Thông tin Phiếu đăng ký nghỉ dạy - dạy bù</h4>
+        </div>
+        <div class="card-body">
+            <div class="my-3">
+                <p style="font-weight: bold; font-size: 16px; color: black;">Thông tin phiếu dạy bù</p>
+                <div class="px-3">
+                    <p style="color:black"><strong>Giảng viên:</strong> @Model.TenGV - @Model.MaGV</p>
+                    <p style="color:black"><strong>Bộ phận:</strong> @Model.Khoa - @Model.BoMon</p>
+                    <p style="color:black"><strong>Số điện thoại:</strong> @Model.SDT</p>
+                    <p style="color:black"><strong>Số buổi xin nghỉ:</strong> @Model.SoBuoiXinNghi</p>
+                    <p style="color:black"><strong>Trạng thái:</strong> @Model.TrangThaiStr</p>
+                    @if(Model.LyDo != null){
+                        <p style="color:black"><strong>Lý do:</strong> @Model.LyDo</p>
+                    }
+                    <p style="color:black"><strong>Ngày tạo yêu cầu:</strong> @Model.NgayTao</p>
+                </div>
+            </div>
+            <div class="my-3">
+                <p style="font-weight: bold; font-size: 16px; color: black;">Bản sao  văn bản chứng từ đi kèm</p>
+                @foreach (var x in Model.BanSaoVBCTDiKem)
+                {
+                    <img src="@x.DuongDan" alt="@x.MoTa" style="width: 200px; height: 200px; object-fit: cover; border-radius: 10px;">
+                }
+            </div>
+
+            <div class="my-3 table-responsive table-ute">
+                <p style="font-weight: bold; font-size: 16px; color: black;">Chi tiết xin nghỉ dạy - kế hoạch dạy bù</p>
+                <table class="table table-hover table-striped table-vcenter">
+                    <thead>
+                        <tr>
+                            <th>Tên LHP</th>
+                            <th>Tên học phần</th>
+                            <th>TKB Thứ (Từ - đến)</th>
+                            <th>Ngày xin nghỉ</th>
+                            <th>Ngày ngày dạy bù</th>
+                            <th>Ngày dạy bù Thứ (Từ - đến)</th>
+                            <th>Phòng</th>
+                            <th>Lý do</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var x in Model.LopHocPhanNghiDayDayBuVM)
+                        {
+                            <tr>
+                                <td>@x.Id</td>
+                                <td>@x.TenHocPhan</td>
+                                <td>@x.ThuTKB (@x.TuTietTKB - @x.DenTietTKB)</td>
+                                <td>@x.NgayXinNghi</td>
+                                <td>@x.NgayDayBu</td>
+                                <td>@x.ThuDayBu (@x.TuTietDayBu - @x.DenTietDayBu)</td>
+                                <td>@x.Phong</td>
+                                <td>@x.LyDo</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            
+
+            <div class="my-3">
+                <a asp-action="Index" class="btn btn-secondary">
+                    <svg width="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4.25 12.2744L19.25 12.2744" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M10.2998 18.2988L4.2498 12.2748L10.2998 6.24976" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                    Quay lạị
+                </a>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+

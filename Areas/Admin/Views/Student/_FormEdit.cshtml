@@ -1,0 +1,45 @@
+﻿@model QLDaoTao.Models.AppStudent
+
+<div class=" row align-items-center">
+    <div class="form-group col-sm-6">
+        <label asp-for="Ho">Họ<span class="text-danger">(*)</span>:</label>
+        <input asp-for="Ho" class="form-control" />
+        <span asp-validation-for="Ho" class="text-danger"></span>
+    </div>
+    <div class="form-group col-sm-6">
+        <label asp-for="Ten">Tên<span class="text-danger">(*)</span>:</label>
+        <input asp-for="Ten" class="form-control" />
+        <span asp-validation-for="Ten" class="text-danger"></span>
+    </div>
+   
+    <div class="form-group col-sm-6">
+        <label asp-for="DOB">Ngày sinh</label>
+        <input asp-for="DOB" type="date" class="form-control" placeholder="dd/mm/yyyy" />
+    </div>
+
+    <div class="form-group col-sm-6">
+        <label class="d-block">Giới tính:</label>
+        <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" id="customRadio6" name="GioiTinh" class="custom-control-input" value="true" asp-for="GioiTinh">
+            <label class="custom-control-label" for="customRadio6"> Nam </label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" id="customRadio7" name="GioiTinh" class="custom-control-input" value="false" asp-for="GioiTinh">
+            <label class="custom-control-label" for="customRadio7"> Nữ </label>
+        </div>
+    </div>
+        <div class="form-group col-sm-6">
+        <label asp-for="Tel">Tel:</label>
+        <input asp-for="Tel" class="form-control" />
+    </div>
+    <div class="form-group col-sm-6">
+        <label asp-for="Email">Email:</label>
+        <input asp-for="Email" class="form-control" />
+    </div>
+   
+    <div class="form-group col-sm-12">
+        <label asp-for="DiaChi">Địa chỉ:</label>
+        <textarea asp-for="DiaChi" class="form-control" rows="5" style="line-height: 22px;"></textarea>
+    </div>
+   
+</div>

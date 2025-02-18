@@ -1,0 +1,102 @@
+﻿@using QLDaoTao.ViewModels;
+@model LoginVM
+@{
+    ViewData["Title"] = "Đăng nhập hệ thống";
+}
+<div id="breadContent" class="container">
+    <div class="breadcrumb">
+        <a asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i></a>
+        <span class="br-span">/</span>
+        <a asp-area="" asp-controller="Account" asp-action="DangNhap" class="title_tb">
+            <span itemprop="name">Đăng nhập</span>
+        </a>
+    </div>
+</div>
+<!-- End Weekly-News -->
+<!--  Content Articles start -->
+<div class="recent-articles">
+    <div class="container">
+        <div class="row d-flex justify-content-between">
+            <div class="col-lg-3">
+                <div class="main-box tintuc-box">
+                    <div class="widget recent-post-widget" id="tb_nav">
+                        <h3 class="mb-0">Tin tức - Sự kiện</h3>
+                        <div class="content-main p-0">
+                            <ul>
+                                <li><a href="#">Tin tức chung</a></li>
+                                <li><a href="#">Tin của các Phòng</a></li>
+                                <li><a href="#">Tin của các Khoa</a></li>
+                                <li><a href="#">Tin của Đoàn thể</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="main-nav-tb py-4">
+                        <div class="nav-nganhdt mb-3">
+                            <div class="media post_item py-2">
+                                <i class="fas fa-graduation-cap icon-nav-tb"></i>
+                                <div class="media-body">
+                                    <a href="#">
+                                        <h3>Ngành đào tạo</h3>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nav-nganhdt mb-3">
+                            <div class="media post_item py-2">
+                                <i class="fas fa-folder-open icon-nav-tb"></i>
+                                <div class="media-body">
+                                    <a href="#">
+                                        <h3>Văn bản - Biểu mẫu</h3>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nav-nganhdt mb-3">
+                            <div class="media post_item py-2">
+                                <i class="fas fa-globe icon-nav-tb"></i>
+                                <div class="media-body">
+                                    <a href="#">
+                                        <h3>Kế hoạch</h3>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <div class="form-login">
+                    <form asp-action="Login" method="post" id="page-login">
+                        <div asp-validation-summary="ModelOnly" class="text-danger main-error"></div>
+                        <div class="main-login">
+                            <div class="form-group">
+                                <label asp-for="Username" class="control-label d-none"></label>
+                                <input asp-for="Username" class="form-control input-lg" placeholder="Nhập tài khoản" />
+                                <span class="icon fa fa-user"></span>
+                                <span asp-validation-for="Username" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Password" class="control-label d-none"></label>
+                                <input asp-for="Password" class="form-control" placeholder="Nhập mật khẩu" />
+                                <span class="icon fas fa-lock"></span>
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                            <div class="form-check form-group">
+                                <label class="form-check-label">
+                                    <input asp-for="RememberMe" class="form-check-input" /> @Html.DisplayNameFor(a => a.RememberMe)
+                                </label>
+                            </div>
+                            <button type="submit" class="btn btn-login w-100 mt-4">Đăng nhập</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Content Articles End -->
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

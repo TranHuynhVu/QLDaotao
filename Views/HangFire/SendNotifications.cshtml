@@ -1,0 +1,57 @@
+﻿@{
+    Layout = null;
+}
+<div id="PushNoti"></div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.7/signalr.min.js"></script>
+<script>
+
+    function formatDateTime(dateTime) {
+        const date = new Date(dateTime);
+        if (isNaN(date)) return "Invalid Date";
+
+        const options = {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: true
+        };
+
+        return date.toLocaleString('en-US', options);
+    }
+   
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/notificationHub")
+        .build();
+
+    connection.on("ReceiveNotiStudent", function (notification, CountNoti) {
+        console.log("Đã nhận thông báo:", notification);
+        const notificationList = $('#PushNoti');
+        notificationList.prepend(`
+               <tr>
+                    <td>${notification.name}</td>
+                    <td>${notification.title}</td>
+                    <td>${notification.noiDung}</td>
+                    <td>${formatDateTime(notification.ngayTao)}</td>
+                    <td>
+                        <button class="yeuCauButton" onclick="showDetailNoti(this, ${notification.id})">
+                            <i class="fas fa-edit"></i> Xem chi tiết
+                        </button>
+                        ${notification.status == 0 ? '<span class="notification-dot" style="display: inline-block; width: 8px; height: 8px; background-color: rgb(55, 130, 245); border-radius: 50%;"></span>' : ''}
+                    </td>
+               </tr>
+            `);
+    });
+
+    connection.start()
+        .then(() => console.log("✅ Đã kết nối đến SignalR Hub!"))
+        .catch(err => console.error("❌ Lỗi kết nối SignalR:", err));
+
+    connection.onclose(() => {
+        console.warn("⚠️ Mất kết nối đến SignalR! Đang thử kết nối lại...");
+        setTimeout(() => connection.start(), 5000);
+    });;
+</script>

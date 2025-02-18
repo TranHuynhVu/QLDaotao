@@ -1,0 +1,78 @@
+﻿@model QLDaoTao.Models.AppNew
+@{
+    var isPost = ViewBag.isPost;
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="title" class="control-label">Tiêu đề <span class="text-danger">(*)</span></label>
+            <input asp-for="title" class="form-control" id="Title" />
+            <span asp-validation-for="title" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="content" class="control-label">Nội dung bài viết <span class="text-danger">(*)</span></label>
+            <textarea id="textareaContent" asp-for="content" ></textarea>
+            <span asp-validation-for="content" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-md-4">
+
+        <div class="form-group">
+            <label asp-for="image" class="control-label">Ảnh Bài Viết</label>
+            @if (isPost == true)
+            {
+                <div class="fileupload fileupload-new " data-provides="fileupload">
+                    <div class="fileupload-new thumbnail user-form-image">
+                        <div class="image-box">
+                            <input type="hidden" name="image" id="image" value="@Model.image">
+                            @if (Model.image != null)
+                            {
+                                <img src="@Model.image" alt="default" id="fontawesome_picture" />
+                            }
+                            else
+                            {
+                                <img src="~/img/admin/default.jpg" alt="default" id="fontawesome_picture" />
+                            }
+                    </div>
+                </div>
+                <div class="fileupload-preview fileupload-exists thumbnail posts"></div>
+                <div class="custom-file">
+                    <span class="btn btn-file btn-primary ml-0">
+                        <span class="fileupload-new">Chọn</span>
+                        <span class="fileupload-exists">Thay đổi</span>
+                            <input type="file" name="files" accept="image/x-png,image/jpeg" id="file_image" />
+
+                    </span>
+                    <a href="javascript:;" class="btn btn-danger fileupload-exists" data-dismiss="fileupload">Xóa</a>
+                </div>
+                <span class="upload_img_error error d-none">Tệp bạn chọn không đúng định dạng ảnh</span>
+                </div>
+            }else
+            {
+                <input type="file" name="files" class="form-control" />
+                <span asp-validation-for="image" class="text-danger"></span>
+            }
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">Danh mục bài viết <span class="text-danger">(*)</span></label>
+            <select asp-for="category_id" class="form-control" asp-items="@(new SelectList(ViewBag.Categories,"Id","title"))"></select>
+
+        </div>
+        <div class="form-group">
+            <label asp-for="description" class="control-label">Mô tả bài viết</label>
+            <textarea asp-for="description" class="form-control" rows="5"></textarea>
+            <span asp-validation-for="description" class="text-danger"></span>
+        </div>
+        <input type="hidden" name="postStatus" value="Published" id="postStatus" />
+
+        <div class="form-group">
+            <button class="btn btn-secondary" id="postDraft">Lưu nháp</button>
+            <button class="btn btn-primary" id="postPublish">Xuất Bản</button>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,83 @@
+﻿<div class="col-md-8 col-sm-12 col-12">
+    <div class="heading">
+        Tin mới nhất
+    </div>
+    <div class="lateeee">
+        <div class="row">
+
+            @{
+                int i1 = 0;
+                @foreach (var item in ViewBag.LastestNews)
+                {
+                    if (i1 == 0)
+                    {
+                        <div class="col-sm-6 p-r-15 p-r-15-sr991">
+                            <!-- Item post -->
+                            <div class="m-b-30 pos-relative">
+                                <a asp-area="" asp-controller="Post" asp-action="Details" asp-route-slug="@item.Slug" class="wrap-pic-w hov1 trans-03">
+                                    <img src="~/client/assets/img/@item.Image" alt="@item.Name" style="height: 200px;">
+                                </a>
+                                <div class="p-t-15">
+                                    <span class="cl8">
+                                        <a href="#" class="f1-s-4 cl8 hov-cl10 trans-03">
+                                            @if (@item.Author == null)
+                                            {
+                                                <span>Anonymous</span>
+                                            }
+                                            else
+                                            {
+                                                @item.Author
+                                            }
+                                        </a>
+                                        <span class="f1-s-3 m-rl-3"> - </span> <span class="f1-s-3"> @item.CreatedOn.ToString("dd/MM/yyyy")</span>
+                                    </span>
+                                    <h5 class="p-t-5">
+                                        <a asp-area="" asp-controller="Post" asp-action="Details" asp-route-slug="@item.Slug" class="f1-m-3 cl2 hov-cl10 trans-03">@item.Name </a>
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <span style="display:none">@(i1 = i1 + 1)</span>
+                }
+
+                <div class="col-sm-6 p-r-15 p-r-15-sr991">
+                    @{int i2 = 0; }
+                    @foreach (var item_sm in ViewBag.LastestNews)
+                    {
+                        if (i2 > 0 && i2 < 5)
+                        {
+                            <!-- Item post -->
+                            <div class="flex-wr-sb-s m-b-30 mb-3 pos-relative">
+                                <a asp-area="" asp-controller="Post" asp-action="Details" asp-route-slug="@item_sm.Slug" class="size-w-1 wrap-pic-w hov1 trans-03">
+                                    <img src="~/client/assets/img/@item_sm.Image" alt="@item_sm.Name">
+                                </a>
+                                <div class="size-w-2">
+                                    <span class="cl8">
+                                        <a asp-area="" asp-controller="Post" asp-action="Details" asp-route-slug="@item_sm.Slug" class="f1-s-6 cl8 hov-cl10 trans-03">
+                                            @if(item_sm.Author == null)
+                                            {
+                                                <span>Anonymous</span>
+                                            }
+                                            else
+                                            {
+                                                @item_sm.Author
+                                            }
+                                        </a>
+                                        <span class="f1-s-3 m-rl-3"> - </span> <span class="f1-s-3"> @item_sm.CreatedOn.ToString("dd/MM/yyyy")</span>
+                                    </span>
+                                    <h5 class="p-t-5">
+                                        <a asp-area="" asp-controller="Post" asp-action="Details" asp-route-slug="@item_sm.Slug" class="f1-s-5 cl3 hov-cl10 trans-03">
+                                            @item_sm.Name
+                                        </a>
+                                    </h5>
+                                </div>
+                            </div>
+                        }
+                        <span style="display:none">@(i2 = i2 + 1)</span>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>

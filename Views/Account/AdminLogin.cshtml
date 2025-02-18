@@ -1,0 +1,103 @@
+﻿@using QLDaoTao.ViewModels;
+@model LoginVM
+@{
+    ViewData["Title"] = "Đăng nhập hệ thống";
+
+}
+
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Đăng nhập hệ thống</title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="~/system/assets/images/favicon.ico" />
+    <link rel="stylesheet" href="~/system/assets/css/libs.min.css">
+    <link rel="stylesheet" href="~/system/assets/css/train.css?v=1.0.0">
+    <link href="~/system/assets/css/sweetalert2.min.css" rel="stylesheet" />
+    <link href="~/system/assets/css/toastr.min.css" rel="stylesheet" />
+
+</head>
+<body class="" data-bs-spy="scroll" data-bs-target="#elements-section" data-bs-offset="0" tabindex="0">
+    <!-- loader Start -->
+    <div id="loading">
+        <div class="loader simple-loader">
+            <div class="loader-body"></div>
+        </div>
+    </div>
+    <!-- loader END -->
+    <div class="main-bg-login">
+        <div class="wrapper">
+            <section class="vh-100 bg-image">
+                <div class="container h-100">
+                    <div class="row justify-content-center h-100 align-items-center">
+                        <div class="col-md-4 mt-5">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="auth-form">
+                                        <h2 class="text-center mb-4 text-black">Đăng nhập</h2>
+                                        <form asp-action="AdminLogin" method="post" id="admin-login">
+                                            <div asp-validation-summary="ModelOnly" class="text-danger main-error"></div>
+                                            <div class="main-login">
+                                                <div class="form-group">
+                                                    <label asp-for="Username" class="control-label d-none"></label>
+                                                    <input asp-for="Username" class="form-control input-lg" placeholder="Nhập tài khoản" />
+                                                    <svg width="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M11.9849 15.3462C8.11731 15.3462 4.81445 15.931 4.81445 18.2729C4.81445 20.6148 8.09636 21.2205 11.9849 21.2205C15.8525 21.2205 19.1545 20.6348 19.1545 18.2938C19.1545 15.9529 15.8735 15.3462 11.9849 15.3462Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M11.9849 12.0059C14.523 12.0059 16.5801 9.94779 16.5801 7.40969C16.5801 4.8716 14.523 2.81445 11.9849 2.81445C9.44679 2.81445 7.3887 4.8716 7.3887 7.40969C7.38013 9.93922 9.42394 11.9973 11.9525 12.0059H11.9849Z" stroke="currentColor" stroke-width="1.42857" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                    </svg>
+                                                    <span asp-validation-for="Username" class="text-danger"></span>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label asp-for="Password" class="control-label d-none"></label>
+                                                    <input asp-for="Password" class="form-control input-lg" placeholder="Nhập mật khẩu" />
+                                                    <svg width="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M16.4242 5.56204C15.8072 3.78004 14.1142 2.50004 12.1222 2.50004C9.60925 2.49004 7.56325 4.51804 7.55225 7.03104V7.05104V9.19804" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M15.933 21.0005H8.292C6.198 21.0005 4.5 19.3025 4.5 17.2075V12.9195C4.5 10.8245 6.198 9.12646 8.292 9.12646H15.933C18.027 9.12646 19.725 10.8245 19.725 12.9195V17.2075C19.725 19.3025 18.027 21.0005 15.933 21.0005Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                        <path d="M12.1128 13.9526V16.1746" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                    </svg>                                                                                <span asp-validation-for="Password" class="text-danger"></span>
+                                                </div>
+                                                <div class="d-flex justify-content-between  align-items-center flex-wrap">
+                                                    <div class="form-group">
+                                                        <label class="form-check-label text-black">
+                                                            <input asp-for="RememberMe" class="form-check-input" /> @Html.DisplayNameFor(a => a.RememberMe)
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <a href="/page-forgot-password" class="text-forgot">Quên mật khẩu</a>
+                                                    </div>
+                                                </div>
+                                                <div class="text-center">
+                                                    <button type="submit" class="btn btn-primary">Đăng nhập</button>
+                                                </div>
+                                            </div>
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Wrapper End-->
+    <!-- offcanvas start -->
+    <!-- Backend Bundle JavaScript -->
+    <script src="~/system/assets/js/libs.min.js"></script>
+    <!-- widgetchart JavaScript -->
+    <script src="~/system/assets/js/charts/widgetcharts.js"></script>
+    <!-- fslightbox JavaScript -->
+    <script src="~/system/assets/js/fslightbox.js"></script>
+    <!-- app JavaScript -->
+    <script src="~/system/assets/js/app.js"></script>
+    <!-- apexchart JavaScript -->
+    <script src="~/system/assets/js/charts/apexcharts.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+</body>
+</html>

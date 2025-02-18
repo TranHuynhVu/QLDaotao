@@ -1,0 +1,41 @@
+﻿@model IEnumerable<QLDaoTao.Models.AppUnit>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title text-black ">Danh sách Đơn vị</h4>
+        <div class="card-options plus-main">
+            <a class="nav-link btn btn-success create-new-button" asp-action="Create">
+                <svg width="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12.0001 8.32739V15.6537" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M15.6668 11.9904H8.3335" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M16.6857 2H7.31429C4.04762 2 2 4.31208 2 7.58516V16.4148C2 19.6879 4.0381 22 7.31429 22H16.6857C19.9619 22 22 19.6879 22 16.4148V7.58516C22 4.31208 19.9619 2 16.6857 2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+                Thêm mới
+            </a>
+           
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive table-ute">
+            <table id="loadDataDonvi" class="table table-hover table-striped table-vcenter text-nowrap">
+                <thead>
+                    <tr>
+                        <th> STT</th>
+                        <th> Mã đơn vị </th>
+                        <th> Tên đơn vị </th>
+                        <th> Tel </th>
+                        <th class="text-center"> Chức năng </th>
+                    </tr>
+                </thead>
+
+            </table>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/loaddata/dataunits.js"></script>
+}

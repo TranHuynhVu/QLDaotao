@@ -1,0 +1,128 @@
+﻿@model QLDaoTao.Models.AppUser
+@{
+    ViewData["Title"] = "DetailsUser";
+}
+
+<div class="col-12 grid-margin">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Thông tin nhân sự</h4>
+            <form class="form-sample">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Ảnh đại diện</label>
+                            <div class="col-sm-9">
+
+                                <img style="width:180px" src="@Html.DisplayFor(model => model.UrlAvatar)"></img>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Họ và tên</label>
+                            <div class="col-sm-9">
+                                <input type="text" disabled class="form-control" value="@Html.DisplayFor(model => model.Name)">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Giới tính</label>
+                            <div class="col-sm-9">
+                                <select class="form-control">
+                                    <option>Nam</option>
+                                    <option>Nữ</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Ngày sinh</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" disabled placeholder="dd/mm/yyyy" value=" @Html.DisplayFor(model => model.DateOfBirth)">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Địa chỉ</label>
+                            <div class="col-sm-9">
+                                <input type="text" disabled class="form-control" value="@Html.DisplayFor(model => model.Address)">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Điện thoại</label>
+                            <div class="col-sm-9">
+                                <input type="text" disabled class="form-control" value="@Html.DisplayFor(model => model.PhoneNumber)">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Email</label>
+                            <div class="col-sm-9">
+                                <input type="text" disabled class="form-control" value=" @Html.DisplayFor(model => model.Email)">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Chuyên ngành</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" disabled value="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Chức danh</label>
+                            <div class="col-sm-9">
+                                <input type="text" disabled class="form-control" value="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Bộ phận</label>
+                            <div class="col-sm-9">
+                                <input type="text" disabled class="form-control" value="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Đơn vị</label>
+                            <div class="col-sm-9">
+                                <input type="text" disabled class="form-control" value="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+

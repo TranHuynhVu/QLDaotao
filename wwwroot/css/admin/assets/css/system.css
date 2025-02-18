@@ -1,0 +1,17 @@
+﻿.title-column {
+    width: 30%!important;
+}
+
+@media (max-width: 767px) {
+    .image-column {
+        width: 30%;
+    }
+
+    .title-column {
+        width: 40%;
+    }
+}
+
+.fs-6 {
+    font-size:13px
+}

@@ -1,0 +1,155 @@
+﻿@model QLDaoTao.Models.AppTeacher
+@{
+    ViewData["Title"] = "Detail";
+}
+
+<div class="col-12 grid-margin">
+    <div class="card">
+        <div class="card-header bg-primary">
+            <h4 class="box-title text-white mb-0">Thông tin Giảng viên</h4>
+        </div>
+        <div class="card-body">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body p-0">
+                                <div class="iq-edit-list usr-edit">
+                                    <ul class="iq-edit-profile d-flex nav nav-pills">
+                                        <li class="col-md-3 p-0">
+                                            <a class="nav-link active" data-toggle="pill" href="#personal-information">
+                                                Thông tin cá nhân
+                                            </a>
+                                        </li>
+                                        <li class="col-md-3 p-0">
+                                            <a class="nav-link" data-toggle="pill" href="#chang-pwd">
+                                                Thay đổi mật khẩu
+                                            </a>
+                                        </li>
+                                       @*  <li class="col-md-3 p-0">
+                                            <a class="nav-link" data-toggle="pill" href="#emailandsms">
+                                                Email and SMS
+                                            </a>
+                                        </li>
+                                        <li class="col-md-3 p-0">
+                                            <a class="nav-link" data-toggle="pill" href="#manage-contact">
+                                                Manage Contact
+                                            </a>
+                                        </li> *@
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="iq-edit-list-data">
+                            <div class="tab-content">
+                                <div class="tab-pane fade active show" id="personal-information" role="tabpanel">
+                                    <div class="card">
+                                       @*  <div class="card-header d-flex justify-content-between">
+                                            <div class="iq-header-title">
+                                                <h4 class="card-title">Personal Information</h4>
+                                            </div>
+                                        </div> *@
+                                        <div class="card-body">
+                                            <form>
+                                                <div class="form-group row align-items-center">
+                                                    
+                                                </div>
+                                                <div class=" row align-items-center">
+                                                    <div class="form-group col-sm-6">
+                                                        <label for="LastName">Họ:</label>
+                                                        <input type="text" class="form-control" id="LastName" >
+                                                    </div>
+                                                    <div class="form-group col-sm-6">
+                                                        <label for="FirstName">Tên:</label>
+                                                        <input type="text" class="form-control" id="FirstName" >
+                                                    </div>
+                                                    <div class="form-group col-sm-6">
+                                                        <label for="MaDV">Mã GV:</label>
+                                                        <input type="text" class="form-control" id="MaDV">
+                                                    </div>
+                                                    <div class="form-group col-sm-6">
+                                                        <label for="Hocvi">Hocvi:</label>
+                                                        <input type="text" class="form-control" id="Hocvi">
+                                                    </div>
+                                                    <div class="form-group col-sm-6">
+                                                        <label class="d-block">Giới tính:</label>
+                                                        <div class="custom-control custom-radio custom-control-inline">
+                                                            <input type="radio" id="customRadio6" name="GioiTinh" class="custom-control-input" checked="">
+                                                            <label class="custom-control-label" for="customRadio6"> Nam </label>
+                                                        </div>
+                                                        <div class="custom-control custom-radio custom-control-inline">
+                                                            <input type="radio" id="customRadio7" name="GioiTinh" class="custom-control-input">
+                                                            <label class="custom-control-label" for="customRadio7"> Nữ </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-sm-6">
+                                                        <label for="DOB">Ngày sinh:</label>
+                                                        <input class="form-control" id="DOB" type="date">
+                                                    </div>
+                                                    <div class="form-group col-sm-6">
+                                                        <label for="Hocvi">Hocvi:</label>
+                                                        <input type="text" class="form-control" id="Mobile">
+                                                    </div>
+                                                    <div class="form-group col-sm-6">
+                                                        <label for="Hocvi">Hocvi:</label>
+                                                        <input type="text" class="form-control" id="Email">
+                                                    </div>
+                                                    <div class="form-group col-sm-6">
+                                                        <label for="Hocvi">Hocvi:</label>
+                                                        <input type="text" class="form-control" id="Chucdanh">
+                                                    </div>
+                                                    <div class="form-group col-sm-6">
+                                                        <label for="Hocvi">Hocvi:</label>
+                                                        <input type="text" class="form-control" id="Chucvu">
+                                                    </div>
+                                                    <div class="form-group col-sm-12">
+                                                        <label>DiaChi:</label>
+                                                        <textarea class="form-control" name="address" rows="5" style="line-height: 22px;"></textarea>
+                                                    </div>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary mr-2">Cập nhật</button>
+                                                <button type="reset" class="btn iq-bg-danger">Hủy</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="chang-pwd" role="tabpanel">
+                                    <div class="card">
+                                        <div class="card-header d-flex justify-content-between">
+                                            <div class="iq-header-title">
+                                                <h4 class="card-title">Thay đổi mật khẩu</h4>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <form>
+                                               @*  <div class="form-group">
+                                                    <label for="cpass">Current Password:</label>
+                                                    <a href="javascripe:void();" class="float-right">Forgot Password</a>
+                                                    <input type="Password" class="form-control" id="cpass" value="">
+                                                </div> *@
+                                                <div class="form-group">
+                                                    <label for="Password">Mật khẩu mới:</label>
+                                                    <input type="Password" class="form-control" id="Password" value="">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="ConfirmPassword">Xác nhận lại mật khẩu:</label>
+                                                    <input type="Password" class="form-control" id="ConfirmPassword" value="">
+                                                </div>
+                                                <button type="submit" class="btn btn-primary mr-2">Cập nhật</button>
+                                                <button type="reset" class="btn iq-bg-danger">Hủy</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

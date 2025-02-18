@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewData["Title"] = "AccessDenied";
+    Layout = null;
+}
+<link rel="stylesheet" href="~/system/assets/css/train.css?v=1.0.0">
+<div class="page-wrap-denied">
+    <div class="page-not-found">
+        <img src="https://res.cloudinary.com/razeshzone/image/upload/v1588316204/house-key_yrqvxv.svg" class="img-key" alt="">
+        <h1 class="text-xl">
+            <span>4</span>
+            <span>0</span>
+            <span class="broken">3</span>
+        </h1>
+        <h4 class="text-md">
+            Truy cập bị từ chối!
+        </h4>
+        <h4 class="text-sm text-sm-btm mt-4">
+            Bạn không có quyền truy cập vào khu vực ứng dụng này. 
+            Vui lòng liên hệ quản trị viên của bạn để bỏ chặn tính năng này. 
+            Bạn có thể quay lại <a href="#" onclick="goBack()">
+                trang trước
+            </a>
+        </h4>
+    </div>
+</div>
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>

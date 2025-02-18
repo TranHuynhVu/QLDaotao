@@ -1,0 +1,101 @@
+﻿@model QLDaoTao.Models.AppUnit
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="col-12 grid-margin">
+    <div class="card">
+        <div class="card-header bg-primary">
+            <h4 class="box-title text-white mb-0">Thêm mới đơn vị</h4>
+        </div>
+        <div class="card-body">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <form method="post">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label asp-for="MaDV" class="col-sm-3 col-form-label">@Html.DisplayNameFor(model => model.MaDV)</label>
+                            <div class="col-sm-9">
+                                <input asp-for="MaDV" class="form-control" />
+                                <span asp-validation-for="MaDV" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label asp-for="TenDV" class="col-sm-3 col-form-label">@Html.DisplayNameFor(model => model.TenDV)</label>
+                            <div class="col-sm-9">
+                                <input asp-for="TenDV" class="form-control" />
+                                <span asp-validation-for="TenDV" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label asp-for="Tel" class="col-sm-3 col-form-label">@Html.DisplayNameFor(model => model.Tel)</label>
+                            <div class="col-sm-9">
+                                <input asp-for="Tel" class="form-control" />
+                                <span asp-validation-for="Tel" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label asp-for="Fax" class="col-sm-3 col-form-label">@Html.DisplayNameFor(model => model.Fax)</label>
+                            <div class="col-sm-9">
+                                <input asp-for="Fax" class="form-control" />
+                                <span asp-validation-for="Fax" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label asp-for="Email" class="col-sm-3 col-form-label">@Html.DisplayNameFor(model => model.Email)</label>
+                            <div class="col-sm-9">
+                                <input asp-for="Email" class="form-control" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label asp-for="DiaChi" class="col-sm-3 col-form-label">@Html.DisplayNameFor(model => model.DiaChi)</label>
+                            <div class="col-sm-9">
+                                <input asp-for="DiaChi" class="form-control" />
+                                <span asp-validation-for="DiaChi" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary py-2 ">
+                        <svg width="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M14.7379 2.76175H8.08493C6.00493 2.75375 4.29993 4.41175 4.25093 6.49075V17.2037C4.20493 19.3167 5.87993 21.0677 7.99293 21.1147C8.02393 21.1147 8.05393 21.1157 8.08493 21.1147H16.0739C18.1679 21.0297 19.8179 19.2997 19.8029 17.2037V8.03775L14.7379 2.76175Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            <path d="M14.4751 2.75V5.659C14.4751 7.079 15.6231 8.23 17.0431 8.234H19.7981" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            <path d="M14.2882 15.3584H8.88818" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            <path d="M12.2432 11.606H8.88721" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                        Cập nhật
+                    </button>
+                    <a asp-action="Index" class="btn btn-secondary py-2">
+                        <svg width="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4.25 12.2744L19.25 12.2744" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            <path d="M10.2998 18.2988L4.2498 12.2748L10.2998 6.24976" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                        Quay lạị
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,94 @@
+﻿<div class="widget recent-post-widget">
+   @*  @using Microsoft.AspNetCore.Http
+                    @inject IHttpContextAccessor HttpContextAccessor
+    @{
+        // Lấy dữ liệu từ session
+        string valueFromSession = HttpContextAccessor.HttpContext.Session.GetString("isLogin");
+    }
+ *@
+    @using Microsoft.AspNetCore.Identity;
+    @inject SignInManager<AppUser> signInManager
+    @inject UserManager<AppUser> UserManager
+    @if (signInManager.IsSignedIn(User))
+    {
+    var user = await UserManager.GetUserAsync(User);
+        <h3 class="mb-0">Sinh viên</h3>
+        <div class="menu" id="PageSv">
+           
+            <div class="card pt-3">
+                <div class="card-img-container">
+                    @if (user.UrlAvatar != null)
+                    {
+                        <img src="@user.UrlAvatar" alt="User-Profile" class="img-fluid w-avatar">
+                    }
+                 @*    <img class="img-fluid w-avatar" src="~/img/icon/img_avatar.png" /> *@
+                </div>
+                <div class="card-content py-2">
+                    <h5>@user.Name</h5>
+                    <p class="title">@user.Email</p>
+                    <a asp-area="" asp-controller="Account" asp-action="Logout" class="btn btn-info" id="btnLogout"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+                </div>
+            </div>
+            <div class="item">
+                <a class="sub-btn">Thông tin Sinh viên <i class="fas fa-chevron-down dropdown"></i></a>
+                <div class="sub-menu" style="display: block;">
+                    <a href="#" class="sub-item">Cập nhật thông tin</a>
+                    <a href="#" class="sub-item">Thay đổi mật khẩu</a>
+                    <a href="#" class="sub-item">Thay đổi ảnh đại diện</a>
+                </div>
+            </div>
+            <div class="item">
+                <a class="sub-btn">Kế hoạch <i class="fas fa-chevron-down dropdown"></i></a>
+                <div class="sub-menu">
+                    <a href="#" class="sub-item">Kế hoạch năm học</a>
+                    <a href="#" class="sub-item">Thi chuẩn đầu ra</a>
+                    <a href="#" class="sub-item">Lịch thi</a>
+                    <a href="#" class="sub-item">Lịch sinh hoạt lớp</a>
+                </div>
+            </div>
+            <div class="item">
+                <a class="sub-btn">Học tập <i class="fas fa-chevron-down dropdown"></i></a>
+                <div class="sub-menu">
+                    <a href="#" class="sub-item">Lớp sinh hoạt</a>
+                    <a href="#" class="sub-item">Lớp học phần</a>
+                    <a href="#" class="sub-item">Thời khóa biểu</a>
+                </div>
+            </div>
+            <div class="item">
+                <a class="sub-btn">Xem điểm <i class="fas fa-chevron-down dropdown"></i></a>
+                <div class="sub-menu">
+                    <a href="#" class="sub-item">Học phần chưa tích lũy</a>
+                    <a href="#" class="sub-item">Xem điểm</a>
+                    <a href="#" class="sub-item">Kết quả học tập</a>
+                    <a href="#" class="sub-item">Học phí</a>
+                </div>
+            </div>
+            <div class="item">
+                <a class="sub-btn">Đăng ký <i class="fas fa-chevron-down dropdown"></i></a>
+                <div class="sub-menu">
+                    <a href="#" class="sub-item">Đăng ký môn học</a>
+                    <a href="#" class="sub-item">Đăng ký hủy môn học</a>
+                    <a href="#" class="sub-item">Đăng ký thi chuẩn đầu ra</a>
+                    <a href="#" class="sub-item">Đăng ký xin bảng điểm</a>
+                    <a href="#" class="sub-item">Đăng ký xét tốt nghiệp</a>
+                    <a href="#" class="sub-item">Đăng ký bảo lưu kết quả</a>
+                </div>
+            </div>
+        </div>
+    }else
+    {
+        <h3 class="mb-0">Thông tin sinh viên</h3>
+        <div class="menu">
+            <div class="item"><a href="#">Đăng ký học</a></div>
+            <div class="item"><a href="#">Kết quả học tập</a></div>
+            <div class="item"><a href="#">Chương trình đào tạo</a></div>
+            <div class="item"><a href="#">Thông tin lớp sinh hoạt</a></div>            
+            <div class="item"><a href="#">Thông báo</a></div>
+            <div class="item"><a href="#">Thời khóa biểu</a></div>           
+            <div class="item"><a href="#">Khen thưởng</a></div>
+            <div class="item"><a href="#">Kỷ luật</a></div>
+            <div class="item"><a href="#">Đánh giá</a></div>
+        </div>
+    }
+
+</div>

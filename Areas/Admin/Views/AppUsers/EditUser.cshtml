@@ -1,0 +1,186 @@
+﻿@model QLDaoTao.Models.AppUser
+@{
+    ViewData["Title"] = "EditUser";
+}
+
+<div class="col-12 grid-margin">
+    <div class="card">
+        <div class="card-header bg-primary">
+            <h4 class="box-title text-white mb-0">Cập nhật thông tin</h4>
+        </div>
+        <div class="card-body">
+            <form class="form-sample" asp-action="Edit" enctype="multipart/form-data">
+                <input type="hidden" asp-for="Id" />
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label for="title" class="col-sm-3 control-label">Ảnh đại diện</label>
+                            <div class="col-sm-9">
+                                <div class="fileupload fileupload-new " data-provides="fileupload">
+                                    <div class="fileupload-new thumbnail user-form-image">
+                                        <div class="image-box">
+                                            <input type="hidden" name="remove_img" id="remove_img">
+                                            @if (Model.UrlAvatar != null)
+                                            {
+                                                <img src="@Model.UrlAvatar" alt="default" id="fontawesome_picture" />
+                                                <a href="javascript:;" class="btn btn-danger btn_del_img" id="icon_del">
+                                                    <svg width="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                        <path d="M20.708 6.23975H3.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                        <path d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                    </svg>
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <img src="~/img/admin/default.jpg" alt="default" id="fontawesome_picture" />
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="fileupload-preview fileupload-exists thumbnail posts"></div>
+                                    <div class="custom-file">
+                                        <span class="btn btn-file btn-primary ml-0">
+                                            <span class="fileupload-new">Chọn</span>
+                                            <span class="fileupload-exists">Thay đổi</span>
+                                            <input type="file" name="IUrlAvatar" accept="image/x-png,image/jpeg" id="file_image" />
+
+                                        </span>
+                                        <a href="javascript:;" class="btn btn-danger fileupload-exists" data-dismiss="fileupload">Xóa</a>
+                                    </div>
+                                    <span class="upload_img_error error d-none">Tệp bạn chọn không đúng định dạng ảnh</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row pt-4">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label asp-for="LastName" class="col-sm-3 col-form-label">@Html.DisplayNameFor(model => model.LastName)</label>
+                            <div class="col-sm-9">
+                                <input asp-for="LastName" class="form-control" />
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label asp-for="FirstName" class="col-sm-3 col-form-label">@Html.DisplayNameFor(model => model.FirstName)</label>
+                            <div class="col-sm-9">
+                                <input asp-for="FirstName" class="form-control" />
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label asp-for="Role" class="col-sm-3 col-form-label">Vai trò</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" name="Role">
+                                    <option value="admin">Admin</option>
+                                    <option value="teacher">Teacher</option>
+                                    <option value="student">Student</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label asp-for="DateOfBirth" class="col-sm-3 col-form-label">Ngày sinh</label>
+                            <div class="col-sm-9">
+                                <input asp-for="DateOfBirth" type="date" class="form-control" placeholder="dd/mm/yyyy" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label asp-for="Email" class="col-sm-3 col-form-label"></label>
+                            <div class="col-sm-9">
+                                <input asp-for="Email" class="form-control" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label asp-for="Phone" class="col-sm-3 col-form-label"></label>
+                            <div class="col-sm-9">
+                                <input asp-for="Phone" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label asp-for="Address" class="col-sm-3 col-form-label"></label>
+                            <div class="col-sm-9">
+                                <input asp-for="Address" class="form-control" />
+                                <span asp-validation-for="Address" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label asp-for="Tel" class="col-sm-3 col-form-label"></label>
+                            <div class="col-sm-9">
+                                <input asp-for="Tel" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-check">
+                    <label asp-for="Status" class="form-check-label">Hoạt động </label>
+                    <input class="form-check-input" name="Status" value="@Model.Status" type="checkbox" @TempData["isCheckbox"]>
+                    <i class="input-helper"></i>
+                </div>
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary mr-2">
+                        <svg width="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M14.7379 2.76175H8.08493C6.00493 2.75375 4.29993 4.41175 4.25093 6.49075V17.2037C4.20493 19.3167 5.87993 21.0677 7.99293 21.1147C8.02393 21.1147 8.05393 21.1157 8.08493 21.1147H16.0739C18.1679 21.0297 19.8179 19.2997 19.8029 17.2037V8.03775L14.7379 2.76175Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            <path d="M14.4751 2.75V5.659C14.4751 7.079 15.6231 8.23 17.0431 8.234H19.7981" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            <path d="M14.2882 15.3584H8.88818" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            <path d="M12.2432 11.606H8.88721" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                        Cập nhật
+                    </button>
+                    <a asp-action="Index" class="btn btn-secondary">
+                        <svg width="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4.25 12.2744L19.25 12.2744" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            <path d="M10.2998 18.2988L4.2498 12.2748L10.2998 6.24976" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                        Hủy
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@* <div>
+    <a asp-action="Index" class="btn btn-warning"><i class="mdi mdi-keyboard-return"></i>Trở lại</a>
+</div> *@
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $("#fontawesome_picture").click(function () {
+            $("input[id='file_image']").click();
+        });
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+        $('.btn_del_img').click(function () {
+            $('.image-box img').attr('src', '/img/admin/default.jpg')
+            $('#remove_img').val(1);
+            $('#remove_logo').val(1);
+        })
+
+    </script>
+}

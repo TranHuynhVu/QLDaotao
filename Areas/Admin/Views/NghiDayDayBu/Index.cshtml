@@ -1,0 +1,77 @@
+﻿<div class="card">
+    <div class="card-header">
+        <h4 class="card-title text-black ">Danh sách Phiếu đăng ký nghỉ dạy - dạy bù</h4>
+        <div class="card-options d-flex flex-column flex-md-row justify-content-between align-items-center">
+            <!-- Bọc các trường vào một nhóm div bên trái -->
+            <div class="d-flex flex-wrap mb-2 mb-md-0">
+                <!-- Từ ngày -->
+                <div class="form-group mb-0">
+                    <label for="fromDate" class="mr-2">Từ ngày:</label>
+                    <input type="date" id="fromDate" class="form-control" style="max-width: 200px;" />
+                </div>
+
+                <!-- Đến ngày -->
+                <div class="form-group mb-0 mx-2">
+                    <label for="toDate" class="mr-2">Đến ngày:</label>
+                    <input type="date" id="toDate" class="form-control" style="max-width: 200px;" />
+                </div>
+
+                <!-- Trạng thái -->
+                <div class="form-group mb-0 mx-2">
+                    <label for="status" class="mr-2">Trạng thái:</label>
+                    <select id="status" class="form-control" style="max-width: 200px;">
+                        <option value="">Tất cả</option>
+                        <option value="-1">Bị từ chối</option>
+                        <option value="0">Chờ xử lý</option>
+                        <option value="1">Đang xử lý</option>
+                        <option value="2">Đã xử lý</option>
+                        <option value="3">Đã nhận</option>
+                        <option value="4">Hết hạn</option>
+                    </select>
+                </div>
+
+                <div class="form-group mb-0 mx-2">
+                    <label for="DKNDDB_Khoa" class="mr-2">Khoa:</label>
+                    <select id="DKNDDB_Khoa" class="form-control" style="max-width: 200px;">
+                      
+                    </select>
+                </div>
+
+                <button id="filterBtn" class="btn btn-primary align-self-end" style="height:42px;">Lọc</button>
+            </div>
+
+            <!-- Nút "Xuất file Excel" và "Xuất file PDF" dính về phía bên phải -->
+            <div class="align-self-end mt-2 mt-md-0">
+                <button title="Xuất file PDF" id="exportPDFsBtn" class="btn btn-secondary align-self-end" style="height:42px;">
+                    <svg width="18" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                        <path fill="white" d="M0 64C0 28.7 28.7 0 64 0L224 0l0 128c0 17.7 14.3 32 32 32l128 0 0 144-208 0c-35.3 0-64 28.7-64 64l0 144-48 0c-35.3 0-64-28.7-64-64L0 64zm384 64l-128 0L256 0 384 128zM176 352l32 0c30.9 0 56 25.1 56 56s-25.1 56-56 56l-16 0 0 32c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-48 0-80c0-8.8 7.2-16 16-16zm32 80c13.3 0 24-10.7 24-24s-10.7-24-24-24l-16 0 0 48 16 0zm96-80l32 0c26.5 0 48 21.5 48 48l0 64c0 26.5-21.5 48-48 48l-32 0c-8.8 0-16-7.2-16-16l0-128c0-8.8 7.2-16 16-16zm32 128c8.8 0 16-7.2 16-16l0-64c0-8.8-7.2-16-16-16l-16 0 0 96 16 0zm80-112c0-8.8 7.2-16 16-16l48 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-32 0 0 32 32 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-32 0 0 48c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-64 0-64z" />
+                    </svg>
+                    <span class="d-none d-sm-inline">PDFs</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive table-ute">
+            <table id="PhieuDangKyNghiDayDayBuTable" class="table table-hover table-striped table-vcenter text-nowrap">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Mã giảng viên</th>
+                        <th>Giảng viên</th>
+                        <th>Khoa</th>
+                        <th>Số buổi xin nghỉ</th>
+                        <th>Trạng thái</th>
+                        <th>Chức năng</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/loadData/LoadPhieuDangKyNghiDayDayBu.js"></script>
+    <script src="~/loadData/ListKhoa.js"></script>
+}

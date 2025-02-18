@@ -1,0 +1,12 @@
+﻿@model QLDaoTao.Models.AppCategorie
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group row">
+            <label asp-for="title" class="col-sm-2 col-form-label">@Html.DisplayNameFor(model => model.title) <span class="text-danger">(*)</span></label>
+            <div class="col-sm-10">
+                <input asp-for="title" class="form-control" />
+                <span asp-validation-for="title" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+</div>

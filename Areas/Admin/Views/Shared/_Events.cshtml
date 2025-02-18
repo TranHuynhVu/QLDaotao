@@ -1,0 +1,27 @@
+﻿<div class="col-md-4 col-sm-12 col-12">
+    <div class="heading">
+        Sự kiện sắp đến
+    </div>
+    <div class="section-content future-news-block">
+        <ul class="section-list-col section-list-bordertop">
+            @foreach(var eve in ViewBag.UpComingEvent) 
+            {
+            <li class="item">
+                <section class="media-block-container media-cols-content">
+                    <div class="date-left-content">
+                        <a asp-area="" asp-controller="Post" asp-action="Details" asp-route-slug="@eve.Slug" class="date-content">
+                            <span class="date">@eve.EventDate.ToString("dd") </span>
+                            <span class="month">@eve.EventDate.ToString("MM")/@eve.EventDate.ToString("yyyy")</span>
+                        </a>
+                    </div>
+                    <div class="block-main-content">
+                        <h3 class="heading heading-m6">
+                            <a asp-area="" asp-controller="Post" asp-action="Details" asp-route-slug="@eve.Slug" class="heading-link">@eve.Name</a>
+                        </h3>
+                    </div>
+                </section>
+            </li>
+            }
+        </ul>
+    </div>
+</div>

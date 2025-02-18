@@ -1,0 +1,82 @@
+﻿@{
+
+}
+<div class="col-md-4 col-sm-12 col-12">
+    <div class="heading">
+        Chăm sóc SSTT
+    </div>
+    @{
+        int i1 = 0;
+        @foreach (var post in ViewBag.Widget1)
+        {
+            if (i1 == 0)
+            {
+                <div class="lay-item">
+                    <!-- Item post -->
+                    <div class="lay-thumb">
+                        <a asp-area="" asp-controller="Post" asp-action="Details" asp-route-slug="@post.Slug" class="wrap-pic-w hov1 trans-03">
+                            <img src="~/client/assets/img/@post.Image" alt="@post.Name" style="height: 200px">
+                        </a>
+                        <div class="p-t-15">
+                            <span class="cl8">
+                                <a asp-area="" asp-controller="Post" asp-action="Details" asp-route-slug="@post.Slug" class="f1-s-4 cl8 hov-cl10 trans-03">
+                                    @if (post.Author == null)
+                                    {
+                                        <span>Anonymous</span>
+                                    }
+                                    else
+                                    {
+                                        @post.Author 
+                                    }
+                                </a>
+                                <span class="f1-s-3 m-rl-3"> - </span>
+                                <span class="f1-s-3"> @post.CreatedOn.ToString("dd/MM/yyyy")</span>
+                            </span>
+                            <h5 class="p-t-5">
+                                <a asp-area="" asp-controller="Post" asp-action="Details" asp-route-slug="@post.Slug" class="f1-m-3 cl2 hov-cl10 trans-03">
+                                    @post.Name
+                                </a>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+            }
+            <span style="display:none">@(i1 = i1 + 1)</span>
+        }
+        int i2 = 0;
+        @foreach (var smpost in ViewBag.Widget1)
+        {
+            if (i2 > 0 && i2 < 5)
+            {
+
+                <div class="flex-wr-sb-s m-b-30 mb-3 pos-relative">
+                    <a asp-area="" asp-controller="Post" asp-action="Details" asp-route-slug="@smpost.Slug" class="size-w-1 wrap-pic-w hov1 trans-03">  
+                        <img src="~/client/assets/img/@smpost.Image" alt="@smpost.Name">
+                    </a>
+                    <div class="size-w-2">
+                        <span class="cl8">
+                            <a asp-area="" asp-controller="Post" asp-action="Details" asp-route-slug="@smpost.Slug" class="f1-s-6 cl8 hov-cl10 trans-03">
+                                @if (smpost.Author == null)
+                                {
+                                    <span>Anonymous</span>
+                                }
+                                else
+                                {
+                                    @smpost.Author
+                                }
+                            </a>
+                            <span class="f1-s-3 m-rl-3"> - </span> <span class="f1-s-3"> @smpost.CreatedOn.ToString("dd/MM/yyyy")</span>
+                        </span>
+                        <h5 class="p-t-5"> 
+                            <a asp-area="" asp-controller="Post" asp-action="Details" asp-route-slug="@smpost.Slug" class="f1-s-5 cl3 hov-cl10 trans-03">
+                                @smpost.Name
+                            </a>
+                        </h5>
+                    </div>
+                </div>
+            }
+            <span style="display:none">@(i2 = i2 + 1)</span>
+        }
+    }
+
+</div>

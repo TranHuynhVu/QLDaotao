@@ -1,0 +1,133 @@
+﻿@model QLDaoTao.Areas.Teacher.Models.PhieuDangKyNghiDayDayBuCTO
+
+<div class="card p-2">
+    <div class="card-body">
+        <h5 class="my-3 text-center">ĐĂNG KÝ NGHỈ DẠY - DẠY BÙ</h5>
+        <h6 class="mt-5">Điền thông tin nghỉ dạy - dạy bù cho LHP</h6>
+        <div class="card mt-3">
+            <div class="card-body">
+                <label for="IdLopHocPhan">Lớp học phần</label>
+                <select name="IdLopHocPhan" id="DKNDDB_LHP" class="form-control">
+
+                </select>
+
+                <div class="row my-1">
+                    <div class="col-6">
+                        <label for="NgayXinNghi">Ngày xin nghỉ</label>
+                        <input type="date" class="form-control" name="NgayXinNghi" id="DKNDDB_NgayXinNghi"/>
+                    </div>
+                    <div class="col-6">
+                        <label for="NgayDauBu">Ngày dạy bù</label>
+                        <input type="date" class="form-control" name="NgayDayBu" id="DKNDDB_NgayDauBu" />
+                    </div>
+                </div>
+
+                <div class="row my-1">
+                    <div class="col-4">
+                        <label for="Thu">Thứ</label>
+                        <select class="form-control" name="Thu" id="DKNDDB_Thu" style="max-height: 100px; overflow-y: auto;">
+                            <option value="">Chọn</option>
+                            @for (int i = 2; i <= 7; i++)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        </select>   
+                    </div>
+                    <div class="col-4">
+                        <label for="TuTiet">Từ tiết</label>
+                        <select class="form-control" name="TuTiet" id="DKNDDB_TuTiet" style="max-height: 100px; overflow-y: auto;">
+                            <option value="">Chọn</option>
+                            @for (int i = 1; i <= 14; i++)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-4">
+                        <label for="DenTiet">Đến tiết</label>
+                        <select class="form-control" name="DenTiet" id="DKNDDB_DenTiet" style="max-height: 100px; overflow-y: auto;">
+                            <option value="">Chọn</option>
+                            @for (int i = 1; i <= 14; i++)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <label for="Phong">Phòng</label>
+                <input type="text" class="form-control my-1" name="Phong" id="DKNDDB_Phong" />
+
+                <label for="LyDo">Lý do</label>
+                <textarea class="form-control my-1" name="LyDo" id="DKNDDB_LyDo"></textarea>
+
+                <button id="DangKyNghiDayDayBu_AddLHP" class="btn btn-sm btn-primary my-2">Thêm</button>
+
+                <span style="color: red; font-size: 14px;" class="mt-3" id="DKNDDB_error"></span>
+            </div>    
+        </div>
+
+        <h6 class="mt-5">Danh sách các lớp học phần đã đăng ký nghỉ dạy - dạy bù</h6>
+
+        <div class="table-responsive table-ute">
+            <table id="DangKyNghiDayDayBuLHPTable" class="table table-hover table-striped table-vcenter text-nowrap">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Lớp học phần</th>
+                        <th>Ngày xin nghỉ</th>
+                        <th>Ngày dạy bù</th>
+                        <th>Thứ</th>
+                        <th>Từ tiết</th>
+                        <th>Đến tiết</th>
+                        <th>Phòng</th>
+                        <th>Lý do</th>
+                        <th>Chức năng</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="10" class="text-center">Hiện chưa có LHP đăng ký nghỉ dạy - dạy bù nào !</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <form method="post" asp-action="Create" asp-controller="NghiDayDayBu" asp-area="Teacher" enctype="multipart/form-data">
+            <input type="hidden" asp-for="SoBuoiXinNghi" id="DKNDDB_SoBuoiXinNghi" value="0"></input>
+            <div class="mt-5">
+                <h6>Bản sao văn bản chứng từ đi kèm (nếu có)</h6>
+                <input id="DangKyNghiDayDayBu_AddDoc" class="mt-3" asp-for="BanSaoVBCTDiKem" type="file" multiple accept=".jpg,.jpeg,.png,.gif,.webp,.svg">
+
+            </div>
+
+            <!-- Khu vực hiển thị ảnh đã chọn -->
+            <div id="DKNDDB_BanSaoVBCTDiKem" class="mt-3"></div>
+
+            <!-- Modal xem ảnh lớn -->
+            <div class="modal fade" id="imageModal" tabindex="-1" role="dialog">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Xem ảnh</h5>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body text-center">
+                            <img id="previewImage" src="" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="DangKyNghiDayDayBu_ListLHP">
+                
+            </div>
+            <button type="submit" class="btn btn-sm btn-success mt-5 form-control">Gửi yêu cầu</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/loadData/LoadPhieuDangKyNghiDayDayBu.js"></script>
+    <script src="~/loadData/ListLHP.js"></script>
+}

@@ -1,0 +1,57 @@
+﻿@model QLDaoTao.Models.AppBanner
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group row">
+            <label for="title" class="col-sm-2 control-label">Ảnh Banner <span class="text-danger">(*)</span></label>
+            <div class="col-sm-10" id="main-upload">
+                <div class="fileupload fileupload-new " data-provides="fileupload">
+                    <div class="fileupload-new thumbnail user-form-image">
+                        <div class="image-box">
+                            <input type="hidden" name="remove_img" id="remove_img">
+                            @if (Model != null && Model.Image != null)
+                            {
+                                <img src="@Model.Image" alt="default" id="fontawesome_picture" />
+                                <a href="javascript:;" class="btn btn-danger btn_del_img" id="icon_del">
+                                    <svg width="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                        <path d="M20.708 6.23975H3.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                        <path d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    </svg>
+                                </a>
+                            }
+                            else
+                            {
+                                <img src="~/img/admin/default.jpg" alt="default" id="fontawesome_picture" />
+
+                            }
+                        </div>
+                    </div>
+                    <div class="fileupload-preview fileupload-exists thumbnail posts"></div>
+                    <div class="custom-file">
+                        <span class="btn btn-file btn-primary ml-0">
+                            <span class="fileupload-new">Chọn</span>
+                            <span class="fileupload-exists">Thay đổi</span>
+                            <input type="file" name="files" accept="image/x-png,image/jpeg" id="file_image" />
+
+                        </span>
+                        <a href="javascript:;" class="btn btn-danger fileupload-exists" data-dismiss="fileupload">Xóa</a>
+                    </div>
+                    <span class="upload_img_error error d-none">Tệp bạn chọn không đúng định dạng ảnh</span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row pt-4">
+            <label asp-for="Title" class="col-sm-2 col-form-label">@Html.DisplayNameFor(model => model.Title) <span class="text-danger">(*)</span></label>
+            <div class="col-sm-10">
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="Link" class="col-sm-2 col-form-label">@Html.DisplayNameFor(model => model.Link)</label>
+            <div class="col-sm-10">
+                <input asp-for="Link" class="form-control" />
+            </div>
+        </div>
+    </div>
+</div>

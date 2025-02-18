@@ -1,0 +1,172 @@
+﻿@{
+    ViewData["Title"] = "Tin tức - Sự kiện";
+}
+<!-- breadcrumb -->
+<div id="breadContent" class="container">
+    <div class="breadcrumb">
+        <a asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i></a>
+        <span class="br-span">/</span>
+        <a asp-area="" asp-controller="Home" asp-action="TinTucSuKien" class="title_tb">
+            <span itemprop="name">Tin tức - Sự kiện</span>
+        </a>
+    </div>
+</div>
+<!-- End breadcrumb -->
+<!--  Content Articles start -->
+<div class="recent-articles">
+    <div class="container">
+        <div class="row d-flex justify-content-between">
+            <div class="col-lg-3">
+                <div class="main-box tintuc-box">
+                    <div class="widget recent-post-widget" id="tb_nav">
+                        <h3 class="mb-0">Tin tức - Sự kiện</h3>
+                        <div class="content-main p-0">
+                            <ul>
+                                <li><a href="#" class="active">Tin tức chung</a></li>
+                                <li><a href="#">Tin của các Phòng</a></li>
+                                <li><a href="#">Tin của các Khoa</a></li>
+                                <li><a href="#">Tin của Đoàn thể</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="main-nav-tb py-4">
+                        <div class="nav-nganhdt mb-3">
+                            <div class="media post_item py-2">
+                                <i class="fas fa-graduation-cap icon-nav-tb"></i>
+                                <div class="media-body">
+                                    <a href="#">
+                                        <h3>Ngành đào tạo</h3>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nav-nganhdt mb-3">
+                            <div class="media post_item py-2">
+                                <i class="fas fa-folder-open icon-nav-tb"></i>
+                                <div class="media-body">
+                                    <a href="#">
+                                        <h3>Văn bản - Biểu mẫu</h3>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nav-nganhdt mb-3">
+                            <div class="media post_item py-2">
+                                <i class="fas fa-globe icon-nav-tb"></i>
+                                <div class="media-body">
+                                    <a href="#">
+                                        <h3>Kế hoạch</h3>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <div class="thongbao-list">
+                    <div class="widget recent-post-widget">
+                        <div class="content-main">
+                            <div class="posts">
+                                <div class="post">
+                                    <div class="img-holder">
+                                        <img src="~/img/news/158514251458200224040017.png" />
+                                    </div>
+                                    <div class="details">
+                                        <h4>
+                                            <a asp-area="" asp-controller="Home" asp-action="Detail">Thông báo mời tham dự Chương trình Tư vấn Tuyển sinh Đại học Đà Nẵng trong Ngày hội của Báo Thanh niên-2024 tổ chức tại Đà Nẵng</a>
+                                        </h4>
+                                        <span class="date"><i class="fas fa-calendar-alt"></i> 20/02/2024 </span>
+                                        <p>
+                                            Nhằm cung cấp đầy đủ, kịp thời đến các em học sinh và Quý phụ huynh những thông tin mới nhất về tuyển sinh đại học chính quy năm 2024 vào các trường đại
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="posts">
+                                <div class="post">
+                                    <div class="img-holder">
+                                        <img src="~/img/news/p2.jpg" />
+                                    </div>
+                                    <div class="details">
+                                        <h4>
+                                            <a asp-area="" asp-controller="Home" asp-action="Detail">Thời sự VTV8 "Dấu ấn kiến trúc Pháp trong đô thị Đà Nẵng"</a>
+                                        </h4>
+                                        <span class="date"><i class="fas fa-calendar-alt"></i> 19/02/2024 </span>
+                                        <p>Sau kỳ nghỉ Tết Nguyên đán Giáp Thìn kéo dài 07 ngày (từ ngày 08/02/2024 đến hết ngày 14/02/2024), sinh viên Trường Đại học Sư phạm Kỹ thuật – Đại học Đà Nẵng</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="posts">
+                                <div class="post">
+                                    <div class="img-holder">
+                                        <img src="~/img/news/post.jpg" />
+                                    </div>
+                                    <div class="details">
+                                        <h4>
+                                            <a asp-area="" asp-controller="Home" asp-action="Detail">Sinh viên UD-UTE hào hứng trở lại Trường học tập sau kỳ nghỉ Tết Nguyên đán năm 2024</a>
+                                        </h4>
+                                        <span class="date"><i class="fas fa-calendar-alt"></i> 19/02/2024 </span>
+                                        <p>Sau kỳ nghỉ Tết Nguyên đán Giáp Thìn kéo dài 07 ngày (từ ngày 08/02/2024 đến hết ngày 14/02/2024), sinh viên Trường Đại học Sư phạm Kỹ thuật – Đại học Đà Nẵng</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="posts">
+                                <div class="post">
+                                    <div class="img-holder">
+                                        <img src="~/img/news/p0.jpg" />
+                                    </div>
+                                    <div class="details">
+                                        <h4>
+                                            <a asp-area="" asp-controller="Home" asp-action="Detail">Những trải nghiệm mới của sinh viên UD-UTE trong lần đầu đón Tết ở nước ngoài</a>
+                                        </h4>
+                                        <span class="date"><i class="fas fa-calendar-alt"></i> 17/02/2024 </span>
+                                        <p>Tết Nguyên đán là lễ hội truyền thống lớn nhất trong năm của người Việt, đây là dịp để các thành viên được sum vầy, đoàn tụ trong không khí ấm cúng của gia</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="posts">
+                                <div class="post">
+                                    <div class="img-holder">
+                                        <img src="~/img/news/p.jpg" />
+                                    </div>
+                                    <div class="details">
+                                        <h4>
+                                            <a asp-area="" asp-controller="Home" asp-action="Detail">Trường Đại học Sư phạm Kỹ thuật - Đại học Đà Nẵng tổ chức gặp mặt đầu Xuân Giáp Thìn</a>
+                                        </h4>
+                                        <span class="date"><i class="fas fa-calendar-alt"></i> 15/02/2024 </span>
+                                        <p>Trong không khí rộn ràng và tươi vui của những ngày đầu năm mới, ngày 15/02/2024, Trường Đại học Sư phạm Kỹ thuật – Đại học Đà Nẵng đã tổ chức buổi gặp</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="posts">
+                                <div class="post">
+                                    <div class="img-holder">
+                                        <img src="~/img/news/1p.jpg" />
+                                    </div>
+                                    <div class="details">
+                                        <h4>
+                                            <a asp-area="" asp-controller="Home" asp-action="Detail">Các trường khối STEM vào 'đường đua' đào tạo ngành vi mạch bán dẫn</a>
+                                        </h4>
+                                        <span class="date"><i class="fas fa-calendar-alt"></i> 09/02/2024 </span>
+                                        <p>GD&TĐ - Đón đầu nhu cầu nhân lực ngành vi mạch bán dẫn, các trường đại học đã sẵn sàng về đội ngũ giảng viên, thiết bị để mở ngành đào tạo chuyên sâu.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="pagination float-right">
+                        <li class="page-item"><a class="page-link" href="#" aria-label="Previous">&laquo;</a></li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item "><a class="page-link " href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#">4</a></li>
+                        <li class="page-item"><a class="page-link" href="#">5</a></li>
+                        <li class="page-item"><a class="page-link" href="#" aria-label="Next">&raquo;</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Content Articles End -->

@@ -1,0 +1,343 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Đại học Sư phạm Kỹ thuật - Đại học Đà Nẵng</title>
+    <meta name="description" content="Hệ thống Quản lý đào tạo - Đại học Sư phạm Kỹ thuật - Đại học Đà Nẵng">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" href="~/favicon.ico">
+    @*  <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/bootSwatchTheme.css" /> *@
+    <link href="~/css/client/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/client/owl.carousel.min.css" rel="stylesheet" />
+    <link href="~/css/client/ticker-style.css" rel="stylesheet" />
+    <link href="~/css/client/flaticon.css" rel="stylesheet" />
+    <link href="~/css/client/slicknav.css" rel="stylesheet" />
+    <link href="~/css/client/animate.min.css" rel="stylesheet" />
+    <link href="~/css/client/magnific-popup.css" rel="stylesheet" />
+    <link href="~/css/client/fontawesome-all.min.css" rel="stylesheet" />
+    <link href="~/css/client/themify-icons.css" rel="stylesheet" />
+    <link href="~/css/client/slick.css" rel="stylesheet" />
+    <link href="~/css/client/nice-select.css" rel="stylesheet" />
+    <link href="~/css/client/style.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"></link>
+    <link rel="stylesheet" href="~/QLDaoTao.styles.css" asp-append-version="true" />
+    @*     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    *@
+
+
+</head>
+<body>
+    <header>
+        <!-- Header Start -->
+        <div class="header-area">
+            <div class="main-header ">
+                <div class="header-top bg-header d-none d-md-block">
+                    <div class="container">
+                        <div class="col-xl-12">
+                            <div class="row d-flex justify-content-between align-items-center">
+                                <div class="header-info-left">
+                                    <ul>
+                                        <li><a asp-area="" asp-controller="Home" asp-action="TinTucSuKien"><i class="far fa-newspaper"></i> Tin tức & Sự kiện</a></li>
+                                        <li><a asp-area="" asp-controller="Home" asp-action="ThongBao"><i class="far fa-bell"></i> Thông báo</a></li>
+                                        <li><a href="#"><i class="fas fa-folder-open"></i> Văn bản  - Biểu mẫu</a></li>
+                                    </ul>
+                                </div>
+                                <div class="header-info-right">
+                                    <ul class="header-social">
+                                        <li><a href="#"> Phòng </a></li>
+                                        <li><a href="#"> Khoa </a></li>
+                                        <li><a href="#"> Đoàn thể</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="header-mid d-none d-md-block">
+                    <div class="container">
+                        <div class="row d-flex align-items-center py-4">
+                            <!-- Logo -->
+                            <div class="col-xl-9 col-lg-9 col-md-9">
+                                <div class="logo">
+                                    <a href="/"><img class="img-fluid" src="~/img/logo.png" /></a>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-3">
+                                <div class="header-banner f-right ">
+                                    <img src="" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="header-sticky">
+                    <div class="container">
+                        <div class="row align-items-center bg-default">
+                            <div class="col-xl-10 col-lg-10 col-md-12 header-flex">
+                                <!-- sticky -->
+                                <div class="sticky-logo">
+                                    <a href="/"><img class="img-fluid" src="~/img/logo.png" /></a>
+                                </div>
+                                <!-- Main-menu -->
+                                <div class="main-menu d-none d-md-block ">
+                                    <nav>
+                                        <ul id="navigation">
+                                            <li><a href="/"><i class="fas fa-home"></i> Trang Chủ</a></li>
+                                            <li>
+                                                <a href="#">Chương trình <i class="fas fa-caret-down d-wb-none"></i></a>
+                                                <ul class="submenu">
+                                                    <li><a href="#">Đào tạo Đại học</a></li>
+                                                    <li><a href="#">Đào tạo Thạc sỹ</a></li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <a href="#">Đào tạo <i class="fas fa-caret-down d-wb-none"></i></a>
+                                                <ul class="submenu">
+                                                    <li><a href="#">Thông tin lớp sinh hoạt</a></li>
+                                                    <li><a href="#">Kết quả học tập</a></li>
+                                                    <li><a href="#">Thông báo</a></li>
+                                                    <li><a href="#">Thời khóa biểu</a></li>
+                                                    <li><a href="#">Đăng ký học</a></li>
+                                                    <li><a href="#">Khen thưởng - Kỷ luật</a></li>
+                                                </ul>
+                                            </li>
+
+                                            <li><a href="#">Kế hoạch</a></li>
+                                            <li><a href="#">Liên hệ</a></li>
+                                            @*  @using Microsoft.AspNetCore.Http
+                                            @inject IHttpContextAccessor HttpContextAccessor
+                                            @{
+                                            // Lấy dữ liệu từ session
+                                            string valueFromSession = HttpContextAccessor.HttpContext.Session.GetString("isLogin");
+                                            } *@
+                                            @using Microsoft.AspNetCore.Identity;
+                                            @inject SignInManager<AppUser> signInManager
+                                            @{
+                                                var currentUrl = Context.Request.Path;
+
+                                            }
+                                            @if (currentUrl == "/giang-vien" || currentUrl == "/sinh-vien")
+                                            {
+                                                @if (signInManager.IsSignedIn(User))
+                                                {
+                                                    <li> <a asp-area="" asp-controller="Account" asp-action="Logout"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a></li>
+                                                }
+                                                else
+                                                {
+                                                    <li> <a asp-area="" asp-controller="Account" asp-action="Login"><i class="fas fa-sign-in-alt"></i> Đăng nhập</a></li>
+                                                }
+
+                                            }
+
+
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                            <div class="col-xl-2 col-lg-2 col-md-4 ">
+                                <div class="header-right-btn f-right d-none d-lg-block">
+                                    <i class="fas fa-search special-tag"></i>
+                                    <div class="search-box">
+                                        <form action="#">
+                                            <input type="text" placeholder="Tìm kiếm" class="form-control">
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Mobile Menu -->
+                            <div class="col-12">
+                                <div class="mobile_menu d-block d-md-none"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Header End -->
+    </header>
+    <!-- Banner -->
+    <div class="container banner-area">
+        <partial name="_SliderBanner"></partial>
+    </div>
+    <!--End Banner -->
+
+    <main>
+      
+        <div id="success"></div>
+        <div id="error"></div>
+        <div id="warning"></div>
+        <partial name="_Notification"></partial>
+        @RenderBody()
+    </main>
+
+
+    <footer>
+        <!-- Footer Start-->
+        <div class="footer-area footer-padding fix">
+            <div class="container">
+                <div class="row d-flex justify-content-between">
+
+                    <div class="col-xl-5 col-lg-5 col-md-5  col-sm-6">
+                        <div class="single-footer-caption mt-60">
+                            <div class="footer-tittle footer-tt">
+                                <h4>TRƯỜNG ĐẠI HỌC SƯ PHẠM KỸ THUẬT</h4>
+                                <!-- Form -->
+                                <ul class="list-group">
+                                    <li>
+                                        <i class="fas fa-map-marker-alt"></i> <strong>Cơ sở 1: </strong>
+                                        <span>
+                                            48 Cao Thắng, Thanh Bình, Hải Châu, Đà Nẵng
+                                        </span>
+                                    </li>
+
+                                    <li>
+                                        <i class="fas fa-map-marker-alt"></i> <strong>Cơ sở 2: </strong>
+                                        <span> Khu Đô thị đại học, Hòa Quý, Ngũ Hành Sơn, Đà Nẵng </span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-5 col-lg-5 col-md-5  col-sm-6">
+                        <div class="single-footer-caption mt-60">
+                            <div class="footer-tittle footer-tt">
+                                <h4>THÔNG TIN LIÊN LẠC</h4>
+                                <!-- Form -->
+                                <ul class="list-group">
+                                    <li>
+                                        <i class="fas fa-phone-volume"></i> <strong>Điện thoại: </strong>
+                                        <span>
+                                            0236 3822 571
+                                        </span>
+                                    </li>
+
+                                    <li>
+                                        <i class="fas fa-envelope"></i> <strong>Email: </strong>
+                                        <span> pdt@ute.udn.vn</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-6">
+                        <div class="single-footer-caption mb-50 mt-60">
+                            <div class="footer-tittle text-center">
+                                <h4>KẾT NỐI</h4>
+                                <ul class="social-network social-circle">
+                                    <li><a href="#" class="icoFacebook" title="Facebook"><i class="fab fa-facebook-f"></i></a></li>
+                                    <li><a href="#" class="icoYoutube" title="Youtube"><i class="fab fa-youtube"></i></a></li>
+                                    <li><a href="#" class="icoTitter" title="Titter"><i class="fab fa-twitter"></i></a></li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer End-->
+    </footer>
+    @* <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script> *@
+
+
+    <!-- All JS Custom Plugins Link Here here -->
+    <script src="~/js/client/vendor/modernizr-3.5.0.min.js"></script>
+    <!-- Jquery, Popper, Bootstrap -->
+    <script src="~/js/client/vendor/jquery-1.12.4.min.js"></script>
+    <script src="~/js/client/popper.min.js"></script>
+    <script src="~/js/client/bootstrap.min.js"></script>
+    <!-- Jquery Mobile Menu -->
+    <script src="~/js/client/jquery.slicknav.min.js"></script>
+    <!-- Jquery Slick , Owl-Carousel Plugins -->
+    <script src="~/js/client/owl.carousel.min.js"></script>
+    <script src="~/js/client/slick.min.js"></script>
+    <!-- Date Picker -->
+    <script src="~/js/client/gijgo.min.js"></script>
+    <!-- One Page, Animated-HeadLin -->
+    <script src="~/js/client/wow.min.js"></script>
+    <script src="~/js/client/animated.headline.js"></script>
+    <script src="~/js/client/jquery.magnific-popup.js"></script>
+
+    <!-- Breaking New Pluging -->
+    <script src="~/js/client/jquery.ticker.js"></script>
+    <script src="~/js/client/site.js"></script>
+
+    <!-- Scrollup, nice-select, sticky -->
+    <script src="~/js/client/jquery.scrollup.min.js"></script>
+    <script src="~/js/client/jquery.nice-select.min.js"></script>
+    <script src="~/js/client/jquery.sticky.js"></script>
+
+    <!-- contact js -->
+    <script src="~/js/client/contact.js"></script>
+    <script src="~/js/client/jquery.form.js"></script>
+    <script src="~/js/client/jquery.validate.min.js"></script>
+    <script src="~/js/client/mail-script.js"></script>
+    <script src="~/js/client/jquery.ajaxchimp.min.js"></script>
+    <!-- Jquery Plugins, main Jquery -->
+    <script src="~/js/client/plugins.js"></script>
+    <script src="~/js/client/main.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+    <script>
+        var pageLink = window.location.href;
+        var pageTitle = String(document.title).replace(/\&/g, '%26');
+
+        function fb_click() {
+            window.open(`http://www.facebook.com/sharer.php?u=${pageLink}&quote=${pageTitle}`, 'sharer', 'toolbar=0,status=0,width=626,height=436');
+            return false;
+        }
+
+        function tw_click() {
+            window.open(`https://twitter.com/intent/tweet?text=${pageTitle}&url=${pageLink}`, 'sharer', 'toolbar=0,status=0,width=626,height=436');
+            return false;
+        }
+
+        function li_click() {
+            window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${pageLink}`, 'sharer', 'toolbar=0,status=0,width=626,height=436');
+            return false;
+        }
+        $(".toggle-password").click(function () {
+
+            $(this).toggleClass("fa-eye fa-eye-slash");
+            var input = $($(this).attr("toggle"));
+            if (input.attr("type") == "password") {
+                input.attr("type", "text");
+            } else {
+                input.attr("type", "password");
+            }
+        });
+
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //jquery for toggle sub menus
+            $('.sub-btn').click(function () {
+                $(this).next('.sub-menu').slideToggle();
+                $(this).find('.dropdown').toggleClass('rotate');
+            });
+
+            //jquery for expand and collapse the sidebar
+            $('.menu-btn').click(function () {
+                $('.side-bar').addClass('active');
+                $('.menu-btn').css("visibility", "hidden");
+            });
+
+            $('.close-btn').click(function () {
+                $('.side-bar').removeClass('active');
+                $('.menu-btn').css("visibility", "visible");
+            });
+        });
+        setTimeout(function () {
+            $('.alert').hide();
+        }, 3000);
+        function ShowSuccess(msg) {
+            $('#success').text(msg);
+        }
+    </script>
+</body>
+</html>

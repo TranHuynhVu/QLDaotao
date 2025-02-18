@@ -1,0 +1,93 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title> Hệ thống quản lý tác nghiệp</title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="~/system/assets/images/favicon.ico" />
+    <link rel="stylesheet" href="~/system/assets/css/libs.min.css">
+    <link rel="stylesheet" href="~/system/assets/css/train.css?v=1.0.0">
+    <link href="~/system/assets/css/sweetalert2.min.css" rel="stylesheet" />
+    <link href="~/system/assets/css/toastr.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/2.0.2/css/dataTables.bootstrap5.css" rel="stylesheet" />
+    
+</head>
+<body class=" ">
+    <!-- loader Start -->
+    @* <div id="loading">
+        <div class="loader simple-loader">
+            <div class="loader-body"></div>
+        </div>
+    </div> *@
+    <!-- loader END -->
+    <partial name="~/Areas/Admin/Views/Shared/_Sidebar.cshtml" />
+    <main class="main-content">
+        <div class="position-relative">
+            <!--Nav Start-->
+            <partial name="~/Areas/Admin/Views/Shared/_MainNav.cshtml" />
+            <!--Nav End-->
+        </div>
+        <div class="container-fluid content-inner pb-0">
+            <div id="success"></div>
+            <div id="error"></div>
+            <div id="warning"></div>
+            <partial name="_Notification"></partial>
+            @RenderBody()
+
+        </div>
+        <partial name="~/Areas/Admin/Views/Shared/_Footer.cshtml" />
+    </main>
+
+    <!-- Wrapper End-->
+    <!-- offcanvas start -->
+    <!-- Backend Bundle JavaScript -->
+    <script src="~/system/assets/js/libs.min.js"></script>
+    <!-- widgetchart JavaScript -->
+    <script src="~/system/assets/js/charts/widgetcharts.js"></script>
+    <!-- fslightbox JavaScript -->
+    <script src="~/system/assets/js/fslightbox.js"></script>
+    <!-- app JavaScript -->
+    <script src="~/system/assets/js/app.js"></script>
+    <!-- apexchart JavaScript -->
+    <script src="~/system/assets/js/charts/apexcharts.js"></script>
+
+    <script src="~/system/assets/vendors/js/vendor.bundle.base.js"></script>
+    <script src="~/system/assets/js/sweetalert2.min.js"></script>
+    <script src="~/system/assets/js/toastr.min.js"></script>
+    <script src="~/system/assets/bootstrap_fileupload/bootstrap-fileupload.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdn.datatables.net/2.0.2/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.0.2/js/dataTables.bootstrap5.js"></script>
+    
+    @RenderSection("Scripts", required: false)
+    <script>
+        setTimeout(function () {
+            $('.alert').hide();
+        }, 3000);
+        function ShowSuccess(msg) {
+            $('#success').text(msg);
+        }
+        var currentPath = window.location.pathname;
+
+        // Lặp qua các phần tử menu để kiểm tra đường dẫn URL
+        document.querySelectorAll('.navbar-nav .nav-link').forEach(function (menuItem) {
+            // Lấy href của menu
+            var menuUrl = menuItem.getAttribute('href');
+
+            // Kiểm tra nếu đường dẫn URL của menu trùng với đường dẫn URL hiện tại
+            if (menuUrl === currentPath) {
+                // Thêm lớp 'active' vào menu
+                menuItem.classList.add('active');
+
+                // Kiểm tra nếu menu này là con của một menu cha (có dropdown), thêm lớp 'show' vào menu cha
+                var parentCollapse = menuItem.closest('.collapse');
+                if (parentCollapse) {
+                    parentCollapse.classList.add('show');
+                }
+            }
+        });
+    </script>
+</body>
+</html>

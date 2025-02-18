@@ -1,0 +1,53 @@
+﻿@model QLDaoTao.Models.AppNew
+@{
+    ViewData["Title"] = "Create";
+    var isPost = ViewBag.isPost;
+}
+
+<div class="col-12 grid-margin">
+    <div class="card">
+        <div class="card-header bg-primary">
+            <h4 class="box-title text-white mb-0">Thêm mới bài viết</h4>
+        </div>
+        <div class="card-body">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <form enctype="multipart/form-data" method="post" id="createPost">
+                <partial name="~/Areas/Admin/Views/New/_Form.cshtml" />
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="~/lib/ckeditor/ckeditor.js"></script>
+    <script src="~/lib/ckeditor/adapters/jquery.js"></script>
+
+    <script>
+
+        $("#postPublish").click(function () {
+            $("#createPost").submit();
+        });
+
+        $("#postDraft").click(function () {
+            $("#postStatus").val("Draft");
+            $("#createPost").submit();
+        });
+
+        // CKEDITOR.replace('textareaContent', {
+        //     filebrowserUploadUrl: '/admin/new/upload_ckeditor',
+        //     filebrowserBrowseUrl: '/admin/new/filebrowse'
+        // });
+        var editor = CKEDITOR.replace('textareaContent', {
+            filebrowserUploadUrl: '/admin/new/upload_ckeditor',
+            filebrowserBrowseUrl: '/admin/new/filebrowse',
+            height: '300px'
+        });
+
+        editor.resize('100%', 500);
+
+
+    </script>
+}

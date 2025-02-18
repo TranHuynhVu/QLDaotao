@@ -1,0 +1,70 @@
+﻿@model QLDaoTao.Areas.Admin.Models.TeacherVM
+
+<div class=" row align-items-center">
+    <div class="form-group col-sm-12">
+        <label asp-for="MaDV">Đơn vị</label>
+        <select asp-for="MaDV" class="form-control" asp-items="@(new SelectList(ViewBag.Unit,"MaDV","TenDV"))"></select>
+    </div>
+    <div class="form-group col-sm-6">
+        <label asp-for="LastName">Họ<span class="text-danger">(*)</span>:</label>
+        <input asp-for="LastName" class="form-control" />
+        <span asp-validation-for="LastName" class="text-danger"></span>
+    </div>
+    <div class="form-group col-sm-6">
+        <label asp-for="FirstName">Tên<span class="text-danger">(*)</span>:</label>
+        <input asp-for="FirstName" class="form-control" />
+        <span asp-validation-for="FirstName" class="text-danger"></span>
+    </div>
+   
+    <div class="form-group col-sm-6">
+        <label asp-for="DOB">Ngày sinh</label>
+        <input asp-for="DOB" type="date" class="form-control" placeholder="dd/mm/yyyy" />
+    </div>
+
+    <div class="form-group col-sm-6">
+        <label class="d-block">Giới tính:</label>
+        <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" id="customRadio6" name="GioiTinh" class="custom-control-input" value="true" asp-for="GioiTinh">
+            <label class="custom-control-label" for="customRadio6"> Nam </label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" id="customRadio7" name="GioiTinh" class="custom-control-input" value="false" asp-for="GioiTinh">
+            <label class="custom-control-label" for="customRadio7"> Nữ </label>
+        </div>
+    </div>
+
+    <div class="form-group col-sm-6">
+        <label asp-for="Mobile">Mobile:</label>
+        <input asp-for="Mobile" class="form-control" />
+    </div>
+    <div class="form-group col-sm-6">
+        <label asp-for="Tel">Tel:</label>
+        <input asp-for="Tel" class="form-control" />
+    </div>
+    <div class="form-group col-sm-6">
+        <label asp-for="Email">Email:</label>
+        <input asp-for="Email" class="form-control" />
+    </div>
+    <div class="form-group col-sm-6">
+        <label asp-for="Hocvi">Học vị:</label>
+        <input asp-for="Hocvi" class="form-control" />
+    </div>
+    <div class="form-group col-sm-6">
+        <label asp-for="Chucdanh">Chức danh:</label>
+        <input asp-for="Chucdanh" class="form-control" />
+    </div>
+    <div class="form-group col-sm-6">
+        <label asp-for="Chucvu">Chức vụ:</label>
+        <input asp-for="Chucvu" class="form-control" />
+    </div>
+    <div class="form-group col-sm-12">
+        <label asp-for="DiaChi">Địa chỉ:</label>
+        <textarea asp-for="DiaChi" class="form-control" rows="5" style="line-height: 22px;"></textarea>
+    </div>
+    <div class="form-group col-sm-6">
+        <label asp-for="Password">Mật khẩu<span class="text-danger">(*)</span>:</label>
+        <input type="password" asp-for="Password" class="form-control" id="password-field" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+        <span toggle="#password-field" class="mdi mdi-eye field-icon toggle-password"></span>
+    </div>
+</div>

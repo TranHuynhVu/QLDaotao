@@ -7,8 +7,6 @@ using QLDaoTao.Areas.Admin.Services;
 using DinkToPdf.Contracts;
 using DinkToPdf;
 using QLDaoTao.Areas.Teacher.Models;
-using Quartz;
-using QLDaoTao.Areas.Teacher.Jobs;
 using Hangfire;
 using QLDaoTao.Services;
 
@@ -47,7 +45,7 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(
 builder.Services.AddSingleton<IConverter, SynchronizedConverter>(provider =>
     new SynchronizedConverter(new PdfTools()));
 
-builder.Services.AddSingleton<PhieuDangKyQueue>(); // Đăng ký hàng đợi
+
 
 // SignalR
 builder.Services.AddSignalR();

@@ -5,26 +5,46 @@ namespace QLDaoTao.Services
 {
     public class HangFireService : IHangFire
     {
-        //Chạy ngay lập tức 
-        public void EnqueueJob(Expression<Action> method)
+        public string GetJobState(string jobId)
         {
-            BackgroundJob.Enqueue(method);
+            var monitoringApi = JobStorage.Current.GetMonitoringApi();
+
+            if (monitoringApi.SucceededJobs(0, 1000).Any(j => j.Key == jobId))
+                return "Succeeded";
+
+            if (monitoringApi.FailedJobs(0, 1000).Any(j => j.Key == jobId))
+                return "Failed";
+
+            if (monitoringApi.ProcessingJobs(0, 1000).Any(j => j.Key == jobId))
+                return "Processing";
+
+            if (monitoringApi.ScheduledJobs(0, 1000).Any(j => j.Key == jobId))
+                return "Scheduled";
+
+            if (monitoringApi.EnqueuedJobs("default", 0, 1000).Any(j => j.Key == jobId))
+                return "Enqueued";
+
+            return "Unknown (job not found)";
         }
 
-        public void DequeueJob(Expression<Action> method)
+        // Chạy ngay lập tức
+        public string EnqueueJob(Expression<Action> method)
         {
-        }
-        //Chạy sau một khoảng thời gian 
-        public void ScheduleJob(Expression<Action> method, TimeSpan time)
-        {
-            BackgroundJob.Schedule(method, time);
+            return BackgroundJob.Enqueue(method);
         }
 
-        //Chạy định kỳ 
-        public void RecurringJobb(Expression<Action> method, string cron)
+        // Chạy sau một khoảng thời gian
+        public string ScheduleJob(Expression<Action> method, TimeSpan time)
         {
-            RecurringJob.AddOrUpdate(Guid.NewGuid().ToString(), method, cron);
+            return BackgroundJob.Schedule(method, time);
+        }
 
+        // Chạy định kỳ
+        public string RecurringJobb(Expression<Action> method, string cron)
+        {
+            string jobId = Guid.NewGuid().ToString();
+            RecurringJob.AddOrUpdate(jobId, method, cron);
+            return jobId;
         }
         // Lấy danh sách các công việc theo trạng thái
         public List<string> GetJobByState(string state)
@@ -35,7 +55,7 @@ namespace QLDaoTao.Services
             switch (state)
             {
                 case "enqueued":
-                    foreach(var job in allJobState.EnqueuedJobs("default", 0, 1000))
+                    foreach (var job in allJobState.EnqueuedJobs("default", 0, 1000))
                     {
                         Jobs.Add($"ID: {job.Key}, Trạng thái: Enqueued, Phương thức: {job.Value.Job.Method.Name}");
                     }

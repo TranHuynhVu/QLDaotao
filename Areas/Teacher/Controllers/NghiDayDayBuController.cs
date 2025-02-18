@@ -8,6 +8,7 @@ using QLDaoTao.Areas.Admin.Services;
 using QLDaoTao.Areas.Teacher.Models;
 using QLDaoTao.Data;
 using QLDaoTao.Models;
+using QLDaoTao.Services;
 
 namespace QLDaoTao.Areas.Teacher.Controllers
 {
@@ -17,12 +18,12 @@ namespace QLDaoTao.Areas.Teacher.Controllers
     {
         private readonly IPhieuDangKyNghiDayDayBu _phieuDangKyNghiDayDayBu;
         private readonly UserManager<AppUser> _userManager;
-        private readonly PhieuDangKyQueue _queue;
-        public NghiDayDayBuController(IPhieuDangKyNghiDayDayBu phieuDangKyNghiDayDayBu, UserManager<AppUser> userManager, PhieuDangKyQueue queue)
+        private readonly IHangFire _hangFire;
+        public NghiDayDayBuController(IPhieuDangKyNghiDayDayBu phieuDangKyNghiDayDayBu, UserManager<AppUser> userManager, IHangFire hangFire)
         {
             _userManager = userManager;
             _phieuDangKyNghiDayDayBu = phieuDangKyNghiDayDayBu;
-            _queue = queue;
+            _hangFire = hangFire;
         }
 
         [Route("Teacher/NghiDayDayBu/Create")]
@@ -90,9 +91,23 @@ namespace QLDaoTao.Areas.Teacher.Controllers
                     phieuDangKy.LopHocPhanNghiDayDayBuVM.Add(lhp);
                 }
 
-                _queue.Enqueue(phieuDangKy);
+                //var result = await _phieuDangKyNghiDayDayBu.Create(phieuDangKy);
 
-                TempData["success"] = "Phiếu đăng ký đã được nhận và đang chờ xử lý !";
+                //if (!result)
+                //{
+                //    TempData["error"] = "Thêm thất bại !";
+                //}
+                var result = _hangFire.ScheduleJob(() => _phieuDangKyNghiDayDayBu.Create(phieuDangKy), TimeSpan.FromSeconds(3));
+                
+                if (result == "Failed")
+                {
+                    TempData["error"] = "Phiếu đăng ký lỗi !";
+                }
+                else
+                {
+                    TempData["success"] = "Phiếu đăng ký đã được nhận và đang chờ xử lý !";
+                }
+ 
                 return View();
             }
             else

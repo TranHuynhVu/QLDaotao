@@ -4,8 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using QLDaoTao.Models;
 using QLDaoTao.Services;
-using QLDaoTao.ViewModels;
-using System.Threading.Tasks;
+
 
 namespace QLDaoTao.Controllers
 {

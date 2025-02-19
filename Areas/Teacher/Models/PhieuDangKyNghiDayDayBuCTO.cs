@@ -9,6 +9,6 @@ namespace QLDaoTao.Areas.Teacher.Models
         public int SoBuoiXinNghi { get; set; }
         [Required]
         public List<LopHocPhanNghiDayDayBuCTO> LopHocPhanNghiDayDayBu { get; set; }
-        public List<IFormFile> BanSaoVBCTDiKem { get; set; } 
+        public List<IFormFile>? BanSaoVBCTDiKem { get; set; } 
     }
 }

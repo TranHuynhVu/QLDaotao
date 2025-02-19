@@ -30,13 +30,17 @@ namespace QLDaoTao.Services
         // Chạy ngay lập tức
         public string EnqueueJob(Expression<Action> method)
         {
-            return BackgroundJob.Enqueue(method);
+            string resultId = BackgroundJob.Enqueue(method);
+            string result = GetJobState(resultId);
+            return result;
         }
 
         // Chạy sau một khoảng thời gian
         public string ScheduleJob(Expression<Action> method, TimeSpan time)
         {
-            return BackgroundJob.Schedule(method, time);
+            string resultId = BackgroundJob.Schedule(method, time);
+            string result = GetJobState(resultId);
+            return result;
         }
 
         // Chạy định kỳ
@@ -44,7 +48,8 @@ namespace QLDaoTao.Services
         {
             string jobId = Guid.NewGuid().ToString();
             RecurringJob.AddOrUpdate(jobId, method, cron);
-            return jobId;
+            string result = GetJobState(jobId);
+            return result;
         }
         // Lấy danh sách các công việc theo trạng thái
         public List<string> GetJobByState(string state)

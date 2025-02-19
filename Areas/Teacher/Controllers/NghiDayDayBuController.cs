@@ -97,17 +97,10 @@ namespace QLDaoTao.Areas.Teacher.Controllers
                 //{
                 //    TempData["error"] = "Thêm thất bại !";
                 //}
-                var result = _hangFire.ScheduleJob(() => _phieuDangKyNghiDayDayBu.Create(phieuDangKy), TimeSpan.FromSeconds(3));
+                _hangFire.ScheduleJob(() => _phieuDangKyNghiDayDayBu.Create(phieuDangKy), TimeSpan.FromSeconds(3));
+              
+                TempData["success"] = "Phiếu đăng ký đã được nhận và đang chờ xử lý !";
                 
-                if (result == "Failed")
-                {
-                    TempData["error"] = "Phiếu đăng ký lỗi !";
-                }
-                else
-                {
-                    TempData["success"] = "Phiếu đăng ký đã được nhận và đang chờ xử lý !";
-                }
- 
                 return View();
             }
             else

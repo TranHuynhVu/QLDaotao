@@ -31,25 +31,22 @@ namespace QLDaoTao.Services
         public string EnqueueJob(Expression<Action> method)
         {
             string resultId = BackgroundJob.Enqueue(method);
-            string result = GetJobState(resultId);
-            return result;
+            return resultId;
         }
 
         // Chạy sau một khoảng thời gian
         public string ScheduleJob(Expression<Action> method, TimeSpan time)
         {
             string resultId = BackgroundJob.Schedule(method, time);
-            string result = GetJobState(resultId);
-            return result;
+            return resultId;
         }
 
         // Chạy định kỳ
         public string RecurringJobb(Expression<Action> method, string cron)
         {
-            string jobId = Guid.NewGuid().ToString();
-            RecurringJob.AddOrUpdate(jobId, method, cron);
-            string result = GetJobState(jobId);
-            return result;
+            string resultId = Guid.NewGuid().ToString();
+            RecurringJob.AddOrUpdate(resultId, method, cron);
+            return resultId;
         }
         // Lấy danh sách các công việc theo trạng thái
         public List<string> GetJobByState(string state)

@@ -91,25 +91,10 @@ namespace QLDaoTao.Areas.Teacher.Controllers
                     phieuDangKy.LopHocPhanNghiDayDayBuVM.Add(lhp);
                 }
 
-                //var result = await _phieuDangKyNghiDayDayBu.Create(phieuDangKy);
-
-                //if (!result)
-                //{
-                //    TempData["error"] = "Thêm thất bại !";
-                //}
-                var result = _hangFire.ScheduleJob(() => _phieuDangKyNghiDayDayBu.Create(phieuDangKy), TimeSpan.FromSeconds(3));
-
+                _hangFire.ScheduleJob(() => _phieuDangKyNghiDayDayBu.Create(phieuDangKy), TimeSpan.FromSeconds(3));
+              
                 TempData["success"] = "Phiếu đăng ký đã được nhận và đang chờ xử lý !";
-
-                if (result == "Failed")
-                {
-                    TempData["error"] = "Phiếu đăng ký lỗi !";
-                }
-                else
-                {
-                    TempData["success"] = "Đăng ký thành công !";
-                }
-               
+                
                 return View();
             }
             else

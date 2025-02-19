@@ -1,6 +1,6 @@
 ﻿<div class="widget recent-tb-widget">
     <h3 class="mb-0">Thông tin - Thông báo</h3>
-    <div class="content-main">
+    <div class="content-main" id="Notifications">
         <div class="posts">
             <div class="post">
                 <div class="img-holder">
@@ -93,3 +93,56 @@
         </div>
     </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.7/signalr.min.js"></script>
+<script>
+    function formatDateTime(dateTime) {
+        const date = new Date(dateTime);
+        if (isNaN(date)) return { day: "??", month: "??", year: "????" };
+
+        return {
+            day: String(date.getDate()).padStart(2, '0'),
+            month: String(date.getMonth() + 1).padStart(2, '0'),
+            year: date.getFullYear()
+        };
+    }
+
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/notificationHub")
+        .build();
+
+    connection.on("ReceiveNotiTeacher", function (notification) {
+        console.log("📢 Đã nhận thông báo:", notification);
+
+        const createdAt = notification.createdAt ? new Date(notification.createdAt) : new Date();
+        const formattedDate = formatDateTime(createdAt);
+
+        const notificationList = $('#Notifications');
+
+        notificationList.prepend(`
+                <div class="posts">
+                    <div class="post">
+                        <div class="img-holder">
+                            <div class="calendar-thr">
+                                <h6>${formattedDate.day}/${formattedDate.month}</h6>
+                                <span>${formattedDate.year}</span>
+                            </div>
+                        </div>
+                        <div class="details">
+                            <h4>
+                                <a href="#">${notification.title}</a>
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+            `);
+    });
+
+    connection.start()
+        .then(() => console.log("✅ Đã kết nối đến SignalR Hub!"))
+        .catch(err => console.error("❌ Lỗi kết nối SignalR:", err));
+
+    connection.onclose(() => {
+        console.warn("⚠️ Mất kết nối đến SignalR! Đang thử kết nối lại...");
+        setTimeout(() => connection.start(), 5000);
+    });
+</script>

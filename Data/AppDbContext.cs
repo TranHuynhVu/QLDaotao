@@ -27,6 +27,7 @@ public class AppDbContext : IdentityDbContext<AppUser>
     public DbSet<PhieuDangKyDayBu> PhieuDangKyDayBu { get; set; }
     public DbSet<BanSaoVBCTDiKem> BanSaoVBCTDiKem { get; set; }
     public DbSet<LopHocPhanPhieuDangKyDayBu> LopHocPhanPhieuDangKyDayBu { get; set; }
+    public DbSet<Notification> Notifications { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

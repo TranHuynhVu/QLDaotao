@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using PdfSharp.Pdf;
 using PdfSharp.Pdf.IO;
 using QLDaoTao.Areas.Admin.Models;
 using QLDaoTao.Data;
 using QLDaoTao.Models;
+using QLDaoTao.ViewModels;
 using System.Linq;
 using System.Reflection.PortableExecutable;
 
@@ -14,11 +17,17 @@ namespace QLDaoTao.Areas.Admin.Services
     {
         private readonly AppDbContext _context;
         private readonly IPDF _pdf;
-
-        public ItemPhieuDangKyNghiDayDayBuService(AppDbContext context, IPDF pdf)
+        private readonly UserManager<AppUser> _userManager;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IHubContext<NotificationHub> _notificationHub;
+        public ItemPhieuDangKyNghiDayDayBuService(IHttpContextAccessor httpContextAccessor,AppDbContext context, IPDF pdf,
+                    UserManager<AppUser> userManager, IHubContext<NotificationHub> notificationHub)
         {
+            _notificationHub = notificationHub;
             _context = context;
             _pdf = pdf;
+            _userManager = userManager;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<List<PhieuDangKyNghiDayDayBuVM>> List(string fromDate, string toDate, string status, string khoa)
@@ -166,7 +175,7 @@ namespace QLDaoTao.Areas.Admin.Services
             {
                 return false;
             }
-
+   
             using (var transaction = await _context.Database.BeginTransactionAsync())
             {
                 try
@@ -191,24 +200,27 @@ namespace QLDaoTao.Areas.Admin.Services
 
                     var newestItem = await _context.PhieuDangKyDayBu.OrderByDescending(x => x.Id).FirstOrDefaultAsync();
 
-                    foreach (var vbct in model.BanSaoVBCTDiKem)
+                    if(model.BanSaoVBCTDiKem != null && model.BanSaoVBCTDiKem.Any())
                     {
-                        var item = new BanSaoVBCTDiKem
+                        foreach (var vbct in model.BanSaoVBCTDiKem)
                         {
-                            MoTa = vbct.MoTa,
-                            DuongDan = vbct.DuongDan,
-                            IdPhieuDangKyDayBu = newestItem.Id
-                        };
+                            var item = new BanSaoVBCTDiKem
+                            {
+                                MoTa = vbct.MoTa,
+                                DuongDan = vbct.DuongDan,
+                                IdPhieuDangKyDayBu = newestItem.Id
+                            };
 
-                        _context.BanSaoVBCTDiKem.Add(item);
-                    }
+                            await _context.BanSaoVBCTDiKem.AddAsync(item);
+                        }
 
-                    result = await _context.SaveChangesAsync() > 0;
-                    if (!result)
-                    {
-                        Console.WriteLine("Thêm bản sao văn bản chứng từ thất bại!");
-                        await transaction.RollbackAsync();
-                        return false;
+                        result = await _context.SaveChangesAsync() > 0;
+                        if (!result)
+                        {
+                            Console.WriteLine("Thêm bản sao văn bản chứng từ thất bại!");
+                            await transaction.RollbackAsync();
+                            return false;
+                        }
                     }
 
                     foreach (var lhp in model.LopHocPhanNghiDayDayBuVM)
@@ -226,7 +238,7 @@ namespace QLDaoTao.Areas.Admin.Services
                             IdPhieuDangKyDayBu = newestItem.Id
                         };
 
-                        _context.LopHocPhanPhieuDangKyDayBu.Add(item);
+                        await _context.LopHocPhanPhieuDangKyDayBu.AddAsync(item);
                     }
 
                     result = await _context.SaveChangesAsync() > 0;
@@ -238,6 +250,36 @@ namespace QLDaoTao.Areas.Admin.Services
                     }
 
                     await transaction.CommitAsync();
+
+                    // Gửi thông báo sau 3s
+                    var user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext?.User);
+                    Notification noti = new Notification
+                    {
+                        Title = "Thông báo đăng ký dạy bù ....",
+                        Description = "Chi tiết thông báo",
+                        Receiver = user.UserName,
+                        CreatedAt = DateTime.Now,
+                        Status = 0,
+                        TypeNoti = "Teacher"
+                    };
+                    await _context.Notifications.AddAsync(noti);
+                    await _context.SaveChangesAsync();
+
+                    int CountNoti = await _context.Notifications.Where(n => n.TypeNoti == "Teacher" && n.Receiver == user.UserName
+                                                                        && n.Status == 0).CountAsync();
+                    NotificationVM notiVm = new NotificationVM
+                    {
+                        Id = noti.Id,
+                        Title = noti.Title,
+                        Description = noti.Description,
+                        Receiver = noti.Receiver,
+                        CreatedAt = noti.CreatedAt,
+                        Status = noti.Status,  
+                        CountStatus = CountNoti
+                    };
+
+                    await _notificationHub.Clients.Group(user.UserName).SendAsync("ReceiveNotiTeacher", notiVm, user.UserName);
+
                     return true;
                 }
                 catch (Exception ex)

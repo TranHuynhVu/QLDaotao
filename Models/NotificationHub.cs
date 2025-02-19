@@ -25,6 +25,10 @@ namespace QLDaoTao.Models
             {
                 await Groups.AddToGroupAsync(Context.ConnectionId, "Admin");
             }
+            if (roles.Contains("Teacher"))
+            {
+                await Groups.AddToGroupAsync(Context.ConnectionId, user.UserName);
+            }
             if (user.Role == "Student")
             {
                 await Groups.AddToGroupAsync(Context.ConnectionId, user.UserName);
@@ -40,6 +44,10 @@ namespace QLDaoTao.Models
         public async Task SendNotificationToStudents(NotificationVM notificationVM, int notificationCount, string masv)
         {
             await Clients.User(masv).SendAsync("ReceiveNotiStudent", notificationVM, notificationCount);
+        }
+        public async Task SendNotificationToTeacher(NotificationVM notificationVM, string magv)
+        {
+            await Clients.User(magv).SendAsync("ReceiveNotiTeacher", notificationVM);
         }
 
     }

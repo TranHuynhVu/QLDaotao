@@ -7,22 +7,14 @@ namespace QLDaoTao.Models
     {
         [Key]
         public int Id { get; set; }
-
-      /*  [ForeignKey(nameof(StudentRequest))]
-        public int StudentRequestID { get; set; }*/
-
+        public string? Receiver { get; set; } = null; // id của người nhận(UserCode || UserName)
         public string Title { get; set; }
-        public string Description { get; set; }
-        
+        public string Description { get; set; }     
         public DateTime? CreatedAt { get; set; }= DateTime.Now;
-
         public DateTime? ReadAt { get;set; }
-
         [Required]
         [DefaultValue(0)]
         public int Status { get; set; }
-
-        public string TypeNoti { get; set; }
-       // public StudentRequest StudentRequest { get; set; }
+        public string TypeNoti { get; set; } // Student, Admin, Teacher
     }
 }

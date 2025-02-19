@@ -18,16 +18,14 @@ namespace QLDaoTao.Areas.Admin.Services
         private readonly AppDbContext _context;
         private readonly IPDF _pdf;
         private readonly UserManager<AppUser> _userManager;
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IHubContext<NotificationHub> _notificationHub;
-        public ItemPhieuDangKyNghiDayDayBuService(IHttpContextAccessor httpContextAccessor,AppDbContext context, IPDF pdf,
+        public ItemPhieuDangKyNghiDayDayBuService(AppDbContext context, IPDF pdf,
                     UserManager<AppUser> userManager, IHubContext<NotificationHub> notificationHub)
         {
             _notificationHub = notificationHub;
             _context = context;
             _pdf = pdf;
             _userManager = userManager;
-            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<List<PhieuDangKyNghiDayDayBuVM>> List(string fromDate, string toDate, string status, string khoa)
@@ -246,15 +244,14 @@ namespace QLDaoTao.Areas.Admin.Services
                         return false;
                     }
 
-                    await transaction.CommitAsync();
-
                     // Gửi thông báo sau 3s
-                    var user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext?.User);
+    
+                    var magv = phieuDangKy.CreatedBy;
                     Notification noti = new Notification
                     {
-                        Title = "Thông báo đăng ký dạy bù ....",
+                        Title = "Thông báo đăng ký dạy bù thành công",
                         Description = "Chi tiết thông báo",
-                        Receiver = user.UserName,
+                        Receiver = magv.ToString(),
                         CreatedAt = DateTime.Now,
                         Status = 0,
                         TypeNoti = "Teacher"
@@ -262,7 +259,7 @@ namespace QLDaoTao.Areas.Admin.Services
                     await _context.Notifications.AddAsync(noti);
                     await _context.SaveChangesAsync();
 
-                    int CountNoti = await _context.Notifications.Where(n => n.TypeNoti == "Teacher" && n.Receiver == user.UserName
+                    int CountNoti = await _context.Notifications.Where(n => n.TypeNoti == "Teacher" && n.Receiver == magv.ToString()
                                                                         && n.Status == 0).CountAsync();
                     NotificationVM notiVm = new NotificationVM
                     {
@@ -275,7 +272,9 @@ namespace QLDaoTao.Areas.Admin.Services
                         CountStatus = CountNoti
                     };
 
-                    await _notificationHub.Clients.Group(user.UserName).SendAsync("ReceiveNotiTeacher", notiVm, user.UserName);
+                    await _notificationHub.Clients.Group(magv.ToString()).SendAsync("ReceiveNotiTeacher", notiVm, magv.ToString());
+
+                    await transaction.CommitAsync();
 
                     return true;
                 }

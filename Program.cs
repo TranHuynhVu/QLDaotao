@@ -9,6 +9,7 @@ using DinkToPdf;
 using QLDaoTao.Areas.Teacher.Models;
 using Hangfire;
 using QLDaoTao.Services;
+using QLDaoTao.Areas.Teacher.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +23,7 @@ builder.Services.AddScoped<IPDF, ItemPDFService>();
 builder.Services.AddScoped<ILopHocPhan, ItemLopHocPhanService>();
 builder.Services.AddScoped<IKhoa, ItemKhoaService>();
 builder.Services.AddScoped<IHangFire, HangFireService>();
+builder.Services.AddScoped<INotificationTeacher, NotificationTeacherService>();
 
 builder.Services.AddDbContext<AppDbContext>(
     options => options.UseSqlServer(connectionString));

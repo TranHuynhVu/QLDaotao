@@ -1,7 +1,23 @@
-﻿<div class="widget recent-post-widget" id="menu-gv">
+﻿@inject UserManager<AppUser> userManager;
+@inject QLDaoTao.Areas.Teacher.Services.INotificationTeacher noti;
+@{
+    var user = await userManager.GetUserAsync(User);
+    var notiCount = await noti.GetStatusCount(user.UserName);
+}
+<div class="widget recent-post-widget" id="menu-gv">
     <h3 class="mb-0">Cán bộ - Giảng viên</h3>
     <div class="menu">
-        <div class="item"><a href="#">Thông báo</a></div>
+        <div class="item">
+            <a href="/Teacher/Notification/index">
+                Thông báo
+                @if (notiCount > 0)
+                {
+                    <span id="notification-badge" style="visibility: visible" class="badge"></span>
+                }else{
+                    <span id="notification-badge" style="visibility: hidden" class="badge"></span>
+                }
+            </a>
+        </div>
         <div class="item"><a href="#">Tin tức - Sự kiện</a></div>
         <div class="item"><a href="#">Danh sách Cán bộ - Giảng viên</a></div>
         <div class="item"><a href="#">Đoàn thể</a></div>
@@ -24,3 +40,5 @@
         </div>
     </div>
 </div>
+
+<partial name="_SignalRTeacher"></partial>

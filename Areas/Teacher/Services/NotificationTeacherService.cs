@@ -10,7 +10,7 @@ namespace QLDaoTao.Areas.Teacher.Services
         {
             _context = context;
         }
-        public async int Task<GetStatusCount>(string magv) { 
+        public async Task<int> GetStatusCount(string magv) { 
             return await _context.Notifications
                         .Where(n => n.Receiver == magv && n.TypeNoti == "Teacher" && n.Status == 0)
                         .CountAsync(); 

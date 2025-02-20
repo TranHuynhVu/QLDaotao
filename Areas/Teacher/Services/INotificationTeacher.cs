@@ -2,6 +2,6 @@
 {
     public interface INotificationTeacher
     {
-        int GetStatusCount(string magv);
+        Task<int> GetStatusCount(string magv);
     }
 }

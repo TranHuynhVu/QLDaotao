@@ -12,7 +12,7 @@
         border-radius: 50%; /* Bo tròn thành hình tròn */
         position: absolute; /* Vị trí tuyệt đối */
         top: -5px; /* Đẩy lên trên */
-        right: -10px; /* Đẩy sang phải */
+        right: -10px; /* Đẩy sang phải */      
     }
 
 </style>
@@ -40,11 +40,11 @@
         const formattedDate = formatDateTime(createdAt);
         const notificationBadge = $('#notification-badge');
         const notificationList = $('#Notifications');
-
-        if(notification.countStatus == 0){
-            notificationBadge.style.display = "none";
-        }else{
-            notificationBadge.style.display = "flex";
+  
+        if (notification.countStatus > 0) {
+            notificationBadge.css("visibility", "visible");
+        } else {
+            notificationBadge.css("visibility", "hidden");
         }
 
         notificationList.prepend(`

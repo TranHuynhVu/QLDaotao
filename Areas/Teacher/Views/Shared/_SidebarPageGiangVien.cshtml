@@ -1,7 +1,13 @@
-﻿<div class="widget recent-post-widget" id="menu-gv">
+﻿
+<div class="widget recent-post-widget" id="menu-gv">
     <h3 class="mb-0">Cán bộ - Giảng viên</h3>
     <div class="menu">
-        <div class="item"><a href="#">Thông báo</a></div>
+        <div class="item">
+            <a href="/Teacher/Notification/index">
+                Thông báo
+                <span id="notification-badge" class="badge"></span>
+            </a>
+        </div>
         <div class="item"><a href="#">Tin tức - Sự kiện</a></div>
         <div class="item"><a href="#">Danh sách Cán bộ - Giảng viên</a></div>
         <div class="item"><a href="#">Đoàn thể</a></div>
@@ -24,3 +30,5 @@
         </div>
     </div>
 </div>
+
+<partial name="_SignalRTeacher"></partial>

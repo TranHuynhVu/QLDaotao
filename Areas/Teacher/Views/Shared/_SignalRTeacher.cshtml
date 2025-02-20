@@ -1,0 +1,77 @@
+﻿<style>
+    #notification-badge {
+        background-color: red; /* Màu nền đỏ */
+        color: white; /* Màu chữ trắng */
+        font-size: 10px; /* Kích thước chữ nhỏ */
+        font-weight: bold; /* Chữ đậm */
+        width: 14px; /* Chiều rộng */
+        height: 14px; /* Chiều cao */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%; /* Bo tròn thành hình tròn */
+        position: absolute; /* Vị trí tuyệt đối */
+        top: -5px; /* Đẩy lên trên */
+        right: -10px; /* Đẩy sang phải */
+    }
+
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.7/signalr.min.js"></script>
+<script>
+    function formatDateTime(dateTime) {
+        const date = new Date(dateTime);
+        if (isNaN(date)) return { day: "??", month: "??", year: "????" };
+
+        return {
+            day: String(date.getDate()).padStart(2, '0'),
+            month: String(date.getMonth() + 1).padStart(2, '0'),
+            year: date.getFullYear()
+        };
+    }
+
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/notificationHub")
+        .build();
+
+    connection.on("ReceiveNotiTeacher", function (notification) {
+        console.log("📢 Đã nhận thông báo:", notification);
+
+        const createdAt = notification.createdAt ? new Date(notification.createdAt) : new Date();
+        const formattedDate = formatDateTime(createdAt);
+        const notificationBadge = $('#notification-badge');
+        const notificationList = $('#Notifications');
+
+        if(notification.countStatus == 0){
+            notificationBadge.style.display = "none";
+        }else{
+            notificationBadge.style.display = "flex";
+        }
+
+        notificationList.prepend(`
+                <div class="posts">
+                    <div class="post">
+                        <div class="img-holder">
+                            <div class="calendar-thr">
+                                <h6>${formattedDate.day}/${formattedDate.month}</h6>
+                                <span>${formattedDate.year}</span>
+                            </div>
+                        </div>
+                        <div class="details">
+                            <h4>
+                                <a href="#">${notification.title}</a>
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+            `);
+    });
+
+    connection.start()
+        .then(() => console.log("✅ Đã kết nối đến SignalR Hub!"))
+        .catch(err => console.error("❌ Lỗi kết nối SignalR:", err));
+
+    connection.onclose(() => {
+        console.warn("⚠️ Mất kết nối đến SignalR! Đang thử kết nối lại...");
+        setTimeout(() => connection.start(), 5000);
+    });
+</script>

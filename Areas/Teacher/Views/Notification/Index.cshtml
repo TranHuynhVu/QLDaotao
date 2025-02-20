@@ -1,0 +1,53 @@
+﻿@model List<QLDaoTao.Models.Notification>
+<div class="row">
+    <div class="col-lg-9">
+        <div class="main-box thongbao-box">
+            <div class="widget recent-tb-widget">
+                <h3 class="mb-0">Thông báo</h3>
+                <div class="content-main" id="Notifications">
+                    @foreach (var item in Model)
+                    {
+                        <div class="posts">
+                            <div class="post">
+                                <div class="img-holder">
+                                    <div class="calendar-thr">
+                                        <h6>@($"{item.CreatedAt:dd/MM}")</h6>
+                                        <span>@($"{item.CreatedAt:yyyy}")</span>
+                                    </div>
+                                </div>
+                                <div class="details">
+                                    <h4>
+                                        <a href="">@item.Title</a>
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <div class="posts">
+                        <div class="post">
+                            <div class="img-holder">
+                                <div class="calendar-thr">
+                                    <h6>09/01</h6>
+                                    <span>2024</span>
+                                </div>
+                            </div>
+                            <div class="details">
+                                <h4>
+                                    <a href="">Quyết định về việc ủy quyền cho Phó Trưởng khoa phụ trách Khoa Giáo dục Quốc phòng và An ninh, Đại học Đà Nẵng</a>
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3">
+        <div class="main-box lienket-box">
+            <partial name="_PageLienKet"></partial>
+        </div>
+    </div>
+</div>
+
+

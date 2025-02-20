@@ -7,6 +7,7 @@ using PdfSharp.Pdf.IO;
 using QLDaoTao.Areas.Admin.Models;
 using QLDaoTao.Data;
 using QLDaoTao.Models;
+using QLDaoTao.Services;
 using QLDaoTao.ViewModels;
 using System.Linq;
 using System.Reflection.PortableExecutable;
@@ -18,14 +19,14 @@ namespace QLDaoTao.Areas.Admin.Services
         private readonly AppDbContext _context;
         private readonly IPDF _pdf;
         private readonly UserManager<AppUser> _userManager;
-        private readonly IHubContext<NotificationHub> _notificationHub;
+        private readonly INotification _noti;
         public ItemPhieuDangKyNghiDayDayBuService(AppDbContext context, IPDF pdf,
-                    UserManager<AppUser> userManager, IHubContext<NotificationHub> notificationHub)
+                    UserManager<AppUser> userManager, INotification noti)
         {
-            _notificationHub = notificationHub;
             _context = context;
             _pdf = pdf;
             _userManager = userManager;
+            _noti = noti;
         }
 
         public async Task<List<PhieuDangKyNghiDayDayBuVM>> List(string fromDate, string toDate, string status, string khoa)
@@ -252,7 +253,7 @@ namespace QLDaoTao.Areas.Admin.Services
                     var magv = phieuDangKy.CreatedBy;
                     Notification noti = new Notification
                     {
-                        Title = "Thông báo đăng ký dạy bù thành công",
+                        Title = "Thông báo đăng ký dạy bù đang chờ sử lý",
                         Description = "Chi tiết thông báo",
                         Receiver = magv.ToString(),
                         CreatedAt = DateTime.Now,
@@ -274,9 +275,8 @@ namespace QLDaoTao.Areas.Admin.Services
                         Status = noti.Status,  
                         CountStatus = CountNoti
                     };
-
-                    await _notificationHub.Clients.Group(magv.ToString()).SendAsync("ReceiveNotiTeacher", notiVm, magv.ToString());
-
+                    await _noti.SendNotiByTeacher(notiVm, magv.ToString());
+                   
                     await transaction.CommitAsync();
 
                     return true;
@@ -328,9 +328,34 @@ namespace QLDaoTao.Areas.Admin.Services
                     return false;
                 }
 
-                return true;
-
-                
+                var phieudk = await _context.PhieuDangKyDayBu.FindAsync(id);            
+                string title = "";
+                reason = "";
+                if (status == 1)
+                {
+                    title = "Phiếu đăng ký nghĩ dạy bù đang xử lý";
+                }
+                else if (status == 2)
+                {
+                    title = "Phiếu đăng ký nghĩ dạy bù đã xử lý";
+                }
+                else if (status == 3)
+                {
+                    title = "Phiếu đăng ký nghĩ dạy bù đã nhận";
+                }
+                else if (status == 4)
+                {
+                    title = "Phiếu đăng ký nghĩ dạy bù hết hạn";
+                }
+                else
+                {
+                    title = "Phiếu đăng ký nghĩ dạy bù bị từ chối";
+                    reason = item.LyDo;
+                }
+                var notivm = await _noti.CreateNoti(title, reason,
+                                   phieudk.CreatedBy.ToString(), "Teacher");
+                await _noti.SendNotiByTeacher(notivm, notivm.Receiver);
+                return true;               
             }
             catch (Exception ex)
             {

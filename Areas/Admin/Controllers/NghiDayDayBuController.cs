@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using QLDaoTao.Areas.Admin.Models;
 using QLDaoTao.Areas.Admin.Services;
 using QLDaoTao.Data;
+using QLDaoTao.Services;
 using System.Diagnostics;
 
 namespace QLDaoTao.Areas.Admin.Controllers
@@ -14,11 +15,14 @@ namespace QLDaoTao.Areas.Admin.Controllers
     {
         private readonly IPhieuDangKyNghiDayDayBu _phieuDangKyNghiDayDayBu;
         private readonly AppDbContext _context;
+        private readonly INotification _noti;
 
-        public NghiDayDayBuController(IPhieuDangKyNghiDayDayBu phieuDangKyNghiDayDayBu, AppDbContext context)
+        public NghiDayDayBuController(IPhieuDangKyNghiDayDayBu phieuDangKyNghiDayDayBu, AppDbContext context,
+                                       INotification noti)
         {
             _phieuDangKyNghiDayDayBu = phieuDangKyNghiDayDayBu;
             _context = context;
+            _noti = noti;
         }
 
         [Route("Admin/NghiDayDayBu")]
@@ -65,11 +69,18 @@ namespace QLDaoTao.Areas.Admin.Controllers
 
             if (model.Reason == null)
             {
+
                 return Json(new { success = false, message = "Lý do trống" });
             }
 
             if (await _phieuDangKyNghiDayDayBu.Edit(id, -1, model.Reason))
             {
+                //var phieudk = await _context.PhieuDangKyDayBu.FindAsync(id);
+                //var notivm = await _noti.CreateNoti("Phiếu đăng ký nghĩ dạy bù không chấp nhận", "Lý do: " + model.Reason, phieudk.CreatedBy.ToString(), "Teacher");
+                //if(notivm != null)
+                //{
+                //    await _noti.SendNotiByTeacher(notivm, notivm.Receiver);
+                //}
                 return Json(new { success = true, message = "Cập nhật trạng thái thành công" });
             }
             else { 

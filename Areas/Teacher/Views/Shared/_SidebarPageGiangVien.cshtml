@@ -1,5 +1,5 @@
 ﻿@inject UserManager<AppUser> userManager;
-@inject QLDaoTao.Areas.Teacher.Services.INotificationTeacher noti;
+@inject QLDaoTao.Services.INotification noti;
 @{
     var user = await userManager.GetUserAsync(User);
     var notiCount = await noti.GetStatusCount(user.UserName);

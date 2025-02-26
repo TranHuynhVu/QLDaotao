@@ -52,6 +52,7 @@ namespace QLDaoTao.Areas.Admin.Services
                                                                    "Bị từ chối",
                                                     MaGV = x.CreatedBy,
                                                     NgayTao = x.CreatedAt.ToString("dd-MM-yyyy"),
+                                                    NgayTaoDT = x.CreatedAt,
                                                     LyDo = x.LyDo
                                                 })
                                                 .ToListAsync();
@@ -147,6 +148,8 @@ namespace QLDaoTao.Areas.Admin.Services
                                                                            Phong = x.Phong,
                                                                            NgayXinNghi = x.NgayXinNghi.ToString("dd-MM-yyyy"),
                                                                            NgayDayBu = x.NgayDayBu.ToString("dd-MM-yyyy"),
+                                                                           NgayXinNghiDT = x.NgayXinNghi,
+                                                                           NgayDayBuDT = x.NgayDayBu,
                                                                            LyDo = x.LyDo
                                                                        })
                                                                        .ToListAsync();
@@ -428,6 +431,7 @@ namespace QLDaoTao.Areas.Admin.Services
                 x.Khoa = gv.BoMon.Khoa.Ten;
 
             }
+            listPhieuDayBu = listPhieuDayBu.OrderByDescending(x => x.Id).ToList();
 
             return listPhieuDayBu;
         }
@@ -549,6 +553,98 @@ namespace QLDaoTao.Areas.Admin.Services
                 }
                 document.Save(memoryStream, false);
                 return memoryStream.ToArray();
+            }
+        }
+
+        public async Task<bool> EditForTeacher(PhieuDangKyNghiDayDayBuVM model)
+        {
+            if (model == null)
+            {
+                return false;
+            }
+
+            var phieu = await _context.PhieuDangKyDayBu.FirstOrDefaultAsync(x => x.Id == model.Id);
+            if (phieu == null)
+            {
+                return false;
+            }
+
+            try
+            {
+                var danhSachLHP = await _context.LopHocPhanPhieuDangKyDayBu
+                                                .Where(x => x.IdPhieuDangKyDayBu == model.Id)
+                                                .ToListAsync();
+
+                phieu.SoBuoiXinNghi = model.SoBuoiXinNghi;
+                _context.Update(phieu); // Đánh dấu thay đổi
+
+                if (model.LopHocPhanNghiDayDayBuVM != null && model.LopHocPhanNghiDayDayBuVM.Any())
+                {
+                    var danhSachLHPMoi = model.LopHocPhanNghiDayDayBuVM.Select(x => x.Id).ToList();
+                    var danhSachLhPCu = danhSachLHP.Select(x => x.IdLopHocPhan);
+                    var danhSachLHPXoa = danhSachLhPCu.Except(danhSachLHPMoi).ToList();
+
+                    // Cập nhật hoặc thêm mới
+                    foreach (var item in model.LopHocPhanNghiDayDayBuVM)
+                    {
+                        var existingItem = danhSachLHP.FirstOrDefault(x => x.IdLopHocPhan == item.Id);
+                        if (existingItem != null)
+                        {
+                            existingItem.Thu = item.ThuDayBu;
+                            existingItem.TuTiet = item.TuTietDayBu;
+                            existingItem.DenTiet = item.DenTietDayBu;
+                            existingItem.NgayDayBu = item.NgayDayBuDT;
+                            existingItem.Phong = item.Phong;
+                            existingItem.LyDo = item.LyDo;
+                            _context.Update(existingItem);
+                        }
+                        else
+                        {
+                            var lhp = new LopHocPhanPhieuDangKyDayBu
+                            {
+                                IdPhieuDangKyDayBu = model.Id,
+                                IdLopHocPhan = item.Id,
+                                Thu = item.ThuDayBu,
+                                TuTiet = item.TuTietDayBu,
+                                DenTiet = item.DenTietDayBu,
+                                Phong = item.Phong,
+                                LyDo = item.LyDo,
+                                NgayDayBu = item.NgayDayBuDT,
+                                NgayXinNghi = item.NgayXinNghiDT,
+                            };
+                            await _context.LopHocPhanPhieuDangKyDayBu.AddAsync(lhp);
+                        }
+                    }
+
+                    // Xóa các lớp học phần không còn tồn tại trong danh sách mới
+                    var lopHocPhanCanXoa = danhSachLHP.Where(x => danhSachLHPXoa.Contains(x.IdLopHocPhan)).ToList();
+                    _context.LopHocPhanPhieuDangKyDayBu.RemoveRange(lopHocPhanCanXoa);
+                }
+
+                if (model.BanSaoVBCTDiKem != null && model.BanSaoVBCTDiKem.Any() )
+                {
+                    var list = await _context.BanSaoVBCTDiKem.Where(x => x.IdPhieuDangKyDayBu == model.Id).ToListAsync();
+                    _context.BanSaoVBCTDiKem.RemoveRange(list); 
+                    foreach ( var vbct in model.BanSaoVBCTDiKem )
+                    {
+                        var item = new BanSaoVBCTDiKem
+                        {
+                            MoTa = vbct.MoTa,
+                            DuongDan = vbct.DuongDan,
+                            IdPhieuDangKyDayBu = model.Id
+                        };
+
+                        await _context.BanSaoVBCTDiKem.AddAsync(item);
+                    }
+                }
+
+                // Lưu tất cả thay đổi một lần duy nhất   
+                return await _context.SaveChangesAsync() > 0;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Lỗi: " + ex.Message);
+                return false;
             }
         }
     }

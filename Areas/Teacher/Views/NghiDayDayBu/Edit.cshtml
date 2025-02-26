@@ -1,0 +1,190 @@
+﻿@model QLDaoTao.Areas.Admin.Models.PhieuDangKyNghiDayDayBuVM
+
+
+<div class="card shadow p-2 mt-md-5 mt-lg-0">
+    <div class="card-body">
+        <div style="border-bottom: 3px solid #007bff;">
+            <h4 class="my-3 text-primary">ĐIỀU CHỈNH PHIẾU ĐĂNG KÝ NGHỈ DẠY - DẠY BÙ</h4>
+        </div>
+
+        <div class="my-3"> 
+            <p style="font-weight: bold; font-size: 16px; color: black;">Thông tin phiếu dạy bù</p> 
+            <div class="px-3">
+                <p style="color:black"><strong>Giảng viên:</strong> @Model.TenGV - @Model.MaGV</p> 
+                <p style="color:black"><strong>Bộ phận:</strong> @Model.Khoa - @Model.BoMon</p> 
+                <p style="color:black"><strong>Số điện thoại:</strong> @Model.SDT</p> 
+                <p style="color:black"><strong>Số buổi xin nghỉ:</strong> @Model.SoBuoiXinNghi</p> 
+                <p style="color:black"><strong>Trạng thái:</strong> @Model.TrangThaiStr</p> 
+                @if (Model.LyDo != null) 
+                { 
+                    <p style="color:black"><strong>Lý do:</strong> @Model.LyDo</p> 
+                } 
+                <p style="color:black"><strong>Ngày tạo yêu cầu:</strong> @Model.NgayTao</p> 
+            </div> 
+        </div> 
+        <div class="my-3"> 
+            <p style="font-weight: bold; font-size: 16px; color: black;">Bản sao  văn bản chứng từ đi kèm</p> 
+            @foreach (var vb in Model.BanSaoVBCTDiKem) 
+            { 
+                <img src="@vb.DuongDan" alt="@vb.MoTa" style="width: 200px; height: 200px; object-fit: cover; border-radius: 10px;">
+            }
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center">
+            <h6 class="mt-5">Danh sách các lớp học phần đã đăng ký nghỉ dạy - dạy bù</h6>
+            <button type="button" id="DangKyNghiDayDayBuEdit_OpenAddLHP" class="btn btn-success btn-sm">Thêm</button>
+        </div>
+
+        <div id="DKNDDB_AddForm" hidden class="mb-2">
+            <div class="card mt-3">
+                <div class="card-body">
+                    <label for="IdLopHocPhan">Lớp học phần</label>
+                    <select name="IdLopHocPhan" id="DKNDDB_LHP" class="form-control">
+                    </select>
+
+                    <div class="row my-1">
+                        <div class="col-6">
+                            <label for="NgayXinNghi">Ngày xin nghỉ</label>
+                            <input type="date" class="form-control" name="NgayXinNghi" id="DKNDDB_NgayXinNghi" />
+                        </div>
+                        <div class="col-6">
+                            <label for="NgayDauBu">Ngày dạy bù</label>
+                            <input type="date" class="form-control" name="NgayDayBu" id="DKNDDB_NgayDauBu" />
+                        </div>
+                    </div>
+
+                    <div class="row my-1">
+                        <div class="col-4">
+                            <label for="Thu">Thứ</label>
+                            <select class="form-control" name="Thu" id="DKNDDB_Thu" style="max-height: 100px; overflow-y: auto;">
+                                <option value="">Chọn</option>
+                                @for (int i = 2; i <= 7; i++)
+                                {
+                                    <option value="@i">@i</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-4">
+                            <label for="TuTiet">Từ tiết</label>
+                            <select class="form-control" name="TuTiet" id="DKNDDB_TuTiet" style="max-height: 100px; overflow-y: auto;">
+                                <option value="">Chọn</option>
+                                @for (int i = 1; i <= 14; i++)
+                                {
+                                    <option value="@i">@i</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-4">
+                            <label for="DenTiet">Đến tiết</label>
+                            <select class="form-control" name="DenTiet" id="DKNDDB_DenTiet" style="max-height: 100px; overflow-y: auto;">
+                                <option value="">Chọn</option>
+                                @for (int i = 1; i <= 14; i++)
+                                {
+                                    <option value="@i">@i</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <label for="Phong">Phòng</label>
+                    <input type="text" class="form-control my-1" name="Phong" id="DKNDDB_Phong" />
+
+                    <label for="LyDo">Lý do</label>
+                    <textarea class="form-control my-1" name="LyDo" id="DKNDDB_LyDo"></textarea>
+
+                    <button id="DangKyNghiDayDayBuEdit_AddLHP" hidden class="btn btn-sm btn-success my-2">Thêm</button>
+                    <button id="DangKyNghiDayDayBuEdit_EditLHP" hidden class="btn btn-sm btn-primary my-2">Sửa</button>
+                    <button id="DangKyNghiDayDayBuEdit_Cancel" class="btn btn-sm btn-secondary my-2">Hủy</button>
+                    <span style="color: red; font-size: 14px;" class="mt-3" id="DKNDDB_error"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-responsive table-ute">
+            <table id="DangKyNghiDayDayBuLHPTable" class="table table-hover table-striped table-vcenter text-nowrap">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Lớp học phần</th>
+                        <th>Ngày xin nghỉ</th>
+                        <th>Ngày dạy bù</th>
+                        <th>Thứ</th>
+                        <th>Từ tiết</th>
+                        <th>Đến tiết</th>
+                        <th>Phòng</th>
+                        <th>Lý do</th>
+                        <th>Chức năng</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        var n = 1;
+                    }
+                    @foreach(var item in Model.LopHocPhanNghiDayDayBuVM){
+                        <tr>
+                            <td>@n</td>
+                            <td>@item.Id</td>
+                            <td>@item.NgayXinNghi</td>
+                            <td>@item.NgayDayBu</td>
+                            <td>@item.ThuDayBu</td>
+                            <td>@item.TuTietDayBu</td>
+                            <td>@item.DenTietDayBu</td>
+                            <td>@item.Phong</td>
+                            <td>@item.LyDo</td>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-sm" onclick="EditRow(this)">Sửa</button>
+                                <button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">Xóa</button>
+                            </td>
+                        </tr>
+                        n++;
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <form method="post" asp-action="Edit" asp-controller="NghiDayDayBu" asp-area="Teacher">
+            <input type="hidden" asp-for="SoBuoiXinNghi" id="DKNDDB_SoBuoiXinNghi" value="@Model.SoBuoiXinNghi"></input>
+            <input type="hidden" asp-for="Id" value="@Model.Id"></input>
+            <input type="hidden" asp-for="MaGV" value="@Model.MaGV"></input>
+            <input type="hidden" asp-for="TenGV" value="@Model.TenGV"></input>
+            <input type="hidden" asp-for="Khoa" value="@Model.Khoa"></input>
+            <input type="hidden" asp-for="BoMon" value="@Model.BoMon"></input>
+            <input type="hidden" asp-for="TrangThai" value="@Model.TrangThai"></input>
+            <input type="hidden" asp-for="TrangThaiStr" value="@Model.TrangThaiStr"></input>
+            <input type="hidden" asp-for="NgayTao" value="@Model.NgayTao"></input>
+            <input type="hidden" asp-for="NgayTaoDT" value="@Model.NgayTaoDT"></input>
+            <input type="hidden" asp-for="LyDo" value="temp"></input>
+            <input type="hidden" asp-for="SDT" value="@Model.SDT"></input>
+            <div id="DangKyNghiDayDayBu_ListLHP">
+                @{
+                     n = 0;
+                }
+                @foreach(var item in Model.LopHocPhanNghiDayDayBuVM) {
+                    <input type="hidden" name="LopHocPhanNghiDayDayBuVM[@n].Id" value="@item.Id" />
+                    <input type="hidden" name="LopHocPhanNghiDayDayBuVM[@n].NgayXinNghiDT" value="@item.NgayXinNghiDT" />
+                    <input type="hidden" name="LopHocPhanNghiDayDayBuVM[@n].NgayDayBuDT" value="@item.NgayDayBuDT" />
+                    <input type="hidden" name="LopHocPhanNghiDayDayBuVM[@n].ThuDayBu" value="@item.ThuDayBu" />
+                    <input type="hidden" name="LopHocPhanNghiDayDayBuVM[@n].TuTietDayBu" value="@item.TuTietDayBu" />
+                    <input type="hidden" name="LopHocPhanNghiDayDayBuVM[@n].DenTietDayBu" value="@item.DenTietDayBu" />
+                    <input type="hidden" name="LopHocPhanNghiDayDayBuVM[@n].Phong" value="@item.Phong" />
+                    <input type="hidden" name="LopHocPhanNghiDayDayBuVM[@n].LyDo" value="@item.LyDo" />
+                    <input type="hidden" name="LopHocPhanNghiDayDayBuVM[@n].TenHocPhan" value="temp" />
+                    <input type="hidden" name="LopHocPhanNghiDayDayBuVM[@n].NgayXinNghi" value="0001-01-01" />
+                    <input type="hidden" name="LopHocPhanNghiDayDayBuVM[@n].NgayDayBu" value="0001-01-01" />
+                    <input type="hidden" name="LopHocPhanNghiDayDayBuVM[@n].ThuTKB" value="0" />
+                    <input type="hidden" name="LopHocPhanNghiDayDayBuVM[@n].TuTietTKB" value="0" />
+                    <input type="hidden" name="LopHocPhanNghiDayDayBuVM[@n].DenTietTKB" value="0" />
+                    n++;
+                }
+            </div>
+            <button type="submit" class="btn btn-sm btn-success mt-5 form-control" id="DKNDDB_submitBtn" disabled>Gửi yêu cầu</button>
+        </form>
+    </div>
+    </div>
+ </div>
+
+
+@section Scripts {
+     <script src="~/loadData/EditPhieuDangKyNghiDayDayBu.js"></script>
+     <script src="~/loadData/ListLHP.js"></script>
+}

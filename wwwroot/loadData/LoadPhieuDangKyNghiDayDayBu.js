@@ -1,7 +1,7 @@
 ﻿var dataTable;
 
 $(document).ready(function () {
-    DKNDDB_DateValidation()
+    DKNDDB_DateValidation();
     loadDataTable();
     $('#filterBtn').on('click', function () {
         var fromDate = $('#fromDate').val();
@@ -13,6 +13,7 @@ $(document).ready(function () {
     });
     DangKyNghiDayDayBu_AddLHP();
     AddVBCTDiKem();
+    
 });
 function loadDataTable() {
     dataTable = $('#PhieuDangKyNghiDayDayBuTable').DataTable({
@@ -214,11 +215,22 @@ $(document).on('change', '[change-status]', function () {
     });
 });
 
+
+
 function DangKyNghiDayDayBu_AddLHP() {
     $("#DangKyNghiDayDayBu_AddLHP").click(function () {
 
         if (!DKNDDB_Validation()) {
             return; // Nếu validation thất bại, dừng lại
+        }
+
+        var tbody = $("#DangKyNghiDayDayBuLHPTable tbody");
+        var submitBtn = $("#DKNDDB_submitBtn");
+
+        if (tbody.find("tr").length === 0) {
+            submitBtn.prop("disabled", true); // Vô hiệu hóa nút
+        } else {
+            submitBtn.prop("disabled", false); // Kích hoạt nút nếu có hàng
         }
 
         // Lấy dữ liệu từ input
@@ -305,6 +317,9 @@ function removeRow(button) {
     var tbody = $("#DangKyNghiDayDayBuLHPTable tbody");
     var row = $(button).closest("tr");
     var rowIndex = row.index(); // Lấy vị trí của hàng trong tbody
+    var submitBtn = $("#DKNDDB_submitBtn");
+
+    
 
     // Xóa hàng trong bảng
     row.remove();
@@ -336,6 +351,8 @@ function removeRow(button) {
                 <td colspan="10" class="text-center">Hiện chưa có LHP đăng ký nghỉ dạy - dạy bù nào !</td>
             </tr>
         `);
+
+        submitBtn.prop("disabled", true); // Vô hiệu hóa nút
     }
 
     updateSoBuoiXinNghi();
@@ -592,3 +609,4 @@ $('#exportPDFsBtn').on('click', function () {
         }
     });
 });
+

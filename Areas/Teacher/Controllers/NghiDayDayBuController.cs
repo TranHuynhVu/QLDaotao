@@ -103,5 +103,69 @@ namespace QLDaoTao.Areas.Teacher.Controllers
                 return View(model);
             }
         }
+        [Route("Teacher/NghiDayDayBu/History/")]
+        [HttpGet]
+        public async Task<IActionResult> History(int page = 1)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var list = await _phieuDangKyNghiDayDayBu.ListByTeacher(int.Parse(user.UserName));
+            int pageSize = 5; // Số lượng card trên mỗi trang
+            var totalItems = list.Count();
+            var totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
+
+            var PageList = list.Skip((page - 1) * pageSize)
+                                .Take(pageSize)
+                                .ToList();
+            return View(PageList);
+        }
+
+        [Route("Teacher/NghiDayDayBu/Details/{id}")]
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            var phieu = await _phieuDangKyNghiDayDayBu.Details(id);
+            return View(phieu);
+        }
+
+        [Route("Teacher/NghiDayDayBu/ExportPDF/{id}")]
+        public async Task<IActionResult> ExportPDF(int id)
+        {
+            var phieuDangKy = await _phieuDangKyNghiDayDayBu.Details(id);
+            var pdfBytes = await _phieuDangKyNghiDayDayBu.ExportPDF(phieuDangKy);
+            string fileName = $"{phieuDangKy.TenGV}_PhieuDKNghiDayDayBu.pdf";
+
+            // Trả về file PDF cho tải xuống
+            return File(pdfBytes, "application/pdf", fileName);
+        }
+        [Route("Teacher/NghiDayDayBu/Edit/{id}")]
+        [HttpGet]
+        public async Task<IActionResult> Edit (int id)
+        {
+            var phieu = await _phieuDangKyNghiDayDayBu.Details(id);
+            return View(phieu);
+        }
+
+        [Route("Teacher/NghiDayDayBu/Edit/{id}")]
+        [HttpPost]
+        public async Task<IActionResult> Edit (int id, PhieuDangKyNghiDayDayBuVM model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _phieuDangKyNghiDayDayBu.EditForTeacher(model);
+                if (!result)
+                {
+                    TempData["error"] = "Cập nhật thất bại !";
+                    return View(model);
+                }
+                TempData["success"] = "Phiếu đăng ký đã được cập nhật và đang chờ xử lý !";
+                return RedirectToAction("Details", new { id = id });
+
+            }
+            TempData["error"] = "Thông tin không hợp lệ !";
+            return View(model);
+        }
     }
 }

@@ -9,6 +9,7 @@ namespace QLDaoTao.Areas.Admin.Services
         public Task<PhieuDangKyNghiDayDayBuVM> Details(int id);
         public Task<bool> Create(PhieuDangKyNghiDayDayBuVM model);
         public Task<bool> Edit(int id, int status, string? reason);
+        public Task<bool> EditForTeacher(PhieuDangKyNghiDayDayBuVM model);
         public Task<byte[]> ExportPDF(PhieuDangKyNghiDayDayBuVM phieuDangKy);
         public Task<byte[]> ExportPDFs(List<PhieuDangKyNghiDayDayBuVM> phieuDangKy);
     }

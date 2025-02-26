@@ -1,0 +1,61 @@
+﻿@model List<QLDaoTao.Areas.Admin.Models.PhieuDangKyNghiDayDayBuVM>
+
+<div class="card shadow p-2 mt-md-5 mt-lg-0">
+    <div class="card-body">
+        <div style="border-bottom: 3px solid #007bff;">
+            <h4 class="my-3 text-primary">LỊCH SỬ ĐĂNG KÝ NGHỈ DẠY - DẠY BÙ</h4>
+        </div>
+        <h6 class="mt-5">Danh sách phiếu đăng ký</h6>
+        <div>
+            @foreach(var item in Model){
+                <div class="card shadow p-3 mt-3">
+                    <div class="d-md-flex d-lg-flex justify-content-between">
+                        <div class="">
+                            <strong>Phiếu đăng ký nghỉ dạy - dạy bù</strong>
+                        </div>
+                        <div class="mt-sm-1">
+                            @item.NgayTao
+                        </div>
+                    </div>
+                    <div class="d-md-flex d-lg-flex justify-content-between mt-3">
+                        <div class="">
+                            <p><strong>Số buổi xin nghỉ: </strong>@item.SoBuoiXinNghi</p>
+                        </div>
+                        <div class="mt-sm-1">
+                            <a href="/Teacher/NghiDayDayBu/Details/@item.Id" class="btn btn-sm btn-primary">Xem chi tiết</a>
+                        </div>
+                    </div>
+                </div>
+            } 
+        </div>
+        <!-- Phân trang -->
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center mt-3">
+                @if (ViewBag.CurrentPage > 1)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("History", "NghiDayDayBu", new { area = "Teacher", page = ViewBag.CurrentPage - 1 })">«</a>
+                    </li>
+                }
+
+                @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                {
+                    <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                        <a class="page-link" href="@Url.Action("History", "NghiDayDayBu", new { area = "Teacher", page = i })">@i</a>
+                    </li>
+                }
+
+                @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("History", "NghiDayDayBu", new { area = "Teacher", page = ViewBag.CurrentPage + 1 })">»</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+
+</div>
+
+@section Scripts {
+    
+}

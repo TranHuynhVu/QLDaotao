@@ -116,24 +116,17 @@
                                             string valueFromSession = HttpContextAccessor.HttpContext.Session.GetString("isLogin");
                                             } *@
                                             @using Microsoft.AspNetCore.Identity;
-                                            @inject SignInManager<AppUser> signInManager
-                                            @{
-                                                var currentUrl = Context.Request.Path;
-
-                                            }
-                                            @if (currentUrl == "/Teacher/Home" || currentUrl == "/sinh-vien")
+                                            @if (User.Identity.IsAuthenticated)
                                             {
-                                                @if (signInManager.IsSignedIn(User))
-                                                {
-                                                    <li> <a asp-area="" asp-controller="Account" asp-action="Logout"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a></li>
-                                                }
-                                                else
-                                                {
-                                                    <li> <a asp-area="" asp-controller="Account" asp-action="Login"><i class="fas fa-sign-in-alt"></i> Đăng nhập</a></li>
-                                                }
-
+                                                <!-- Nếu người dùng đã đăng nhập, hiển thị nút đăng xuất -->
+                                                <li> <a asp-area="" asp-controller="Account" asp-action="Logout"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a></li>
                                             }
-
+                                            else
+                                            {
+                                                <!-- Nếu chưa đăng nhập, hiển thị nút đăng nhập -->
+                                                <li> <a asp-area="" asp-controller="Account" asp-action="Login"><i class="fas fa-sign-in-alt"></i> Đăng nhập</a></li>
+                                            }
+                                            
 
                                         </ul>
                                     </nav>

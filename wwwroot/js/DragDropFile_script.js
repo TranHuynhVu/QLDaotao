@@ -7,7 +7,6 @@ const fileSelector = document.querySelector(".file-selector-dragdrop");
 fileSelector.onclick = (e) => {
     e.preventDefault();
     fileInput.click();
-    console.log(document.querySelector(".file-selector-dragdrop"));
 };
 
 // Khi chọn file từ input
@@ -116,6 +115,8 @@ function updateFileInput() {
     if (selectedFiles.length === 0) {
         fileInput.value = "";
     }
+
+    console.log([...fileInput.files]);
 }
 
 function typeValidation(fileType) {

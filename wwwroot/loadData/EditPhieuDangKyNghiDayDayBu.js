@@ -2,7 +2,6 @@
     DangKyNghiDayDayBuEdit_AddLHP();
     DangKyNghiDayDayBuEdit_EditLHP();
     DKNDDB_DateValidation();
-    setTimeout(DKNDDB_ValidLHP, 100);
     CancelForm();
     OpenForm();
 });
@@ -142,6 +141,7 @@ function DangKyNghiDayDayBuEdit_EditLHP() {
         container.find(`input[name="LopHocPhanNghiDayDayBuVM[${editingIndex}].Phong"]`).val(phong);
         container.find(`input[name="LopHocPhanNghiDayDayBuVM[${editingIndex}].LyDo"]`).val(lyDo);
 
+
         // Cập nhật nội dung của dòng trong bảng
         // Lưu ý: Nếu bảng không có dòng tiêu đề trong tbody, ta có thể dùng index trực tiếp.
         var row = tbody.find("tr").eq(editingIndex);
@@ -264,11 +264,28 @@ function CancelForm() {
 
 function OpenForm() {
     $("#DangKyNghiDayDayBuEdit_OpenAddLHP").click(function () {
+
+        DKNDDB_ValidLHP();
+
         $("#DKNDDB_error").text("");
         $("#DKNDDB_AddForm").prop("hidden", false);
         $("#DangKyNghiDayDayBuEdit_EditLHP").prop("hidden", true);
         $("#DangKyNghiDayDayBuEdit_AddLHP").prop("hidden", false);
         $("#DangKyNghiDayDayBuEdit_OpenAddLHP").prop("hidden", true);
+
+        // Sau khi chỉnh sửa, reset lại form:
+        $("#DKNDDB_LHP").val("");
+        $("#DKNDDB_NgayXinNghi").val("");
+        $("#DKNDDB_NgayDauBu").val("");
+        $("#DKNDDB_Thu").val("");
+        $("#DKNDDB_TuTiet").val("");
+        $("#DKNDDB_DenTiet").val("");
+        $("#DKNDDB_Phong").val("");
+        $("#DKNDDB_LyDo").val("");
+
+        // Reset giới hạn của ngày và các option của select
+        $("#DKNDDB_NgayXinNghi, #DKNDDB_NgayDauBu").removeAttr("min max");
+        $("#DKNDDB_TuTiet option, #DKNDDB_DenTiet option").prop("disabled", false);
 
     });
 

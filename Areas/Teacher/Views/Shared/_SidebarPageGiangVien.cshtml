@@ -9,13 +9,21 @@
     <div class="menu">
         <div class="item">
             <a href="/Teacher/Notification/index">
-                Thông báo
-                @if (notiCount > 0)
-                {
-                    <span id="notification-badge" style="visibility: visible" class="badge"></span>
-                }else{
-                    <span id="notification-badge" style="visibility: hidden" class="badge"></span>
-                }
+                <div class="d-flex justify-content-between">
+                    <div class="d-block">
+                        Thông báo
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        @if (notiCount > 0)
+                        {
+                            <div id="notification-badge" style="visibility: visible" class="badge">@notiCount</div>
+                        }
+                        else
+                        {
+                            <div id="notification-badge" style="visibility: hidden" class="badge"></div>
+                        }
+                    </div>
+                </div>
             </a>
         </div>
         <div class="item"><a href="#">Tin tức - Sự kiện</a></div>

@@ -12,8 +12,6 @@ $(document).ready(function () {
         dataTable.ajax.reload();
     });
     DangKyNghiDayDayBu_AddLHP();
-    AddVBCTDiKem();
-    
 });
 function loadDataTable() {
     dataTable = $('#PhieuDangKyNghiDayDayBuTable').DataTable({
@@ -377,90 +375,6 @@ function updateSoBuoiXinNghi() {
     $("#DKNDDB_SoBuoiXinNghi").val(ngayXinNghiList.size); // Cập nhật số buổi nghỉ
 }
 
-function AddVBCTDiKem() {
-    var fileInput = $("#DangKyNghiDayDayBu_AddDoc");
-    var previewContainer = $("#DKNDDB_BanSaoVBCTDiKem");
-    var selectedFiles = [];
-
-    fileInput.on("change", function (event) {
-        var files = Array.from(event.target.files);
-        selectedFiles = selectedFiles.concat(files); // Thêm ảnh mới vào danh sách
-        renderPreview();
-    });
-
-    function renderPreview() {
-        previewContainer.empty(); // Xóa danh sách trước khi render lại
-
-        selectedFiles.forEach((file, index) => {
-            if (!file.type.startsWith("image/")) {
-                alert("Vui lòng chọn file ảnh!");
-                return;
-            }
-
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                var imgWrapper = $("<div>").css({
-                    "display": "inline-block",
-                    "position": "relative",
-                    "margin": "5px"
-                });
-
-                var imgElement = $("<img>")
-                    .attr("src", e.target.result)
-                    .css({
-                        "width": "100px",
-                        "height": "100px",
-                        "border": "1px solid #ddd",
-                        "border-radius": "5px",
-                        "cursor": "pointer"
-                    })
-                    .on("click", function () {
-                        $("#previewImage").attr("src", e.target.result);
-                        $("#imageModal").modal("show");
-                    });
-
-                var removeBtn = $("<button>")
-                    .text("✖")
-                    .css({
-                        "position": "absolute",
-                        "top": "0",
-                        "right": "0",
-                        "background": "gray",
-                        "color": "white",
-                        "border": "none",
-                        "border-radius": "50%",
-                        "width": "20px",
-                        "height": "20px",
-                        "cursor": "pointer",
-                        "font-size": "12px"
-                    })
-                    .on("click", function () {
-                        selectedFiles.splice(index, 1); // Xóa file khỏi danh sách
-                        updateFileInput(); // Cập nhật input file
-                        renderPreview(); // Cập nhật danh sách hiển thị
-                    });
-
-                imgWrapper.append(imgElement).append(removeBtn);
-                previewContainer.append(imgWrapper);
-            };
-
-            reader.readAsDataURL(file);
-        });
-
-        updateFileInput(); // Cập nhật input file khi danh sách thay đổi
-    }
-
-    function updateFileInput() {
-        var dataTransfer = new DataTransfer();
-        selectedFiles.forEach(file => dataTransfer.items.add(file));
-        fileInput[0].files = dataTransfer.files;
-
-        // Nếu không còn file nào, reset input file
-        if (selectedFiles.length === 0) {
-            fileInput.val("");
-        }
-    }
-}
 
 function DKNDDB_Validation() {
     let isValid = true;

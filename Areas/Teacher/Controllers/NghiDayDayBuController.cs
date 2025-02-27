@@ -33,8 +33,13 @@ namespace QLDaoTao.Areas.Teacher.Controllers
         }
         [Route("Teacher/NghiDayDayBu/Create")]
         [HttpPost]
-        public async Task<IActionResult> Create(PhieuDangKyNghiDayDayBuCTO model)
+        public async Task<IActionResult> Create(PhieuDangKyNghiDayDayBuDTO model)
         {
+            if(model == null)
+            {
+                TempData["error"] = "Thông tin không hợp lệ !";
+                return View();
+            }
             if (ModelState.IsValid)
             {
                 var user = await _userManager.GetUserAsync(User);
@@ -126,15 +131,40 @@ namespace QLDaoTao.Areas.Teacher.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
+            if(id == null)
+            {
+                TempData["error"] = "Thông tin không hợp lệ !";
+                return View();
+            }
             var phieu = await _phieuDangKyNghiDayDayBu.Details(id);
+            if (phieu == null)
+            {
+                TempData["error"] = "Không tìm thấy phiếu đăng ký !";
+                return View();
+            }
             return View(phieu);
         }
 
         [Route("Teacher/NghiDayDayBu/ExportPDF/{id}")]
         public async Task<IActionResult> ExportPDF(int id)
         {
+            if (id == null)
+            {
+                TempData["error"] = "Thông tin không hợp lệ !";
+                return View();
+            }
             var phieuDangKy = await _phieuDangKyNghiDayDayBu.Details(id);
+            if (phieuDangKy == null)
+            {
+                TempData["error"] = "Không tìm thấy phiếu đăng ký !";
+                return View();
+            }
             var pdfBytes = await _phieuDangKyNghiDayDayBu.ExportPDF(phieuDangKy);
+            if (pdfBytes == null)
+            {
+                TempData["error"] = "Không thể chuyển đổi dữ liệu !";
+                return View();
+            }
             string fileName = $"{phieuDangKy.TenGV}_PhieuDKNghiDayDayBu.pdf";
 
             // Trả về file PDF cho tải xuống
@@ -144,7 +174,17 @@ namespace QLDaoTao.Areas.Teacher.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit (int id)
         {
+            if(id == null)
+            {
+                TempData["error"] = "Thông tin không hợp lệ !";
+                return View();
+            }
             var phieu = await _phieuDangKyNghiDayDayBu.Details(id);
+            if(phieu == null)
+            {
+                TempData["error"] = "Không tìm thấy phiếu đăng ký !";
+                return View();
+            }
             return View(phieu);
         }
 
@@ -152,6 +192,11 @@ namespace QLDaoTao.Areas.Teacher.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit (int id, PhieuDangKyNghiDayDayBuVM model)
         {
+            if( id == null || model == null)
+            {
+                TempData["error"] = "Thông tin không hợp lệ !";
+                return View();
+            }
             if (ModelState.IsValid)
             {
                 var result = await _phieuDangKyNghiDayDayBu.EditForTeacher(model);
@@ -170,6 +215,11 @@ namespace QLDaoTao.Areas.Teacher.Controllers
         [Route("Teacher/NghiDayDayBu/Cancel/{id}")]
         public async Task<IActionResult> Cancel(int id)
         {
+            if(id == null)
+            {
+                TempData["error"] = "Thông tin không hợp lệ !";
+                return RedirectToAction("Details", new { id = id });
+            }
             var result = await _phieuDangKyNghiDayDayBu.Edit(id,-1,"Giảng viên rút phiếu");
             if (!result)
             {

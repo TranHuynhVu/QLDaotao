@@ -1,7 +1,6 @@
 ﻿var dataTable;
 
 $(document).ready(function () {
-    DKNDDB_DateValidation();
     loadDataTable();
     $('#filterBtn').on('click', function () {
         var fromDate = $('#fromDate').val();

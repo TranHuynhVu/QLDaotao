@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace QLDaoTao.Areas.Teacher.Models
 {
-    public class LopHocPhanNghiDayDayBuCTO
+    public class LopHocPhanNghiDayDayBuDTO
     {
         [Required]
         public string IdLopHocPhan { get; set; }

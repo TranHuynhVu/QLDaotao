@@ -2,6 +2,7 @@
     DangKyNghiDayDayBuEdit_AddLHP();
     DangKyNghiDayDayBuEdit_EditLHP();
     DKNDDB_DateValidation();
+    setTimeout(DKNDDB_ValidLHP, 100);
     CancelForm();
     OpenForm();
 });
@@ -219,6 +220,9 @@ function removeRow(button) {
 
         submitBtn.prop("disabled", true); // Vô hiệu hóa nút
     }
+    else {
+        submitBtn.prop("disabled", false);
+    }
   
     updateSoBuoiXinNghi();
 
@@ -228,7 +232,7 @@ function removeRow(button) {
     // Enable option tương ứng trong select
     $("#DKNDDB_LHP option[value='" + idLopHocPhan + "']").prop("disabled", false);
 
-    $("#DKNDDB_submitBtn").prop("disabled", false);
+    
 }
 
 function CancelForm() {
@@ -447,4 +451,16 @@ function getPreviousDate(date) {
     let d = new Date(date);
     d.setDate(d.getDate() - 1); // Trừ 1 ngày
     return d.toISOString().split("T")[0];
+}
+
+function DKNDDB_ValidLHP() {
+    // Duyệt qua các dòng trong bảng để lấy danh sách LHP đã thêm
+    $("#DangKyNghiDayDayBuLHPTable tbody tr").each(function () {
+        var idLopHocPhan = $(this).find("td:eq(1)").text().trim(); // Lấy ID LHP từ cột thứ 2
+
+        if (idLopHocPhan) {
+            // Disable option trong select nếu đã tồn tại trong bảng
+            $("#DKNDDB_LHP option[value='" + idLopHocPhan + "']").prop("disabled", true);
+        }
+    });
 }

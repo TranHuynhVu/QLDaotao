@@ -8,17 +8,24 @@
 
         <div class="my-3">
             <p style="font-weight: bold; font-size: 16px; color: black;">Thông tin phiếu dạy bù</p>
-            <div class="px-3">
-                <p style="color:black"><strong>Giảng viên:</strong> @Model.TenGV - @Model.MaGV</p>
-                <p style="color:black"><strong>Bộ phận:</strong> @Model.Khoa - @Model.BoMon</p>
-                <p style="color:black"><strong>Số điện thoại:</strong> @Model.SDT</p>
-                <p style="color:black"><strong>Số buổi xin nghỉ:</strong> @Model.SoBuoiXinNghi</p>
-                <p style="color:black"><strong>Trạng thái:</strong> @Model.TrangThaiStr</p>
-                @if (Model.LyDo != null)
-                {
-                    <p style="color:black"><strong>Lý do:</strong> @Model.LyDo</p>
-                }
-                <p style="color:black"><strong>Ngày tạo yêu cầu:</strong> @Model.NgayTao</p>
+            <div class="card shadow p-3">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <p style="color:black"><strong>Mã giảng viên:</strong> @Model.MaGV</p>
+                        <p style="color:black"><strong>Tên giảng viên:</strong> @Model.TenGV</p>
+                        <p style="color:black"><strong>Bộ phận:</strong> @Model.Khoa - @Model.BoMon</p>
+                        <p style="color:black"><strong>Số điện thoại:</strong> @Model.SDT</p>
+                    </div>
+                    <div class="col-lg-6">
+                        <p style="color:black"><strong>Số buổi xin nghỉ:</strong> @Model.SoBuoiXinNghi</p>
+                        <p style="color:black"><strong>Trạng thái:</strong> @Model.TrangThaiStr</p>
+                        @if (Model.LyDo != null)
+                        {
+                            <p style="color:black"><strong>Lý do:</strong> @Model.LyDo</p>
+                        }
+                        <p style="color:black"><strong>Ngày tạo yêu cầu:</strong> @Model.NgayTao</p>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="my-3">
@@ -64,14 +71,19 @@
 
 
         <div class="my-3">
+            @if(Model.TrangThai != -1){
+                <a href="/Teacher/NghiDayDayBu/Edit/@Model.Id" class="btn btn-primary">
+                    Điều chỉnh
+                </a>
+                <a href="/Teacher/NghiDayDayBu/ExportPDF/@Model.Id" class="btn btn-success">
+                    Tải phiếu
+                </a>
+                <a href="/Teacher/NghiDayDayBu/Cancel/@Model.Id" class="btn btn-danger">
+                    Rút phiếu
+                </a>
+            }
             <a href="/Teacher/NghiDayDayBu/History" class="btn btn-secondary">
                 Quay lại
-            </a>
-            <a href="/Teacher/NghiDayDayBu/Edit/@Model.Id" class="btn btn-primary">
-                Điều chỉnh
-            </a>
-            <a href="/Teacher/NghiDayDayBu/ExportPDF/@Model.Id" class="btn btn-success">
-                Tải phiếu
             </a>
         </div>
     </<div>

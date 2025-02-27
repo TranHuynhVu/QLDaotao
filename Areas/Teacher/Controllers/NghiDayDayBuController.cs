@@ -167,5 +167,17 @@ namespace QLDaoTao.Areas.Teacher.Controllers
             TempData["error"] = "Thông tin không hợp lệ !";
             return View(model);
         }
+        [Route("Teacher/NghiDayDayBu/Cancel/{id}")]
+        public async Task<IActionResult> Cancel(int id)
+        {
+            var result = await _phieuDangKyNghiDayDayBu.Edit(id,-1,"Giảng viên rút phiếu");
+            if (!result)
+            {
+                TempData["error"] = "Rút phiếu thất bại !";
+                return RedirectToAction("Details", new { id = id });
+            }
+            TempData["success"] = "Rút phiếu thành công!";
+            return RedirectToAction("Details", new { id = id });
+        }
     }
 }

@@ -9,6 +9,7 @@ namespace QLDaoTao.Models
         [Required]
         public int SoBuoiXinNghi { get; set; }
         public string? LyDo { get; set; }
+        public bool? DieuChinh { get; set; } = true;
         [Required]
         public int TrangThai { get; set; }
         public DateTime CreatedAt { get; set; }

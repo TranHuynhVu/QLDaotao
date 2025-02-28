@@ -280,6 +280,8 @@ namespace QLDaoTao.Areas.Admin.Services
                     };
                     await _noti.SendNotiByTeacher(notiVm, magv.ToString());
                    
+                    // Tạo lịch disable điều chỉnh
+
                     await transaction.CommitAsync();
 
                     return true;
@@ -291,6 +293,59 @@ namespace QLDaoTao.Areas.Admin.Services
                     return false;
                 }
             }
+        }
+
+        public Task<TimeSpan> GetTimeBetween(DateTime NgayHienTai, DateTime NgayDayBu)
+        {
+            TimeSpan khoangThoiGian = NgayDayBu - NgayHienTai;
+            return Task.FromResult(khoangThoiGian);
+        }
+        public async Task DisableDieuChinh(PhieuDangKyDayBu phieudk)
+        {
+            var result = await _context.PhieuDangKyDayBu.FirstOrDefaultAsync(p => p.Id == phieudk.Id);
+            result.DieuChinh = false;
+            await _context.SaveChangesAsync();
+            NotificationVM notiVm = await _noti.CreateNoti("Phiếu đăng ký của bạn đã hết thời gian điều chỉnh", 
+                                    "Phiếu của bạn hết thời gian điều chỉnh", phieudk.CreatedBy.ToString(), "Teacher");
+            await _noti.SendNotiByTeacher(notiVm, notiVm.Receiver);
+        }
+        //Kiểm tra phiếu hết hạn đăng ký chưa
+        public async Task<DateTime?> GetMinNgayDayBu(PhieuDangKyDayBu phieudk)
+        {
+            var Pdk = await _context.PhieuDangKyDayBu
+                                    .Where(p => p.CreatedBy == phieudk.CreatedBy && p.Id == phieudk.Id)
+                                    .Select(p => new CheckPhieuVM
+                                    {
+                                        Id = p.Id,
+                                        CreateAt = p.CreatedAt,
+                                        lhpPdkVms = p.LopHocPhanPhieuDangKyDayBu
+                                                    .Where(l => l.IdPhieuDangKyDayBu == p.Id)
+                                                    .Select(l => new LhpPdkVm
+                                                    {
+                                                        IdLhp = l.IdLopHocPhan,
+                                                        IdPdk = l.IdPhieuDangKyDayBu,
+                                                        NgayDaybu = l.NgayDayBu,
+                                                        NgayXinNghi = l.NgayXinNghi
+                                                    })
+                                                    .ToList(),
+                                        MaGv = p.CreatedBy
+                                    })
+                                    .FirstOrDefaultAsync();
+
+            // Kiểm tra nếu Pdk null
+            if (Pdk == null || Pdk.lhpPdkVms == null || !Pdk.lhpPdkVms.Any())
+            {
+                return null; // Không có dữ liệu
+            }
+
+            DateTime NgayHientai = DateTime.Now;
+
+            // Lọc các phiếu có NgayDayBu nhỏ hơn ngày hiện tại và tìm ngày nhỏ nhất
+            var NgayNhoNhat = Pdk.lhpPdkVms
+                                .Where(item => item.NgayDaybu.HasValue && item.NgayDaybu < NgayHientai)
+                                .Min(item => item.NgayDaybu);
+
+            return NgayNhoNhat;
         }
 
 

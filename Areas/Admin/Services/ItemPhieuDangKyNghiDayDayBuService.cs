@@ -103,6 +103,7 @@ namespace QLDaoTao.Areas.Admin.Services
 
             listPhieuDayBu = listPhieuDayBu.Where(x => string.IsNullOrEmpty(khoa) || x.Khoa.ToString() == khoa).ToList();
 
+            listPhieuDayBu = listPhieuDayBu.OrderByDescending(x => x.Id).ToList();
             return listPhieuDayBu;
         }
         

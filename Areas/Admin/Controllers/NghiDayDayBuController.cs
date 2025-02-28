@@ -50,7 +50,7 @@ namespace QLDaoTao.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
             var phieuDangKy = await _phieuDangKyNghiDayDayBu.Details(id);
-            if (id == null)
+            if (phieuDangKy == null)
             {
                 TempData["msg_danger"] = "Không tìm thấy chi tiết phiếu đăng ký!";
                 return RedirectToAction("Index");

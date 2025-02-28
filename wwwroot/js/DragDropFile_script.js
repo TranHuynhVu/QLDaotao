@@ -1,70 +1,72 @@
-﻿const fileInput = document.querySelector(".file-selector-input-dragdrop");
-const previewContainer = document.querySelector(".list-dragdrop");
-let selectedFiles = [];
-const dropArea = document.querySelector(".drop-section-dragdrop");
-const fileSelector = document.querySelector(".file-selector-dragdrop");
+﻿$(document).ready(function () {
 
-fileSelector.onclick = (e) => {
-    e.preventDefault();
-    fileInput.click();
-};
+    const fileInput = document.querySelector(".file-selector-input-dragdrop");
+    const previewContainer = document.querySelector(".list-dragdrop");
+    let selectedFiles = [];
+    const dropArea = document.querySelector(".drop-section-dragdrop");
+    const fileSelector = document.querySelector(".file-selector-dragdrop");
 
-// Khi chọn file từ input
-fileInput.onchange = () => {
-    [...fileInput.files].forEach((file) => {
-        if (typeValidation(file.type)) {
-            addFile(file);
+    fileSelector.onclick = (e) => {
+        e.preventDefault();
+        fileInput.click();
+    };
+
+    // Khi chọn file từ input
+    fileInput.onchange = () => {
+        [...fileInput.files].forEach((file) => {
+            if (typeValidation(file.type)) {
+                addFile(file);
+            }
+        });
+    };
+
+    // Khi file được kéo vào drop zone
+    dropArea.ondragover = (e) => {
+        e.preventDefault();
+        dropArea.classList.add("drag-over-effect");
+    };
+
+    dropArea.ondragleave = () => {
+        dropArea.classList.remove("drag-over-effect");
+    };
+
+    dropArea.ondrop = (e) => {
+        e.preventDefault();
+        dropArea.classList.remove("drag-over-effect");
+
+        [...e.dataTransfer.files].forEach((file) => {
+            if (typeValidation(file.type)) {
+                addFile(file);
+            }
+        });
+    };
+
+    function addFile(file) {
+        if (!selectedFiles.some((f) => f.name === file.name)) {
+            selectedFiles.push(file);
+            renderPreview();
+        } else {
+            alert("File đã tồn tại trong danh sách!");
         }
-    });
-};
-
-// Khi file được kéo vào drop zone
-dropArea.ondragover = (e) => {
-    e.preventDefault();
-    dropArea.classList.add("drag-over-effect");
-};
-
-dropArea.ondragleave = () => {
-    dropArea.classList.remove("drag-over-effect");
-};
-
-dropArea.ondrop = (e) => {
-    e.preventDefault();
-    dropArea.classList.remove("drag-over-effect");
-
-    [...e.dataTransfer.files].forEach((file) => {
-        if (typeValidation(file.type)) {
-            addFile(file);
-        }
-    });
-};
-
-function addFile(file) {
-    if (!selectedFiles.some((f) => f.name === file.name)) {
-        selectedFiles.push(file);
-        renderPreview();
-    } else {
-        alert("File đã tồn tại trong danh sách!");
-    }
-}
-
-function renderPreview() {
-    $(previewContainer).empty(); // Xóa danh sách trước khi render lại
-
-    if (selectedFiles.length === 0) {
-        $(".list-section-dragdrop").hide(); // Ẩn danh sách nếu không có file
-        $(previewContainer).html("<p>Không có tệp nào được chọn</p>");
-        return;
-    } else {
-        $(".list-section-dragdrop").show(); // Hiển thị danh sách nếu có file
     }
 
-    selectedFiles.forEach((file, index) => {
-        if (!file.type.startsWith("image/")) return;
+    function renderPreview() {
+        $(previewContainer).empty(); // Xóa danh sách trước khi render lại
 
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            var card = $(`
+        if (selectedFiles.length === 0) {
+            $(".list-section-dragdrop").hide(); // Ẩn danh sách nếu không có file
+            $(previewContainer).html("<p>Không có tệp nào được chọn</p>");
+            return;
+        } else {
+            $(".list-section-dragdrop").show(); // Hiển thị danh sách nếu có file
+        }
+
+        selectedFiles.forEach((file, index) => {
+            if (!file.type.startsWith("image/")) return;
+
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var card = $(`
                 <li class="complete w-100">
                    <div class="col d-flex justify-content-between align-items-center">
                          <svg xmlns="http://www.w3.org/2000/svg" width="30px" fill="#5874c6" viewBox="0 0 384 512">
@@ -85,40 +87,44 @@ function renderPreview() {
                 </li>
             `);
 
-            $(previewContainer).append(card);
-        };
+                $(previewContainer).append(card);
+            };
 
-        reader.readAsDataURL(file);
-    });
+            reader.readAsDataURL(file);
+        });
 
-    updateFileInput();
-}
-
-function truncateFileName(name, maxLength = 30) {
-    if (name.length > maxLength) {
-        return name.substring(0, maxLength - 5) + "....";
-    }
-    return name;
-}
-
-function removeFile(fileName) {
-    selectedFiles = selectedFiles.filter((file) => file.name !== fileName);
-    updateFileInput();
-    renderPreview();
-}
-
-function updateFileInput() {
-    var dataTransfer = new DataTransfer();
-    selectedFiles.forEach((file) => dataTransfer.items.add(file));
-    fileInput.files = dataTransfer.files;
-
-    if (selectedFiles.length === 0) {
-        fileInput.value = "";
+        updateFileInput();
     }
 
-    console.log([...fileInput.files]);
-}
+    function truncateFileName(name, maxLength = 30) {
+        if (name.length > maxLength) {
+            return name.substring(0, maxLength - 5) + "....";
+        }
+        return name;
+    }
 
-function typeValidation(fileType) {
-    return fileType.startsWith("image/");
-}
+    function removeFile(fileName) {
+        selectedFiles = selectedFiles.filter((file) => file.name !== fileName);
+        updateFileInput();
+        renderPreview();
+    }
+
+    function updateFileInput() {
+        var dataTransfer = new DataTransfer();
+        selectedFiles.forEach((file) => dataTransfer.items.add(file));
+        fileInput.files = dataTransfer.files;
+
+        if (selectedFiles.length === 0) {
+            fileInput.value = "";
+        }
+
+        console.log([...fileInput.files]);
+    }
+
+    function typeValidation(fileType) {
+        return fileType.startsWith("image/");
+    }
+
+});
+
+

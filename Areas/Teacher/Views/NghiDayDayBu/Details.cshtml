@@ -1,5 +1,11 @@
 ﻿@model QLDaoTao.Areas.Admin.Models.PhieuDangKyNghiDayDayBuVM
 
+@{
+    var Current = DateTime.Now;
+    var min = Model.LopHocPhanNghiDayDayBuVM.Min(x => x.NgayXinNghiDT);
+    var max = Model.LopHocPhanNghiDayDayBuVM.Max(x => x.NgayDayBuDT);
+}
+
 <div class="card shadow p-2 mt-md-5 mt-lg-0">
     <div class="card-body">
         <div style="border-bottom: 3px solid #007bff;">
@@ -72,15 +78,22 @@
 
         <div class="my-3">
             @if(Model.TrangThai != -1){
-                <a href="/Teacher/NghiDayDayBu/Edit/@Model.Id" class="btn btn-primary">
-                    Điều chỉnh
-                </a>
+                @if(Current < max)
+                {
+                    <a href="/Teacher/NghiDayDayBu/Edit/@Model.Id" class="btn btn-primary">
+                        Điều chỉnh
+                    </a>
+                }
                 <a href="/Teacher/NghiDayDayBu/ExportPDF/@Model.Id" class="btn btn-success">
                     Tải phiếu
                 </a>
-                <a href="/Teacher/NghiDayDayBu/Cancel/@Model.Id" class="btn btn-danger">
-                    Rút phiếu
-                </a>
+                @if (Current < min)
+                {
+                    <a href="/Teacher/NghiDayDayBu/Cancel/@Model.Id" class="btn btn-danger">
+                        Rút phiếu
+                    </a>
+                }
+                
             }
             <a href="/Teacher/NghiDayDayBu/History" class="btn btn-secondary">
                 Quay lại

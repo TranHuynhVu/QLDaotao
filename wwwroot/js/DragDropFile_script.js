@@ -1,36 +1,37 @@
-﻿$(document).ready(function () {
+﻿document.addEventListener("DOMContentLoaded", function () {
+    initFileUpload();
+});
 
+function initFileUpload() {
     const fileInput = document.querySelector(".file-selector-input-dragdrop");
     const previewContainer = document.querySelector(".list-dragdrop");
     let selectedFiles = [];
     const dropArea = document.querySelector(".drop-section-dragdrop");
     const fileSelector = document.querySelector(".file-selector-dragdrop");
 
-    fileSelector.onclick = (e) => {
+    fileSelector.addEventListener("click", function (e) {
         e.preventDefault();
         fileInput.click();
-    };
+    });
 
-    // Khi chọn file từ input
-    fileInput.onchange = () => {
+    fileInput.addEventListener("change", function () {
         [...fileInput.files].forEach((file) => {
             if (typeValidation(file.type)) {
                 addFile(file);
             }
         });
-    };
+    });
 
-    // Khi file được kéo vào drop zone
-    dropArea.ondragover = (e) => {
+    dropArea.addEventListener("dragover", function (e) {
         e.preventDefault();
         dropArea.classList.add("drag-over-effect");
-    };
+    });
 
-    dropArea.ondragleave = () => {
+    dropArea.addEventListener("dragleave", function () {
         dropArea.classList.remove("drag-over-effect");
-    };
+    });
 
-    dropArea.ondrop = (e) => {
+    dropArea.addEventListener("drop", function (e) {
         e.preventDefault();
         dropArea.classList.remove("drag-over-effect");
 
@@ -39,7 +40,7 @@
                 addFile(file);
             }
         });
-    };
+    });
 
     function addFile(file) {
         if (!selectedFiles.some((f) => f.name === file.name)) {
@@ -51,22 +52,22 @@
     }
 
     function renderPreview() {
-        $(previewContainer).empty(); // Xóa danh sách trước khi render lại
+        previewContainer.innerHTML = ""; // Xóa danh sách trước khi render lại
 
         if (selectedFiles.length === 0) {
-            $(".list-section-dragdrop").hide(); // Ẩn danh sách nếu không có file
-            $(previewContainer).html("<p>Không có tệp nào được chọn</p>");
+            document.querySelector(".list-section-dragdrop").style.display = "none";
+            previewContainer.innerHTML = "<p>Không có tệp nào được chọn</p>";
             return;
         } else {
-            $(".list-section-dragdrop").show(); // Hiển thị danh sách nếu có file
+            document.querySelector(".list-section-dragdrop").style.display = "block";
         }
 
-        selectedFiles.forEach((file, index) => {
+        selectedFiles.forEach((file) => {
             if (!file.type.startsWith("image/")) return;
 
             var reader = new FileReader();
             reader.onload = function (e) {
-                var card = $(`
+                var card = `
                 <li class="complete w-100">
                    <div class="col d-flex justify-content-between align-items-center">
                          <svg xmlns="http://www.w3.org/2000/svg" width="30px" fill="#5874c6" viewBox="0 0 384 512">
@@ -80,14 +81,13 @@
                          <div class="file-size">${(file.size / (1024 * 1024)).toFixed(2)} MB</div>
                      </div>
                      <div class="col d-flex justify-content-between align-items-center">
-                         <svg xmlns="http://www.w3.org/2000/svg" class="cancel-upload" onClick="removeFile('${file.name}')" width="20px" fill="#dde4f6" viewBox="0 0 512 512">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="cancel-upload" onclick="removeFile('${file.name}')" width="20px" fill="#dde4f6" viewBox="0 0 512 512">
                              <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z"/>
                          </svg>
                      </div>
-                </li>
-            `);
+                </li>`;
 
-                $(previewContainer).append(card);
+                previewContainer.insertAdjacentHTML("beforeend", card);
             };
 
             reader.readAsDataURL(file);
@@ -97,10 +97,7 @@
     }
 
     function truncateFileName(name, maxLength = 30) {
-        if (name.length > maxLength) {
-            return name.substring(0, maxLength - 5) + "....";
-        }
-        return name;
+        return name.length > maxLength ? name.substring(0, maxLength - 5) + "...." : name;
     }
 
     function removeFile(fileName) {
@@ -118,13 +115,10 @@
             fileInput.value = "";
         }
 
-        console.log([...fileInput.files]);
+        console.log("Updated file input:", fileInput.files);
     }
 
     function typeValidation(fileType) {
         return fileType.startsWith("image/");
     }
-
-});
-
-
+}

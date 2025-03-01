@@ -147,8 +147,8 @@ function DangKyNghiDayDayBuEdit_EditLHP() {
         var row = tbody.find("tr").eq(editingIndex);
         // Cập nhật các cột (với cấu trúc đã tạo: số thứ tự ở td:eq(0) không thay đổi)
         row.find("td:eq(1)").text(idLopHocPhan);
-        row.find("td:eq(2)").text(ngayXinNghi);
-        row.find("td:eq(3)").text(ngayDayBu);
+        row.find("td:eq(2)").text(formatDate(ngayXinNghi));
+        row.find("td:eq(3)").text(formatDate(ngayDayBu));
         row.find("td:eq(4)").text(thu);
         row.find("td:eq(5)").text(tuTiet);
         row.find("td:eq(6)").text(denTiet);
@@ -236,6 +236,17 @@ function removeRow(button) {
 }
 
 function CancelForm() {
+    $("#DangKyNghiDayDayBuEdit_CloseAddVBCT").click(function () {
+        $(".container-dragdrop").prop("hidden", true);
+        $("#DangKyNghiDayDayBuEdit_OpenAddVBCT").prop("hidden", false);
+        $("#DangKyNghiDayDayBuEdit_CloseAddVBCT").prop("hidden", true);
+
+        var fileInput = document.querySelector(".file-selector-input-dragdrop");
+        if (fileInput) {
+            fileInput.value = ""; // Reset input file để xóa file đã chọn
+        }
+    });
+
     $("#DangKyNghiDayDayBuEdit_Cancel").click(function () {
        
         // Reset giá trị của các input về rỗng
@@ -263,6 +274,12 @@ function CancelForm() {
 }
 
 function OpenForm() {
+    $("#DangKyNghiDayDayBuEdit_OpenAddVBCT").click(function () {
+        $(".container-dragdrop").prop("hidden", false);
+        $("#DangKyNghiDayDayBuEdit_OpenAddVBCT").prop("hidden", true);
+        $("#DangKyNghiDayDayBuEdit_CloseAddVBCT").prop("hidden", false);
+    });
+
     $("#DangKyNghiDayDayBuEdit_OpenAddLHP").click(function () {
 
         DKNDDB_ValidLHP();
@@ -480,4 +497,66 @@ function DKNDDB_ValidLHP() {
             $("#DKNDDB_LHP option[value='" + idLopHocPhan + "']").prop("disabled", true);
         }
     });
+}
+
+function DeleteImg(i) {
+    // Xóa container hình ảnh tương ứng
+    let imageContainers = document.querySelectorAll('.image-container');
+    if (imageContainers[i]) {
+        imageContainers[i].remove();
+    }
+
+    // Xóa các input liên quan
+    document.querySelectorAll(`#DangKyNghiDayDayBu_ListBSVBCT input[name^="BanSaoVBCTDiKem[${i}]"]`)
+        .forEach(input => input.remove());
+
+    // Cập nhật lại thứ tự cho các phần tử còn lại
+    UpdateIndex();
+    $('#DKNDDB_submitBtn').prop("disabled", false);
+}
+
+function UpdateIndex() {
+    let imageContainers = document.querySelectorAll('.image-container');
+    let inputs = document.querySelectorAll('#DangKyNghiDayDayBu_ListBSVBCT input');
+
+    // Cập nhật lại chỉ mục trong image-container
+    imageContainers.forEach((container, index) => {
+        let button = container.querySelector('.delete_img');
+        if (button) {
+            button.setAttribute('onclick', `DeleteImg(${index})`);
+        }
+    });
+
+    // Cập nhật lại chỉ mục trong các input
+    let groupedInputs = {};
+    inputs.forEach(input => {
+        let match = input.name.match(/BanSaoVBCTDiKem\[(\d+)\]\.(.+)/);
+        if (match) {
+            let oldIndex = match[1];
+            let field = match[2];
+
+            if (!groupedInputs[oldIndex]) {
+                groupedInputs[oldIndex] = [];
+            }
+            groupedInputs[oldIndex].push(input);
+        }
+    });
+
+    let newIndex = 0;
+    Object.values(groupedInputs).forEach(inputGroup => {
+        inputGroup.forEach(input => {
+            let field = input.name.match(/\.(.+)/)[1];
+            input.name = `BanSaoVBCTDiKem[${newIndex}].${field}`;
+        });
+        newIndex++;
+    });
+}
+
+function formatDate(date) {
+    if (!date) return ""; // Kiểm tra nếu date không có giá trị
+    var d = new Date(date);
+    var day = ("0" + d.getDate()).slice(-2); // Lấy ngày (dd)
+    var month = ("0" + (d.getMonth() + 1)).slice(-2); // Lấy tháng (mm) (Lưu ý: getMonth() tính từ 0)
+    var year = d.getFullYear(); // Lấy năm (yyyy)
+    return `${day}-${month}-${year}`;
 }

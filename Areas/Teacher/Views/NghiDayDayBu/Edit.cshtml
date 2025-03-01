@@ -1,5 +1,9 @@
 ﻿@model QLDaoTao.Areas.Admin.Models.PhieuDangKyNghiDayDayBuVM
 
+@{
+    var Current = DateTime.Now;
+    DateTime min = Model.LopHocPhanNghiDayDayBuVM.Min(x => x.NgayXinNghiDT);
+}
 
 <div class="card shadow p-2 mt-md-5 mt-lg-0">
     <div class="card-body">
@@ -30,16 +34,59 @@
             </div>
         </div> 
         <div class="my-3"> 
-            <p style="font-weight: bold; font-size: 16px; color: black;">Bản sao  văn bản chứng từ đi kèm</p> 
-            @foreach (var vb in Model.BanSaoVBCTDiKem) 
-            { 
-                <img src="@vb.DuongDan" alt="@vb.MoTa" style="width: 200px; height: 200px; object-fit: cover; border-radius: 10px;">
+
+            <div class="d-flex justify-content-between align-items-center">
+                <h6 class="mt-5">Bản sao  văn bản chứng từ đi kèm</h6>
+                @if (Current < min)
+                {
+                    <button type="button" id="DangKyNghiDayDayBuEdit_OpenAddVBCT" class="btn btn-success btn-sm">Thêm</button>
+                    <button type="button" id="DangKyNghiDayDayBuEdit_CloseAddVBCT" class="btn btn-secondary btn-sm" hidden>Hủy</button>
+                }
+            </div>
+
+            <div class="container-dragdrop my-3" hidden>
+                <div class="drop-section-dragdrop">
+                    <div class="col">
+                        <div class="cloud-icon-dragdrop">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="100px" fill="#dde4f6" viewBox="0 0 640 512">
+                                <path d="M144 480C64.5 480 0 415.5 0 336c0-62.8 40.2-116.2 96.2-135.9c-.1-2.7-.2-5.4-.2-8.1c0-88.4 71.6-160 160-160c59.3 0 111 32.2 138.7 80.2C409.9 102 428.3 96 448 96c53 0 96 43 96 96c0 12.2-2.3 23.8-6.4 34.6C596 238.4 640 290.1 640 352c0 70.7-57.3 128-128 128l-368 0zm79-217c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l39-39L296 392c0 13.3 10.7 24 24 24s24-10.7 24-24l0-134.1 39 39c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-80-80c-9.4-9.4-24.6-9.4-33.9 0l-80 80z" />
+                            </svg>
+                        </div>
+                        <span>KÉO VÀ THẢ HÌNH ẢNH Ở ĐÂY</span>
+                        <span>HOẶC</span>
+                        <button class="file-selector-dragdrop">Chọn File</button>
+                        <input type="file" name="vbct" class="file-selector-input-dragdrop" multiple>
+                    </div>
+                    <div class="col">
+                        <div class="drop-here-dragdrop">Drop Here</div>
+                    </div>
+                </div>
+                <div class="list-section-dragdrop">
+                    <div class="list-title-dragdrop">Uploaded Files</div>
+                    <div class="list-dragdrop"></div>
+                </div>
+            </div>
+
+            @{
+                var n = 0;
             }
+            @foreach (var vb in Model.BanSaoVBCTDiKem)
+            {
+                <div class="image-container" style="display: inline-block; position: relative; margin: 10px;">
+                    <img src="@vb.DuongDan" alt="@vb.MoTa" class="rounded" style="width: 200px; height: 200px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                    <button type="button" class="delete_img" onclick="DeleteImg(@n)" style="position: absolute; top: 5px; right: 5px; background: gray; color: white; border: none; border-radius: 50%; width: 20px; height: 20px; font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s;" onmouseover="this.style.background='darkgray'" onmouseout="this.style.background='gray'">✖</button>
+                </div>
+                n++;
+            }
+
         </div>
 
         <div class="d-flex justify-content-between align-items-center">
             <h6 class="mt-5">Danh sách các lớp học phần đã đăng ký nghỉ dạy - dạy bù</h6>
-            <button type="button" id="DangKyNghiDayDayBuEdit_OpenAddLHP" class="btn btn-success btn-sm">Thêm</button>
+            @if (Current < min )
+            {
+                <button type="button" id="DangKyNghiDayDayBuEdit_OpenAddLHP" class="btn btn-success btn-sm">Thêm</button>
+            }
         </div>
 
         <div id="DKNDDB_AddForm" hidden class="mb-2">
@@ -125,7 +172,7 @@
                 </thead>
                 <tbody>
                     @{
-                        var n = 1;
+                        n = 1;
                     }
                     @foreach(var item in Model.LopHocPhanNghiDayDayBuVM){
                         <tr>
@@ -139,8 +186,14 @@
                             <td>@item.Phong</td>
                             <td>@item.LyDo</td>
                             <td>
-                                <button type="button" class="btn btn-primary btn-sm" onclick="EditRow(this)">Sửa</button>
-                                <button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">Xóa</button>
+                                @if(Current < item.NgayDayBuDT)
+                                {
+                                    <button type="button" class="btn btn-primary btn-sm" onclick="EditRow(this)">Sửa</button>
+                                }
+                                @if (Current < item.NgayXinNghiDT)
+                                {
+                                    <button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">Xóa</button>
+                                }
                             </td>
                         </tr>
                         n++;
@@ -150,6 +203,12 @@
         </div>
 
         <form method="post" asp-action="Edit" asp-controller="NghiDayDayBu" asp-area="Teacher">
+            @{
+                n = 0;
+            }
+
+            <input type="file" name="vbct" class="file-selector-input-dragdrop" multiple hidden>
+
             <input type="hidden" asp-for="SoBuoiXinNghi" id="DKNDDB_SoBuoiXinNghi" value="@Model.SoBuoiXinNghi"></input>
             <input type="hidden" asp-for="Id" value="@Model.Id"></input>
             <input type="hidden" asp-for="MaGV" value="@Model.MaGV"></input>
@@ -162,11 +221,22 @@
             <input type="hidden" asp-for="NgayTaoDT" value="@Model.NgayTaoDT"></input>
             <input type="hidden" asp-for="LyDo" value="temp"></input>
             <input type="hidden" asp-for="SDT" value="@Model.SDT"></input>
-            <div id="DangKyNghiDayDayBu_ListLHP">
-                @{
-                     n = 0;
+
+            <div id="DangKyNghiDayDayBu_ListBSVBCT">
+                @foreach (var item in Model.BanSaoVBCTDiKem)
+                {
+                    <input type="hidden" name="BanSaoVBCTDiKem[@n].Id" value="@item.Id"></input>
+                    <input type="hidden" name="BanSaoVBCTDiKem[@n].MoTa" value="@item.MoTa"></input>
+                    <input type="hidden" name="BanSaoVBCTDiKem[@n].DuongDan" value="@item.DuongDan"></input>
+                    <input type="hidden" name="BanSaoVBCTDiKem[@n].IdPhieuDangKyDayBu" value="@item.IdPhieuDangKyDayBu"></input>
+                    n++;
                 }
-                @foreach(var item in Model.LopHocPhanNghiDayDayBuVM) {
+            </div>
+
+            <div id="DangKyNghiDayDayBu_ListLHP">
+
+                @foreach (var item in Model.LopHocPhanNghiDayDayBuVM)
+                {
                     <input type="hidden" name="LopHocPhanNghiDayDayBuVM[@n].Id" value="@item.Id" />
                     <input type="hidden" name="LopHocPhanNghiDayDayBuVM[@n].NgayXinNghiDT" value="@item.NgayXinNghiDT" />
                     <input type="hidden" name="LopHocPhanNghiDayDayBuVM[@n].NgayDayBuDT" value="@item.NgayDayBuDT" />
@@ -186,12 +256,13 @@
             </div>
             <button type="submit" class="btn btn-sm btn-success mt-5 form-control" id="DKNDDB_submitBtn" disabled>Gửi yêu cầu</button>
         </form>
-    </div>
+
     </div>
  </div>
 
 
 @section Scripts {
-     <script src="~/loadData/EditPhieuDangKyNghiDayDayBu.js"></script>
-     <script src="~/loadData/ListLHP.js"></script>
+    <script src="~/js/DragDropFile_script.js"></script>
+    <script src="~/loadData/EditPhieuDangKyNghiDayDayBu.js"></script>
+    <script src="~/loadData/ListLHP.js"></script>
 }

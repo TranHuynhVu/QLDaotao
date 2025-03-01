@@ -257,7 +257,7 @@ namespace QLDaoTao.Areas.Admin.Services
                     var magv = phieuDangKy.CreatedBy;
                     Notification noti = new Notification
                     {
-                        Title = "Thông báo đăng ký dạy bù đang chờ sử lý",
+                        Title = "Phiếu đăng ký nghỉ dạy dạy bù đã được tiếp nhận",
                         Description = "Chi tiết thông báo",
                         Receiver = magv.ToString(),
                         CreatedAt = DateTime.Now,

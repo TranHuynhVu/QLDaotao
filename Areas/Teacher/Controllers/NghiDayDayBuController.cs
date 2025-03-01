@@ -190,7 +190,7 @@ namespace QLDaoTao.Areas.Teacher.Controllers
 
         [Route("Teacher/NghiDayDayBu/Edit/{id}")]
         [HttpPost]
-        public async Task<IActionResult> Edit (int id, PhieuDangKyNghiDayDayBuVM model)
+        public async Task<IActionResult> Edit (int id, PhieuDangKyNghiDayDayBuVM model, List<IFormFile> vbct)
         {
             if( id == null || model == null)
             {

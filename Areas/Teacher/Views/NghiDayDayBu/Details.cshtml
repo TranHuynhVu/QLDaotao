@@ -78,9 +78,12 @@
                 <a href="/Teacher/NghiDayDayBu/ExportPDF/@Model.Id" class="btn btn-success">
                     Tải phiếu
                 </a>
-                <a href="/Teacher/NghiDayDayBu/Cancel/@Model.Id" class="btn btn-danger">
-                    Rút phiếu
-                </a>
+                if(Model.IsRutPhieu == false)
+                {
+                    <a href="/Teacher/NghiDayDayBu/Cancel/@Model.Id" class="btn btn-danger">
+                        Rút phiếu
+                    </a>
+                }         
             }
             <a href="/Teacher/NghiDayDayBu/History" class="btn btn-secondary">
                 Quay lại

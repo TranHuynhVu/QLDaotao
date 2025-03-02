@@ -18,5 +18,6 @@ namespace QLDaoTao.Areas.Admin.Models
         public List<LopHocPhanNghiDayDayBuVM> LopHocPhanNghiDayDayBuVM { get; set; } = new List<LopHocPhanNghiDayDayBuVM>();
         public String NgayTao {  get; set; }
         public DateTime NgayTaoDT { get; set; }
+        public bool? IsRutPhieu { get; set; }
     }
 }

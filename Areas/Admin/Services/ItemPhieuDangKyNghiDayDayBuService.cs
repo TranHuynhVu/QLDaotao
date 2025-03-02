@@ -20,13 +20,15 @@ namespace QLDaoTao.Areas.Admin.Services
         private readonly IPDF _pdf;
         private readonly UserManager<AppUser> _userManager;
         private readonly INotification _noti;
+        private readonly IHangFire _hangFire;
         public ItemPhieuDangKyNghiDayDayBuService(AppDbContext context, IPDF pdf,
-                    UserManager<AppUser> userManager, INotification noti)
+                    UserManager<AppUser> userManager, INotification noti, IHangFire hangFire)
         {
             _context = context;
             _pdf = pdf;
             _userManager = userManager;
             _noti = noti;
+            _hangFire = hangFire;
         }
 
         public async Task<List<PhieuDangKyNghiDayDayBuVM>> List(string fromDate, string toDate, string status, string khoa)
@@ -125,7 +127,8 @@ namespace QLDaoTao.Areas.Admin.Services
                                                                    "Bị từ chối",
                                                     MaGV = x.CreatedBy,
                                                     NgayTao = x.CreatedAt.ToString("dd-MM-yyyy"),
-                                                    LyDo = x.LyDo
+                                                    LyDo = x.LyDo,
+                                                    IsRutPhieu = x.IsRutPhieu
                                                 })
                                                 .FirstOrDefaultAsync();
             if (phieuDangKy == null)
@@ -280,8 +283,9 @@ namespace QLDaoTao.Areas.Admin.Services
                         CountStatus = CountNoti
                     };
                     await _noti.SendNotiByTeacher(notiVm, magv.ToString());
-                   
-                    // Tạo lịch disable điều chỉnh
+
+                    // Tạo lịch disable rút phiếu
+                    LapLichDisable(phieuDangKy);
 
                     await transaction.CommitAsync();
 
@@ -295,16 +299,23 @@ namespace QLDaoTao.Areas.Admin.Services
                 }
             }
         }
-
-        public Task<TimeSpan> GetTimeBetween(DateTime NgayHienTai, DateTime NgayDayBu)
+        // Begin
+        public async Task LapLichDisable(PhieuDangKyDayBu phieuDangKy)
+        {
+            DateTime? NgayDayBuMin = await GetMinNgayDayBu(phieuDangKy);
+            DateTime NgayHienTai = DateTime.Now;
+            TimeSpan Time = GetTimeBetween(NgayHienTai, NgayHienTai);
+            _hangFire.ScheduleJob(() => DisableRutPhieu(phieuDangKy), TimeSpan.FromSeconds(Time.TotalSeconds));
+        }
+        public TimeSpan GetTimeBetween(DateTime NgayHienTai, DateTime NgayDayBu)
         {
             TimeSpan khoangThoiGian = NgayDayBu - NgayHienTai;
-            return Task.FromResult(khoangThoiGian);
+            return khoangThoiGian;
         }
-        public async Task DisableDieuChinh(PhieuDangKyDayBu phieudk)
+        public async Task DisableRutPhieu(PhieuDangKyDayBu phieudk)
         {
             var result = await _context.PhieuDangKyDayBu.FirstOrDefaultAsync(p => p.Id == phieudk.Id);
-            result.DieuChinh = false;
+            result.IsRutPhieu = false;
             await _context.SaveChangesAsync();
             NotificationVM notiVm = await _noti.CreateNoti("Phiếu đăng ký của bạn đã hết thời gian điều chỉnh", 
                                     "Phiếu của bạn hết thời gian điều chỉnh", phieudk.CreatedBy.ToString(), "Teacher");
@@ -348,7 +359,7 @@ namespace QLDaoTao.Areas.Admin.Services
 
             return NgayNhoNhat;
         }
-
+        // End
 
         public async Task<bool> Edit (int id, int status, string? reason)
         {

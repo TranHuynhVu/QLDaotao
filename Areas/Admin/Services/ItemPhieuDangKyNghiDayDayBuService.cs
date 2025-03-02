@@ -262,7 +262,8 @@ namespace QLDaoTao.Areas.Admin.Services
                         Receiver = magv.ToString(),
                         CreatedAt = DateTime.Now,
                         Status = 0,
-                        TypeNoti = "Teacher"
+                        TypeNoti = "Teacher",
+                        IdPhieu = phieuDangKy.Id
                     };
                     await _context.Notifications.AddAsync(noti);
                     await _context.SaveChangesAsync();
@@ -277,7 +278,8 @@ namespace QLDaoTao.Areas.Admin.Services
                         Receiver = noti.Receiver,
                         CreatedAt = noti.CreatedAt,
                         Status = noti.Status,  
-                        CountStatus = CountNoti
+                        CountStatus = CountNoti,
+                        IdPhieu = noti.IdPhieu
                     };
                     await _noti.SendNotiByTeacher(notiVm, magv.ToString());
                    
@@ -357,7 +359,7 @@ namespace QLDaoTao.Areas.Admin.Services
                     reason = item.LyDo;
                 }
                 var notivm = await _noti.CreateNoti(title, reason,
-                                   phieudk.CreatedBy.ToString(), "Teacher");
+                                   phieudk.CreatedBy.ToString(), "Teacher", item.Id);
                 await _noti.SendNotiByTeacher(notivm, notivm.Receiver);
                 return true;               
             }

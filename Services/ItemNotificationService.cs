@@ -28,7 +28,7 @@ namespace QLDaoTao.Services
                 return false;
             }
         }
-        public async Task<NotificationVM> CreateNoti(string title, string description, string receiver, string typeNoti)
+        public async Task<NotificationVM> CreateNoti(string title, string description, string receiver, string typeNoti, int idPhieu)
         {
             Notification noti = new Notification
             {
@@ -37,7 +37,8 @@ namespace QLDaoTao.Services
                 Receiver = receiver,
                 CreatedAt = DateTime.Now,
                 Status = 0,
-                TypeNoti = typeNoti
+                TypeNoti = typeNoti,
+                IdPhieu = idPhieu
             };
             await _context.Notifications.AddAsync(noti);
             await _context.SaveChangesAsync();
@@ -50,7 +51,8 @@ namespace QLDaoTao.Services
                 Receiver = noti.Receiver,
                 CreatedAt = noti.CreatedAt,
                 Status = noti.Status,
-                CountStatus = notiCount
+                CountStatus = notiCount,
+                IdPhieu = noti.IdPhieu
             };
         }
 

@@ -11,6 +11,7 @@
         public string? Receiver { get; set; }   
         public int Status { get; set; }
         public int? CountStatus { get; set; }
+        public int IdPhieu { get; set; }
     }
 
 }

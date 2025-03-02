@@ -40,6 +40,7 @@
   
         if (notification.countStatus > 0) {
             notificationBadge.css("visibility", "visible");
+            notificationBadge.text(notification.countStatus);
         } else {
             notificationBadge.css("visibility", "hidden");
         }
@@ -55,7 +56,7 @@
                         </div>
                         <div class="details">
                             <h4>
-                                <a href="#">${notification.title}</a>
+                                <a href="/Teacher/NghiDayDayBu/Details/${notification.idPhieu}">${notification.title}</a>
                             </h4>
                         </div>
                     </div>

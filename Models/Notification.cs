@@ -16,5 +16,6 @@ namespace QLDaoTao.Models
         [DefaultValue(0)]
         public int Status { get; set; }
         public string TypeNoti { get; set; } // Student, Admin, Teacher
+        public int IdPhieu { get; set; }
     }
 }
